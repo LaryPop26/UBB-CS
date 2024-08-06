@@ -1,0 +1,75 @@
+     1                                  ;Se citesc 3 nr de la tastatura, sa se afiseze media aritmetica a celor 3 nr pe ecran.
+     2                                  bits 32 ; assembling for the 32 bits architecture
+     3                                  
+     4                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     5                                  global start        
+     6                                  
+     7                                  ; declare external functions needed by our program
+     8                                  extern exit, printf, scanf            ; tell nasm that exit exists even if we won't be defining it
+     9                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+    10                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    11                                  import printf msvcrt.dll
+    12                                  import scanf msvcrt.dll
+    13                                  ; our data is declared here (the variables needed by our program)
+    14                                  segment data use32 class=data
+    15 00000000 00000000                    a dd 0
+    16 00000004 01000000                    b dd 1
+    17 00000008 04000000                    c dd 4
+    18 0000000C 256400                      format db "%d", 0
+    19 0000000F 496E74726F64756365-         message db "Introduceti un numar n: ", 0   
+    19 00000018 746920756E206E756D-
+    19 00000021 6172206E3A2000     
+    20 00000028 4D6564696120657374-         message1 db "Media este: %d ",0
+    20 00000031 653A2025642000     
+    21                                  
+    22                                  ; our code starts here
+    23                                  segment code use32 class=code
+    24                                  start:
+    25 00000000 68[0F000000]                push dword message  
+    26 00000005 FF15[00000000]              call [printf]       ; apelam functia printf pentru afisare
+    27 0000000B 83C404                      add esp, 4*1      
+    28                                      
+    29 0000000E 68[00000000]                push dword a        
+    30 00000013 68[0C000000]                push dword format
+    31 00000018 FF15[00000000]              call [scanf]        ; apelam functia scanf pentru citire
+    32 0000001E 83C408                      add esp, 4 * 2  
+    33                                      
+    34 00000021 A1[00000000]                mov eax, [a]
+    35                                      
+    36 00000026 68[0F000000]                push dword message  
+    37 0000002B FF15[00000000]              call [printf]       
+    38 00000031 83C404                      add esp, 4*1        ; eliberam parametrii de pe stiva 
+    39                                      
+    40 00000034 68[04000000]                push dword b        ; ! adresa lui n, nu valoarea
+    41 00000039 68[0C000000]                push dword format
+    42 0000003E FF15[00000000]              call [scanf]        ; apelam functia scanf pentru citire
+    43 00000044 83C408                      add esp, 4 * 2  
+    44                                      
+    45 00000047 8B1D[04000000]              mov ebx,[b]
+    46                                      
+    47 0000004D 68[0F000000]                push dword message  
+    48 00000052 FF15[00000000]              call [printf]       ; apelam functia printf pentru afisare
+    49 00000058 83C404                      add esp, 4*1        
+    50                                      
+    51 0000005B 68[08000000]                push dword c        
+    52 00000060 68[0C000000]                push dword format
+    53 00000065 FF15[00000000]              call [scanf]        ; apelam functia scanf pentru citire
+    54 0000006B 83C408                      add esp, 4 * 2  
+    55                                      
+    56 0000006E 8B0D[08000000]              mov ecx,[c]
+    57                                      
+    58 00000074 01D8                        add eax, ebx
+    59 00000076 01C8                        add eax, ecx
+    60                                      
+    61 00000078 99                          cdq
+    62 00000079 BB03000000                  mov ebx,3
+    63 0000007E F7FB                        idiv ebx
+    64                                      
+    65 00000080 50                          push dword eax
+    66 00000081 68[28000000]                push dword message1  
+    67 00000086 FF15[00000000]              call [printf]       ; apelam functia printf pentru afisare
+    68 0000008C 83C408                      add esp, 4*2        
+    69                                      
+    70                                      ; exit(0)
+    71 0000008F 6A00                        push    dword 0      ; push the parameter for exit onto the stack
+    72 00000091 FF15[00000000]              call    [exit]       ; call exit to terminate the program

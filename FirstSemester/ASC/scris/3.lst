@@ -1,0 +1,45 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  ; our data is declared here (the variables needed by our program)
+    12                                  segment data use32 class=data
+    13 00000000 00010278797A                a1 db 0,1,2,'xyz'
+    14 00000006 2C49                        db 300,"F"+3
+    14          ******************       warning: byte data exceeds bounds [-w+number-overflow]
+    15 00000008 44<rept>                    a2 times 3 db 44h
+    16 0000000B 050103<rept>                a3 times 11 db 5,1,3
+    17 0000002C [0900]6263                  a4 dw a2+1,'bc'
+    18                                      
+    19 00000030 0920                        a44 dw 2009h
+    20 00000032 [09000000]62636400          a5 dd a2+1,'bcd'
+    21 0000003A 3133<rept>                  a6 times 4 db '13'
+    22 00000042 3133<rept>                  a61 times 4 dw '13'
+    23                                      ;a7 db a2
+    24 0000004A [0800]                      a8 dw a2
+    25 0000004C [08000000]                  a9 dd a2
+    26 00000050 [0800000000000000]          a10 dq a2
+    26          ******************       warning: 64-bit unsigned relocation zero-extended from 32 bits
+ [-w+zext-reloc]
+    27                                      ; a11 db [a2]
+    28                                      ; a12 dw [a2]
+    29                                      ; a13 dd dword[a2]
+    30                                      ; a14 dq [a2]
+    31                                      ; a15 dd eax
+    32                                      ; a20 dd [eax]
+    33                                      
+    34                                      
+    35                                  ; our code starts here
+    36                                  segment code use32 class=code
+    37                                      start:
+    38                                          
+    39 00000000 B0FB                            MOV al,-5
+    40                                          ; exit(0)
+    41 00000002 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    42 00000004 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

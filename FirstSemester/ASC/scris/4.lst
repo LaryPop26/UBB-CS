@@ -1,0 +1,38 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  ; our data is declared here (the variables needed by our program)
+    12                                  segment data use32 class=data
+    13 00000000 323536                      a1 db '256'
+    14 00000003 00015602                    a2 dw 256,256h
+    15                                      ;a3 dw $+a2
+    16                                      a4 equ -256/4
+    17 00000007 8000                        a5 db 256>>1,256<<1
+    17          ******************       warning: byte data exceeds bounds [-w+number-overflow]
+    18 00000009 04000000                    a6 dw a5-a2, !(a5-a2)
+    19                                      ;a7 dw [a2],~a2
+    20 0000000D 5603000056622500            a8 dd 256h^256,256256h
+    21 00000015 00000000                    a9 dd $-a9
+    22 00000019 0001                        a10 db 256,-255
+    22          ******************       warning: byte data exceeds bounds [-w+number-overflow]
+    23 0000001B 5601                        a11 dw 256h-256
+    24 0000001D AAFE                        a12 dw 256-256h
+    25 0000001F 00FF                        a13 dw -256
+    26 00000021 AAFD                        a14 dw -256h
+    27 00000023 02050619060238              a15 db 2,5,6,25,6,2,56
+    28                                  
+    29                                  ; our code starts here
+    30                                  segment code use32 class=code
+    31                                      start:
+    32 00000000 8B16                            mov edx,[esi]
+    33                                      
+    34                                          ; exit(0)
+    35 00000002 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    36 00000004 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

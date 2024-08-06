@@ -1,0 +1,57 @@
+     1                                  ;Se dau doua siruri de caractere S1 si S2. 
+     2                                  ;Sa se construiasca sirul D prin concatenarea elementelor sirului S2 
+     3                                  ;in ordine inversa cu elementele de pe pozitiile pare din sirul S1.
+     4                                  ;S1: '+', '2', '2', 'b', '8', '6', 'X', '8'
+     5                                  ;S2: 'a', '4', '5'
+     6                                  ;D: '5', '4', 'a', '2','b', '6', '8'
+     7                                  bits 32 ;assembling for the 32 bits architecture
+     8                                  global start
+     9                                  
+    10                                  ; we ask the assembler to give global visibility to the symbol called start 
+    11                                  ;(the start label will be the entry point in the program) 
+    12                                  extern exit ; we inform the assembler that the exit symbol is foreign; it exists even if we won't be defining it
+    13                                  import exit msvcrt.dll  ; we specify the external library that defines the symbol
+    14                                  		; msvcrt.dll contains exit, printf and all the other important C-runtime functions
+    15                                  
+    16                                  ; our variables are declared here (the segment is called data) 
+    17                                  segment data use32 class=data
+    18 00000000 2B32326238365838            s1 db '+', '2', '2', 'b', '8', '6', 'X', '8'
+    19                                  	len1 equ $-s1
+    20 00000008 613435                      s2 db 'a', '4', '5'
+    21                                  	len2 equ $-s2
+    22                                  	lend equ $-s1
+    23 0000000B 00<rept>                	d times lend db 0
+    24                                  
+    25                                  ; the program code will be part of a segment called code
+    26                                  segment code use32 class=code
+    27                                  start:
+    28 00000000 B903000000              	mov ecx,len2 ;pregatim registrul pt parcurgere
+    29 00000005 BE03000000              	mov esi,len2 ;initializam registrul indice cu lungimea S2
+    30 0000000A 4E                      	dec esi ;decrementam indicele la care ne aflam
+    31 0000000B BF03000000              	mov edi,len2
+    32 00000010 E310                    	jecxz pozitii_pare ;tratam cazul in care ecx e 0
+    33                                  	repeta:
+    34 00000012 8A86[08000000]          		mov al,[s2+esi] ;punem in al elementul curent
+    35 00000018 8887[0B000000]          		mov [d+edi],al ;punem elementul in sirul rezultat
+    36 0000001E 4E                      		dec esi ;decrementam indicele la care ne aflam
+    37 0000001F 47                      		inc edi ;incrementam indicele din sirul rezultat
+    38 00000020 E2F0                    	loop repeta
+    39                                  	
+    40                                  pozitii_pare:
+    41 00000022 B908000000              	mov ecx,len1 ;pregatim registrul pt parcurgere
+    42 00000027 BE00000000              	mov esi,0 ;initializam registrul indice cu 0
+    43 0000002C 46                      	inc esi ;incrementam registrul indice pt a parcurge pozitiile pare din sir
+    44 0000002D E311                    	jecxz final
+    45                                  	repeta2:
+    46 0000002F 8A86[00000000]          		mov al,[s1+esi] ;punem in al elementul curent de pe pozitia para
+    47 00000035 8887[0B000000]          		mov [d+edi],al ;punem elementul in sirul rezultat
+    48 0000003B 46                      		inc esi
+    49 0000003C 46                      		inc esi ;incrementam de 2 ori registrul indice pt a ramane pe pozitii pare
+    50 0000003D 47                      		inc edi ;incrementam indicele din sirul rezultat
+    51 0000003E E2EF                    	loop repeta2
+    52                                  
+    53                                  final:
+    54                                  
+    55                                  	; call exit(0) ), 0 represents status code: SUCCESS
+    56 00000040 6A00                    	push dword 0 ; saves on stack the parameter of the function exit
+    57 00000042 FF15[00000000]          	call [exit] ; function exit is called in order to end the execution of the program

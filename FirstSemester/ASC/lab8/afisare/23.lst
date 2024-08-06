@@ -1,0 +1,65 @@
+     1                                  ;Sa se citeasca de la tastatura un numar hexazecimal format din 2 cifre. 
+     2                                  ;Sa se afiseze pe ecran acest numar in baza 10, interpretat atat ca numar fara semn cat si ca numar cu semn (pe 8 biti).
+     3                                  bits 32
+     4                                  global start
+     5                                  
+     6                                  extern exit, printf, scanf
+     7                                  import exit msvcrt.dll
+     8                                  import printf msvcrt.dll    
+     9                                  import scanf msvcrt.dll
+    10                                  
+    11                                  segment data use32 class=data
+    12 00000000 00000000                    n dd 0
+    13 00000004 496E74726F64756365-         message db "Introduceti un numar n: ", 0                            ;n =  FF
+    13 0000000D 746920756E206E756D-
+    13 00000016 6172206E3A2000     
+    14 0000001D 257800                      format db "%x", 0
+    15 00000020 4E756D6172756C2069-         format2 db "Numarul in reprezentarea cu semn este: %d",10, 0        ;=> -1
+    15 00000029 6E2072657072657A65-
+    15 00000032 6E7461726561206375-
+    15 0000003B 2073656D6E20657374-
+    15 00000044 653A2025640A00     
+    16                                     
+    17 0000004B 4E756D6172756C2069-         format3 db "Numarul in reprezentarea fara semn este: %u",10, 0      ;=> 255
+    17 00000054 6E2072657072657A65-
+    17 0000005D 6E7461726561206661-
+    17 00000066 72612073656D6E2065-
+    17 0000006F 7374653A2025750A00 
+    18                                      
+    19                                  
+    20                                  segment code use32 class=code
+    21                                  start:
+    22 00000000 68[04000000]                push dword message  ; ! pe stiva se pune adresa string-ului, nu valoarea
+    23 00000005 FF15[00000000]              call [printf]       ; apelam functia printf pentru afisare
+    24 0000000B 83C404                      add esp, 4*1        ; eliberam parametrii de pe stiva ; 4 = dimensiunea unui dword; 1 = nr de parametri
+    25                                                                                     
+    26                                      ; vom apela scanf(format, n) => se va citi un numar in variabila n
+    27                                      ; punem parametrii pe stiva de la dreapta la stanga
+    28 0000000E 68[00000000]                push dword n        ; ! adresa lui n, nu valoarea
+    29 00000013 68[1D000000]                push dword format
+    30 00000018 FF15[00000000]              call [scanf]        ; apelam functia scanf pentru citire
+    31 0000001E 83C408                      add esp, 4 * 2      ; eliberam parametrii de pe stiva
+    32                                                         
+    33 00000021 A1[00000000]                mov eax,[n]         ; punem valoarea citita in eax
+    34                                      
+    35 00000026 60                          pushad              ; salvam valorile din registrii
+    36                                      
+    37                                      
+    38 00000027 0D00FFFFFF                  or eax,11111111111111111111111100000000b ; facem complementul pt reprezentarea cu semn
+    39                                      
+    40                                      aici:
+    41 0000002C 50                          push dword eax
+    42 0000002D 68[20000000]                push dword format2
+    43 00000032 FF15[00000000]              call [printf]
+    44 00000038 83C408                      add esp, 4*2        ; afisare nr cu semn
+    45 0000003B 61                          popad               ; revenim la valorile de dinaintea printf
+    46                                      
+    47 0000003C 60                          pushad              ; salvam valorile din registrii
+    48 0000003D 50                          push dword eax
+    49 0000003E 68[4B000000]                push dword format3
+    50 00000043 FF15[00000000]              call [printf]
+    51 00000049 83C408                      add esp, 4*2        ; afisare nr fara semn
+    52 0000004C 61                          popad               ; revenim la valorile de dinaintea printf
+    53                                      
+    54 0000004D 6A00                        push dword 0 
+    55 0000004F FF15[00000000]          	call [exit]         ; se incheie programul

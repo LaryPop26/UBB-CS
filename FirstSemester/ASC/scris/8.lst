@@ -1,0 +1,38 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  ; our data is declared here (the variables needed by our program)
+    12                                  segment data use32 class=data
+    13 00000000 7FFF1201                    x dw -129,10+100h+1000b
+    14 00000004 08000000                    y dw 1001h>>1001b, 128h & 128
+    15 00000008 [0800]F8FF                  z dw z,$$-z
+    16 0000000C [FCFFFFFF]-                 w dd x+y-z,w-y+x
+    16 00000010 [08000000]         
+    17 00000014 05000E00                    h dw 101b,11h-11b
+    18 00000018 E8                          a db $$-$
+    19 00000019 FAFFFFFF                    b dd h-b+0ah-0bh
+    20                                      ;c db 3-b, z-w
+    21 0000001D FFFDFFFF                    d dw -513, 128^(~128)
+    22 00000021 6162636465666800            e dd 'abcdefh'
+    23 00000029 [0B00]                      f dw w-1;, [w-1]
+    24 0000002B 6462<rept>                  g times 3 dw 'db'
+    25                                      ;k dw 1+2b+3h+a, c+0ch
+    26 00000031 [22000000]                  m dd a+0ah;, a+ah
+    27                                     ; s dd a-start,start-start1
+    28                                  
+    29                                  ; our code starts here
+    30                                  segment code use32 class=code
+    31                                      start:
+    32 00000000 31C0                            xor eax,eax
+    33 00000002 8D1E                            lea ebx,[esi]
+    34                                          
+    35                                          ; exit(0)
+    36 00000004 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    37 00000006 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

@@ -1,0 +1,54 @@
+     1                                  ;de calculat: c-a-(b+a)+c
+     2                                  ;a - byte, b - word, c - double word, d - qword - Interpretare fara semn
+     3                                  ;2655674 - 10 - (2510 + 10) + 2655674 = 2655674 - 10 - 2520 + 2655674 = 5308818
+     4                                  
+     5                                  bits 32 ; assembling for the 32 bits architecture
+     6                                  
+     7                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     8                                  global start        
+     9                                  
+    10                                  ; declare external functions needed by our program
+    11                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+    12                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+    13                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    14                                  
+    15                                  ; our data is declared here (the variables needed by our program)
+    16                                  segment data use32 class=data
+    17 00000000 0A                          a db 10
+    18 00000001 CE09                        b dw 2510
+    19 00000003 BA852800                    c dd 2655674
+    20                                  
+    21                                  ; our code starts here
+    22                                  segment code use32 class=code
+    23                                      start:
+    24 00000000 A0[00000000]                    mov al,byte[a]      ;al = a                                 10
+    25 00000005 B400                            mov ah,0            ;conversie fara semn de la al la ax
+    26 00000007 660305[01000000]                add ax,word[b]      ;ax=a+b                                 2520
+    27                                   
+    28 0000000E 6689C3                          mov bx,ax           ;bx=b+a                                 2520
+    29 00000011 66B90000                        mov cx,0            ;conversie fara semn de la bx la cx:bx 
+    30                                                              ;cx:bx=b+a                              2520
+    31 00000015 6651                            push cx
+    32 00000017 6653                            push bx
+    33 00000019 5B                              pop ebx             ;conversie prin stiva de la word la dword
+    34                                                              ;ebx=b+a                                2520
+    35                                          
+    36 0000001A A0[00000000]                    mov al,byte[a]      ;al = a                                 10
+    37 0000001F B400                            mov ah,0            ;conversie fara semn de la al la ax
+    38 00000021 6689C1                          mov cx,ax           ;cx = a 
+    39 00000024 66BA0000                        mov dx,0            ;dx:cx = a                 
+    40                                          
+    41 00000028 6652                            push dx
+    42 0000002A 6651                            push cx
+    43 0000002C 59                              pop ecx             ;conversie prin stiva de la word la dword
+    44                                                              ;ecx = a                                10
+    45                                           
+    46 0000002D A1[03000000]                    mov eax,dword[c]    ;eax = c                                2655674 
+    47 00000032 29C8                            sub eax,ecx         ;eax = c - a                            2655664
+    48 00000034 29D8                            sub eax,ebx         ;eax = c - a - (b + a)                  2653144
+    49 00000036 1305[03000000]                  adc eax,dword[c]    ;eax = c - a - (b + a) + c              5308818
+    50                                          
+    51                                          ; exit(0)
+    52 0000003C 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    53 0000003E FF15[00000000]                  call    [exit]       ; call exit to terminate the program
+    54                                          

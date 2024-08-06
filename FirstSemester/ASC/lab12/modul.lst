@@ -1,0 +1,37 @@
+     1                                  ;Se citesc din fisierul numere.txt mai multe numere (pozitive si negative). 
+     2                                  ;Sa se creeze 2 siruri rezultat N si P astfel: N - doar numere negative si P - doar numere pozitive. 
+     3                                  ;Afisati cele 2 siruri rezultate pe ecran.
+     4                                  bits 32
+     5                                  extern _printf
+     6                                  global _afisareASM
+     7                                  segment data public data use32
+     8 00000000 25642000                    format db "%d ",0
+     9 00000004 00000000<rept>              sir1 times 10 dd 0
+    10                                  
+    11                                  segment code public code use32
+    12                                      _afisareASM:
+    13 00000000 55                              push EBP
+    14 00000001 89E5                            mov EBP,ESP
+    15                                          
+    16 00000003 8B4C2408                        mov ECX,[ESP+8]
+    17 00000007 8B74240C                        mov ESI,[ESP+12]
+    18                                  
+    19 0000000B AD                              lodsd
+    20                                          et1:
+    21 0000000C AD                                  lodsd
+    22 0000000D 51                                  push ECX
+    23                                          
+    24                                              ;printf("%d",EAX)
+    25 0000000E 50                                  push EAX
+    26 0000000F 68[00000000]                        push dword format
+    27 00000014 E8(00000000)                        call _printf
+    28                                          
+    29 00000019 83C408                              add ESP,4*2
+    30 0000001C 59                                  pop ECX
+    31 0000001D E2ED                                loop et1
+    32                                  
+    33 0000001F B800000000                      mov EAX,0
+    34                                          
+    35 00000024 89EC                            mov ESP,EBP
+    36 00000026 5D                              pop EBP
+    37 00000027 C3                              ret
