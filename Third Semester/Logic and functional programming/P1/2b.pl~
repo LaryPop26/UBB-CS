@@ -1,0 +1,19 @@
+/*
+ *
+ */
+
+
+adauga([],_,_,_,[]).
+adauga([H|T],V,PozC,PozAdd,[H,V|R]):-
+    PozC==PozAdd,!,
+    PozC1 is PozC+1,
+    PozAdd1 is PozAdd*2,
+    adauga(T,V,PozC1,PozAdd1,R).
+adauga([H|T],V,PozC,PozAdd,[H|R]):-
+    PozC\=PozAdd,!,
+    PozC1 is PozC+1,
+    adauga(T,V,PozC1,PozAdd,R).
+
+insertValue([],_,[]).
+insertValue(List,V,Rez):-
+    adauga(List,V,1,1,Rez).

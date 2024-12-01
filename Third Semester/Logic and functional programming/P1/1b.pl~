@@ -1,0 +1,10 @@
+/*
+ *
+ */
+adaugaDupaPar([],[]):-!.
+adaugaDupaPar([H|T],[H,1|R]):-
+    H mod 2=:=0,!,
+    adaugaDupaPar(T,R).
+adaugaDupaPar([H|T],[H|R]):-
+    adaugaDupaPar(T,R).
+

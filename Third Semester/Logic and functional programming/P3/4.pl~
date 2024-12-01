@@ -1,0 +1,33 @@
+/*
+ * candidat(N: integer, R:Integer)
+ * model de flux: (i,o)
+ * N: valoarea maxima pana la care se genereaza numere
+ * R: variabila ce ia pe rand valorile de la n la 1
+ */
+
+candidat(N,N).
+candidat(N,R):-
+    N>1,N1 is N-1,candidat(N1,R).
+/*
+ * solutii_aux(N:int, M:int, L1:list, R: list)
+ * model de flux:
+ * N: nr max pana la care se genereaza
+ * M: diferenta dintre 2 nr alaturate din lista
+ *
+ *
+ */
+
+solutii_aux(_,M,[X,Y|R],[X,Y|R]):-
+    T is X-Y, abs(T)>=M.
+solutii_aux(N,M,[H|Col],R):-
+    candidat(N,E),
+    E<H,T is E-H, abs(T)>=M,
+    solutii_aux(N,M,[E,H|Col],R).
+/*
+ *
+ *
+ */
+
+solutii(N,M,R):-
+    candidat(N,E),
+    solutii_aux(N,M,[E],R).

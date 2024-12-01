@@ -1,0 +1,16 @@
+/*
+ * vezi ce face in cazul asta taietura
+ */
+
+elimina([],_,_,[]).
+elimina([H|T],Poz,PozC,[H|R]):-
+    PozC \= Poz,
+    PozC1 is PozC+1,
+    elimina(T,Poz,PozC1,R),!.
+elimina([_|T],Poz,PozC,R):-
+    PozC==Poz,
+    PozC1 is PozC+1,
+    elimina(T,Poz,PozC1,R).
+
+main(L,Poz,R):-
+    elimina(L,Poz,1,R).

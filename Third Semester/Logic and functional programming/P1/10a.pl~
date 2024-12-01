@@ -1,0 +1,13 @@
+/*
+ *
+ */
+inserare([],_,_,_,[]):-!.
+inserare([H|T],E,Poz,PozC,[H|Rez]):-
+    Poz\=PozC,
+    NewPozC is PozC+1,
+    inserare(T,E,Poz,NewPozC,Rez),!.
+inserare(L,E,Poz,PozC,[E|L]):-
+    Poz==PozC.
+
+insert(L,E,P,R):-
+    inserare(L,E,P,0,R).
