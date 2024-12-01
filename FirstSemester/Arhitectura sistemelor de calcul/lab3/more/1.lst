@@ -1,0 +1,75 @@
+     1                                  ;adunari, scaderi - interpretare fara semn
+     2                                  ;a - byte, b - word, c - double word, d - qword
+     3                                  ;10. (a+d+d)-c+(b+b)
+     4                                  
+     5                                  bits 32 ; assembling for the 32 bits architecture
+     6                                  
+     7                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     8                                  global start        
+     9                                  
+    10                                  ; declare external functions needed by our program
+    11                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+    12                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+    13                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    14                                  
+    15                                  ; our data is declared here (the variables needed by our program)
+    16                                  segment data use32 class=data
+    17 00000000 05                          a db 5
+    18 00000001 2C01                        b dw 300
+    19 00000003 F4010000                    c dd 500
+    20 00000007 E803000000000000            d dq 1000
+    21                                  
+    22                                  ; our code starts here
+    23                                  segment code use32 class=code
+    24                                      start:
+    25                                          ;calculam a + d+ d
+    26                                          ;convertim byte ul a la qword
+    27 00000000 A0[00000000]                    mov al,[a]  ;
+    28 00000005 B400                            mov ah, 0   ;conversie fara semn de la al la ax
+    29 00000007 66BB0000                        mov bx, 0   ;conversie fara semn de la ax la bx:ax
+    30                                                      ;bx:ax = a
+    31                                  
+    32 0000000B 6653                            push bx
+    33 0000000D 6650                            push ax
+    34 0000000F 58                              pop eax     ;conversie de la bx:ax la eax
+    35                                                      ;eax = a
+    36                                  
+    37 00000010 BB00000000                      mov ebx, 0
+    38 00000015 8B0D[07000000]                  mov ecx, dword[d]   ;salvam partea inferioara din qwordul d in ecx
+    39 0000001B 8B15[0B000000]                  mov edx, dword[d+4] ;salvam partea superioara din qwordul d in edx
+    40                                  
+    41 00000021 01C8                            add eax, ecx    ;adunam a+d
+    42 00000023 11D3                            adc ebx, edx    ;rezultatul final va fi stocat in ebx:eax
+    43                                  
+    44 00000025 01C8                            add eax, ecx    ;adunam a+d+d
+    45 00000027 11D3                            adc ebx, edx    ;rezultatul final va fi stocat in ebx:eax
+    46                                  
+    47                                          ;calculam (a+d+d)-c
+    48                                          ;convertim doublewordul c la qword
+    49 00000029 8B0D[03000000]                  mov ecx, [c]
+    50 0000002F BA00000000                      mov edx, 0 ;la final in edx:ecx = c
+    51                                  
+    52 00000034 29C8                            sub eax,ecx     ;scadere (a+d+d)-c
+    53 00000036 19D3                            sbb ebx,edx     ;rezultatul final stocat in ebx:eax 
+    54                                  
+    55                                          ;calculam b + b
+    56 00000038 668B0D[01000000]                mov cx,[b]
+    57 0000003F 66030D[01000000]                add cx,[b]      ;cx = b+b
+    58                                  
+    59                                          ;convertim wordul cx la qword
+    60 00000046 66BA0000                        mov dx,0
+    61 0000004A 6652                            push dx
+    62 0000004C 6651                            push cx
+    63 0000004E 59                              pop ecx
+    64                                  
+    65 0000004F BA00000000                      mov edx,0       ;acum edx:ecx = b+b
+    66                                  
+    67                                          ;calculam (a+d+d)-c+(b+b)
+    68 00000054 01C8                            add eax,ecx
+    69 00000056 11D3                            adc ebx,edx
+    70                                  
+    71                                          ;rezultatul final stocat in ebx:eax      
+    72                                              
+    73                                          ; exit(0)
+    74 00000058 6A00                            push dword 0      ; push the parameter for exit onto the stack
+    75 0000005A FF15[00000000]                  call [exit]       ; call exit to terminate the program

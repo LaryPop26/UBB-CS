@@ -1,0 +1,36 @@
+     1                                  ;adunari-scaderi a,b,c,d word
+     2                                  ; c-(a+d)+(b+d)
+     3                                  
+     4                                  bits 32 ; assembling for the 32 bits architecture
+     5                                  
+     6                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     7                                  global start        
+     8                                  
+     9                                  ; declare external functions needed by our program
+    10                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+    11                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+    12                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    13                                  
+    14                                  ; our data is declared here (the variables needed by our program)
+    15                                  segment data use32 class=data
+    16 00000000 0A                          a db 10
+    17 00000001 05                          b db 5
+    18 00000002 0F                          c db 15
+    19 00000003 14                          d db 20
+    20                                  
+    21                                  ; our code starts here
+    22                                  segment code use32 class=code
+    23                                      start:
+    24 00000000 8A1D[00000000]                  mov bl,[a]  ;bl => a = 10 = A(h)
+    25 00000006 021D[03000000]                  add bl,[d]  ;bl => a+d = 10 + 20 = 30 = 1E(h) 
+    26                                          
+    27 0000000C 8A0D[01000000]                  mov cl,[b]  ;cl => b = 5 = 5(h)
+    28 00000012 020D[03000000]                  add cl,[d]  ;cl => b+d = 5 + 20 = 25 = 19(h)
+    29                                          
+    30 00000018 A0[02000000]                    mov al,[c]  ;al => c = 15 = F(h)
+    31 0000001D 28D8                            sub al,bl   ;al => c - (a+d) = 15 - 30 = -15  = F1(h)
+    32 0000001F 00C8                            add al,cl   ;al => c-(a+d)+(b+d) = -15 + 25 = 10 = A(h)
+    33                                      
+    34                                          ; exit(0)
+    35 00000021 6A00                            push dword 0      ; push the parameter for exit onto the stack
+    36 00000023 FF15[00000000]                  call [exit]       ; call exit to terminate the program

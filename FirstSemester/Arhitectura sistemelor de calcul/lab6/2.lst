@@ -1,0 +1,89 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  ; Se da un sir de cuvinte. Sa se obtina din acesta un sir de dublucuvinte, in care fiecare dublucuvant 
+     3                                  ; va contine nibble-urile despachetate pe octet (fiecare cifra hexa va fi precedata de un 0), 
+     4                                  ; aranjate crescator in interiorul dublucuvantului.
+     5                                  ; exemplu
+     6                                  ; pentru sirul initial: 1432h, 8675h, 0ADBCh, ...
+     7                                  ; Se va obtine: 01020304h,  05060708h, 0A0B0C0Dh, ... 
+     8                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     9                                  global start        
+    10                                  
+    11                                  ; declare external functions needed by our program
+    12                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+    13                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+    14                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    15                                  
+    16                                  ; our data is declared here (the variables needed by our program)
+    17                                  segment data use32 class=data
+    18 00000000 32147586BCAD                s dw 1432h, 8675h, 0ADBCh
+    19                                      len equ ($-s)/2
+    20 00000006 00000000<rept>              r times len dd 0
+    21                                  
+    22                                  ; our code starts here
+    23                                  segment code use32 class=code
+    24                                      start:
+    25 00000000 B903000000                      mov ecx,len
+    26 00000005 BE[00000000]                    mov esi,s
+    27 0000000A BF[06000000]                    mov edi,r
+    28 0000000F E339                            jecxz final
+    29                                          
+    30                                          repeta:
+    31 00000011 66AD                                lodsw   ;stocam primul cuvant din sir in ax
+    32                                              
+    33                                              ; facem in eax forma finala a dublucuvintelor ( eax = 0x0y0z0t ,unde x,y,z,t - cifre hexa)
+    34 00000013 6689C3                              mov bx,ax   ;stocam cuvantul si in bx pentru zerorizari 
+    35                                              
+    36 00000016 240F                                and al,0FH  ; al - primul nibble
+    37 00000018 C0EB04                              shr bl,4    ; bl - al 2 lea nibble
+    38 0000001B 80E40F                              and ah,0FH  ; ah - al 3 lea nibble
+    39 0000001E C0EF04                              shr bh,4    ; bh - al 4 lea nibble
+    40                                              
+    41                                             ; shl eax,16  ; mutam partea low din eax in partea high
+    42                                             ; mov ax,bx   ; punem in partea low a lui eax restul nibble-urilor
+    43                                              
+    44 00000021 BA03000000                          mov edx,3
+    45                                              sortare:
+    46                                              
+    47 00000026 38C4                                cmp ah, al
+    48 00000028 7F02                                jg swap01
+    49 0000002A EB02                                jmp no_swap01
+    50                                          swap01:
+    51 0000002C 86E0                                xchg ah, al          
+    52                                          no_swap01:
+    53                                  
+    54                                              
+    55 0000002E 38F8                                cmp al, bh
+    56 00000030 7F02                                jg swap12
+    57 00000032 EB02                                jmp no_swap12
+    58                                          swap12:
+    59 00000034 86C7                                xchg al, bh          
+    60                                          no_swap12:
+    61                                  
+    62                                              
+    63 00000036 38DF                                cmp bh, bl
+    64 00000038 7F02                                jg swap23
+    65 0000003A EB02                                jmp no_swap23
+    66                                          swap23:
+    67 0000003C 86FB                                xchg bh, bl          
+    68                                          no_swap23:
+    69                                              
+    70 0000003E 4A                                  dec edx
+    71 0000003F 75E5                                jnz sortare
+    72                                             
+    73                                              
+    74 00000041 C1E010                             shl eax,16  ; mutam partea low din eax in partea high
+    75 00000044 6689D8                             mov ax,bx   ; punem in partea low a lui eax restul nibble-urilor
+    76                                  
+    77 00000047 AB                                  stosd
+    78                                              ;sortam cifrele hexa crescator
+    79                                              
+    80                                              
+    81                                              
+    82 00000048 E2C7                                loop repeta
+    83                                          
+    84                                          
+    85                                          
+    86                                          final:
+    87                                          ; exit(0)
+    88 0000004A 6A00                            push dword 0      ; push the parameter for exit onto the stack
+    89 0000004C FF15[00000000]                  call [exit]       ; call exit to terminate the program

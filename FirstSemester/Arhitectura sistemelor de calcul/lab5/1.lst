@@ -1,0 +1,46 @@
+     1                                  ; Se da un sir de octeti S de lungime l. 
+     2                                  ; Sa se construiasca sirul D de lungime l-1 astfel incat elementele din D sa reprezinte 
+     3                                  ; produsul dintre fiecare 2 elemente consecutive S(i) si S(i+1) din S.
+     4                                  ; Ex. 
+     5                                  ; S: 1, 2, 3, 4
+     6                                  ; D: 2, 6, 12
+     7                                  
+     8                                  bits 32 ; assembling for the 32 bits architecture
+     9                                  
+    10                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+    11                                  global start        
+    12                                  
+    13                                  ; declare external functions needed by our program
+    14                                  extern exit           ; tell nasm that exit exists even if we won't be defining it
+    15                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+    16                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    17                                  
+    18                                  ; our data is declared here (the variables needed by our program)
+    19                                  segment data use32 class=data
+    20 00000000 01020304                    s db 1,2,3,4 ;declarare sir
+    21                                      len equ $-s ;stabilire lungime sir 
+    22 00000004 00<rept>                    d times len-1 db 0 ;rezervare spatiu de dimensiune len-1 pt sirul destinatie si initializarea sa
+    23                                       
+    24                                      ;d resb len-1
+    25                                  
+    26                                  ; our code starts here
+    27                                  segment code use32 class=code
+    28                                      start:
+    29 00000000 B904000000                      mov ecx,len ;punem lungimea sirului s in ecx pt a realiza bucla
+    30                                          ;dec ecx ; stabilim valoarea corecta de repetitii pt bucla 
+    31 00000005 BE00000000                      mov esi,0 ; index pt sirul s
+    32 0000000A BF00000000                      mov edi,0 ; index pt sirul d
+    33 0000000F E318                            jecxz Sfarsit ; jump in caz ca sirul e initializat gol
+    34                                          repeat:
+    35 00000011 8A86[00000000]                          mov al,[s+esi] ; punem prima valoare in al
+    36 00000017 8A9E[01000000]                          mov bl,[s+esi+1] ; punem urmatoarea valoare din sir in bl
+    37 0000001D F6E3                                    mul bl ; realizam inmultirea elementelor de pe 2 pozitii consecutive
+    38 0000001F 8887[04000000]                          mov [d+edi],al ; salvam rezultatul in sirul d pe pozitia corecta
+    39 00000025 46                                      inc esi ; crestem indexul pt s
+    40 00000026 47                                      inc edi ; crestem indexul pt d
+    41 00000027 E2E8                            loop repeat ; bucla pt a parcurge intreg sirul
+    42                                          Sfarsit: ;terminarea programului
+    43                                          
+    44                                          ; exit(0)
+    45 00000029 6A00                            push dword 0      ; push the parameter for exit onto the stack
+    46 0000002B FF15[00000000]                  call [exit]       ; call exit to terminate the program

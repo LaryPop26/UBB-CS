@@ -1,0 +1,65 @@
+     1                                  ;adunari, scaderi - interpretare fara semn
+     2                                  ;a - byte, b - word, c - double word, d - qword
+     3                                  ;24. ((a+b)+(a+c)+(b+c))-d
+     4                                  
+     5                                  bits 32 ; assembling for the 32 bits architecture
+     6                                  
+     7                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     8                                  global start        
+     9                                  
+    10                                  ; declare external functions needed by our program
+    11                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+    12                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+    13                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    14                                  
+    15                                  ; our data is declared here (the variables needed by our program)
+    16                                  segment data use32 class=data
+    17 00000000 05                          a db 5
+    18 00000001 2C01                        b dw 300
+    19 00000003 F4010000                    c dd 500
+    20 00000007 E803000000000000            d dq 1000
+    21                                  
+    22                                  ; our code starts here
+    23                                  segment code use32 class=code
+    24                                      start:
+    25 00000000 A0[00000000]                    mov al,[a]
+    26 00000005 B400                            mov ah,0
+    27                                          
+    28 00000007 668B1D[01000000]                mov bx,[b]
+    29 0000000E 6601D8                          add ax, bx ; ax = a + b
+    30                                          
+    31 00000011 66B90000                        mov cx, 0
+    32                                          
+    33 00000015 6651                            push cx
+    34 00000017 6650                            push ax
+    35 00000019 58                              pop eax     ; eax = a + b 
+    36                                          
+    37 0000001A 6651                            push cx
+    38 0000001C 6653                            push bx
+    39 0000001E 5B                              pop ebx     ; ebx = b
+    40                                          
+    41 0000001F 8B0D[03000000]                  mov ecx,[c]
+    42 00000025 01CB                            add ebx,ecx ; ebx = b + c
+    43                                          
+    44 00000027 89C2                            mov edx,eax ; edx = a + b
+    45                                          
+    46 00000029 A0[00000000]                    mov al,[a]
+    47 0000002E B400                            mov ah,0
+    48 00000030 66B90000                        mov cx,0
+    49 00000034 6651                            push cx
+    50 00000036 6650                            push ax
+    51 00000038 58                              pop eax ; eax = a
+    52                                          
+    53 00000039 0305[03000000]                  add eax,[c] ; eax = a + c
+    54                                          
+    55 0000003F 01D0                            add eax,edx
+    56 00000041 01D8                            add eax,ebx     ; eax = (a+b)+(a+c)+(b+c)
+    57                                          
+    58 00000043 BA00000000                      mov edx,0
+    59                                          
+    60 00000048 2B05[07000000]                  sub eax,dword[d]
+    61 0000004E 1B15[0B000000]                  sbb edx,dword[d+4]  ; edx:eax = (a+b)+(a+c)+(b+c) - d    
+    62                                              
+    63                                          ; exit(0)
+    64 00000054 6A00                            push dword 0      ; push the parameter for exit onto the stack
+    65 00000056 FF15[00000000]                  call [exit]       ; call exit to terminate the program

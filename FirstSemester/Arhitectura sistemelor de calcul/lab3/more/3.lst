@@ -1,0 +1,65 @@
+     1                                  ;adunari, scaderi - interpretare cu semn
+     2                                  ;a - byte, b - word, c - double word, d - qword
+     3                                  ;10. b+c+d+a-(d+c)
+     4                                  
+     5                                  bits 32 ; assembling for the 32 bits architecture
+     6                                  
+     7                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     8                                  global start        
+     9                                  
+    10                                  ; declare external functions needed by our program
+    11                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+    12                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+    13                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    14                                  
+    15                                  ; our data is declared here (the variables needed by our program)
+    16                                  segment data use32 class=data
+    17 00000000 01                          a db 1
+    18 00000001 0A00                        b dw 10
+    19 00000003 64000000                    c dd 100
+    20 00000007 E803000000000000            d dq 1000
+    21                                  
+    22                                  ; our code starts here
+    23                                  segment code use32 class=code
+    24                                      start:
+    25                                          ;convert cu semn de la wordul b la qword
+    26 00000000 66A1[01000000]                  mov ax,[b]
+    27 00000006 98                              cwde
+    28 00000007 99                              cdq     ;edx:eax = b
+    29                                          
+    30 00000008 89C3                            mov ebx,eax
+    31 0000000A 89D1                            mov ecx,edx ;ecx:ebx = b
+    32                                          ;convert cu semn de la dwordul c la qword
+    33 0000000C A1[03000000]                    mov eax,[c]
+    34 00000011 99                              cdq     ;edx:eax = c
+    35                                          ;adunam b+c
+    36 00000012 01C3                            add ebx,eax
+    37 00000014 11D1                            adc ecx,edx ;ecx:ebx = b+c
+    38                                          ;salvam qword d in registrii
+    39 00000016 A1[07000000]                    mov eax,dword[d]
+    40 0000001B 8B15[0B000000]                  mov edx,dword[d+4];edx:eax = d
+    41                                          ;calc b+c+d
+    42 00000021 01C3                            add ebx,eax
+    43 00000023 11D1                            adc ecx,edx ;ecx:ebx = b+c+d
+    44                                          ;convert cu semn de la byteul a la qword
+    45 00000025 A0[00000000]                    mov al,[a]
+    46 0000002A 6698                            cbw
+    47 0000002C 98                              cwde
+    48 0000002D 99                              cdq ;edx:eax = a
+    49                                          
+    50 0000002E 01C3                            add ebx,eax
+    51 00000030 11D1                            adc ecx,edx ;ecx:ebx = b+c+d+a
+    52                                          ;calc d+c
+    53                                          ;;convert cu semn de la dwordul c la qword
+    54 00000032 A1[03000000]                    mov eax,[c]
+    55 00000037 99                              cdq ;edx:eax = c
+    56                                          
+    57 00000038 0305[07000000]                  add eax,dword[d]
+    58 0000003E 1315[0B000000]                  adc edx,dword[d+4] ; edx:eax = c+d
+    59                                          ;rez final
+    60 00000044 29C3                            sub ebx,eax
+    61 00000046 19D1                            sbb ecx,edx ;ecx:ebx = b+c+d+a-(d+c)
+    62                                                      
+    63                                          ; exit(0)
+    64 00000048 6A00                            push dword 0      ; push the parameter for exit onto the stack
+    65 0000004A FF15[00000000]                  call [exit]       ; call exit to terminate the program

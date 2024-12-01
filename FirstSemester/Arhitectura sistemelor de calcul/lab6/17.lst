@@ -1,0 +1,95 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  ; Se da un sir de dublucuvinte. Sa se ordoneze descrescator sirul cuvintelor inferioare ale acestor dublucuvinte. 
+     3                                  ; Cuvintele superioare raman neschimbate.
+     4                                  ; exeplu
+     5                                  ; dandu-se: sir DD 12345678h 1256ABCDh, 12AB4344h
+     6                                  ; rezultatul va fi 1234ABCDh, 12565678h, 12AB4344h.
+     7                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     8                                  global start        
+     9                                  
+    10                                  ; declare external functions needed by our program
+    11                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+    12                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+    13                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    14                                  
+    15                                  ; our data is declared here (the variables needed by our program)
+    16                                  segment data use32 class=data
+    17 00000000 78563412CDAB561244-         s dd 12345678h, 1256ABCDh, 12AB4344h
+    17 00000009 43AB12             
+    18                                      len equ 0
+    19                                      r times len dw 0
+    20                                      rez times len dd 0
+    21                                  
+    22                                  ; our code starts here
+    23                                  segment code use32 class=code
+    24                                    
+    25                                  start:
+    26 00000000 B900000000                      mov ecx, len      
+    27 00000005 BE[00000000]                    mov esi, s        
+    28 0000000A BF[0C000000]                    mov edi, rez   
+    29                                          
+    30                                          ; extrag partea high a dublucuvintelor si le salvez pe pozitiile corecte
+    31                                          higher:
+    32 0000000F AD                                  lodsd
+    33 00000010 250000FFFF                          and eax,0FFFF0000H
+    34 00000015 AB                                  stosd
+    35 00000016 E2F7                                loop higher
+    36                                          ; rez va arata astfel: 12340000h, 12560000h, 12AB0000h
+    37                                          
+    38 00000018 B900000000                      mov ecx, len      
+    39 0000001D BE[00000000]                    mov esi, s        
+    40 00000022 BF[0C000000]                    mov edi, r        
+    41                                          
+    42                                          ; extrag partea low a dublucuvintelor pentru a le sorta
+    43                                          ; vor fi salvate in sirul intermediar r
+    44                                          lower:
+    45 00000027 AD                                  lodsd                 ; load dword from [esi] into eax
+    46 00000028 66AB                                stosw                 ; store ax into [edi]
+    47 0000002A E2FB                                loop lower      ; repeat for all elements
+    48                                          ; pt exemplu, r arata astfel:
+    49                                          ; r: 5678H, ABCDH, 4344H         
+    50                                          
+    51                                          ;sortare bubble sort
+    52 0000002C BA00000000                      mov edx,len
+    53                                          oloop:
+    54 00000031 B900000000                          mov ecx, len
+    55 00000036 49                                  dec ecx
+    56 00000037 BE[0C000000]                        mov esi,r
+    57 0000003C BF[0C000000]                        mov edi,r
+    58                                              
+    59                                              iloop:
+    60 00000041 66AD                                    lodsw
+    61 00000043 668B1E                                  mov bx,[esi]
+    62                                                 
+    63 00000046 6639D8                                  cmp ax,bx
+    64 00000049 7202                                    jb skip
+    65 0000004B 6693                                    xchg ax,bx
+    66                                                                
+    67                                                  skip:
+    68 0000004D C1E010                                      shl eax,16
+    69 00000050 6689D8                                      mov ax,bx
+    70 00000053 AB                                          stosd
+    71 00000054 4F                                          dec edi
+    72 00000055 4F                                          dec edi
+    73 00000056 E2E9                                        loop iloop
+    74 00000058 4A                              dec edx
+    75 00000059 75D6                            jnz oloop
+    76                                                    
+    77                                          ; aici r este sortat descrescator
+    78                                          ; r: ABCDh, 5678h, 4344h
+    79                                          
+    80                                          ; construim sirul final
+    81 0000005B B900000000                      mov ecx,len
+    82 00000060 BE[0C000000]                    mov esi,r
+    83 00000065 BF[0C000000]                    mov edi,rez
+    84                                          
+    85                                          rezultat:
+    86 0000006A 66A5                                movsw
+    87 0000006C 83C702                              add edi,2
+    88 0000006F E2F9                                loop rezultat
+    89                                          ; acum in rez va fi sirul: 1234ABCDh, 12565678h, 12AB4344h
+    90                                          ; 
+    91                                          
+    92                                          ; Exit the program
+    93 00000071 6A00                            push dword 0          ; push exit code
+    94 00000073 FF15[00000000]                  call [exit]           ; call the exit function to terminate the program
