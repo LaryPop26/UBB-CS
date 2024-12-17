@@ -1,8 +1,7 @@
-from domain.expense import create_expense
+from domain.expense import create_expense, get_ap, get_value, get_expense_type, get_day
 from domain.expense_manager import get_lst_expense
 from repository.repo_expenses import add_expense, modify_expense, delete_all_expense_from_apartment, delete_by_type, \
-    value_higher_than, expense_by_type, expense_higher_than_and_before, sum_for_type, apartment_after_type, \
-    sum_for_an_apartment, remove_by_type, remove_less_than, delete_consecutive_apartments, add_state_to_undo
+    delete_consecutive_apartments, add_state_to_undo, undo
 from validation.validation import validate_inputs, validate_id, validate_value, validate_apartment, validate_expense_type, \
     validate_day
 
@@ -62,35 +61,134 @@ def delete_by_type_srv(expenses_manager: list, expense_type):
     add_state_to_undo(expenses_manager)
     delete_by_type(lst_expense, expense_type)
 
-def value_higher_than_srv(lst_expense, value):
+# search
+def value_higher_than(lst_expense: list, value: float) -> list:
+    """
+    Search for all apartments where is at least one expense higher than the given value
+    :param lst_expense:list of all the expenses
+    :param value: search value
+    :return: copy list with all expenses higher than the given value, if there are
+        None, otherwise
+    """
     validate_value(value)
-    return value_higher_than(lst_expense, value)
+    lst = []
+    sum = 0
+    for expense in lst_expense:
+        ap = get_ap(expense)
+        sum += get_value(expense)
+        if ap not in lst:
+            if sum > value:
+                lst.append(ap)
+    return lst
 
-def expense_by_type_srv(lst_expense, expense_type):
+def expense_by_type(lst_expense: list, expense_type: str) -> list:
+    """
+    Search for all expenses with an expense_type
+    :param lst_expense: list of all expenses
+    :param expense_type: type of expense to search
+    :return:copy list with all expenses with an expense_type, if there are
+                None, otherwise
+    """
     validate_expense_type(expense_type)
-    return expense_by_type(lst_expense, expense_type)
+    lst = []
+    for expense in lst_expense:
+        if get_expense_type(expense) == expense_type:
+            lst.append(expense)
+    return lst
 
-def expense_higher_than_and_before_srv(lst_expense, day, value):
+# report
+def expense_higher_than_and_before(lst_expense: list, day: int, value: float) -> list:
+    """
+    Search for all expenses higher than the given value and before the given day
+    :param lst_expense:list of all the expenses
+    :param day: maximum day of the expense
+    :param value: value from where starts
+    :return: copy list with all good expenses, if there are
+            None, otherwise
+    """
     validate_day(day)
     validate_value(value)
-    return expense_higher_than_and_before(lst_expense, day, value)
+    lst = []
+    for expense in lst_expense:
+        ex_day = get_day(expense)
+        ex_value = get_value(expense)
+        if ex_day < day and ex_value > value:
+            lst.append(expense)
+    return lst
 
-def sum_for_type_srv(lst_expense, expense_type):
+def sum_for_type(lst_expense: list, expense_type: str) -> float:
+    """
+    Calculate the total amount spent on a type of expense
+    :param lst_expense: list of all expenses
+    :param expense_type: type for which the expenses are summed
+    :return: the sum of all expenses with the given expense_type
+    """
     validate_expense_type(expense_type)
-    return sum_for_type(lst_expense, expense_type)
+    sum = 0.0
+    for expense in lst_expense:
+        if get_expense_type(expense) == expense_type:
+            sum += get_value(expense)
+    return sum
 
-def apartment_after_type_srv(lst_expense, expense_type):
+def apartment_after_type(lst_expense: list, expense_type: str) -> list:
+    """
+    Search for all apartments where is an expense with a given type
+    :param lst_expense: list of all expenses
+    :param expense_type: expense_type for search
+    :return: a list with all apartments with the given expense_type, if there are
+            None, otherwise
+    """
     validate_expense_type(expense_type)
-    return apartment_after_type(lst_expense, expense_type)
+    lst = []
+    for expense in lst_expense:
+        ap = get_ap(expense)
+        if ap not in lst:
+            if get_expense_type(expense) == expense_type:
+                lst.append(ap)
+    return lst
 
-def sum_for_an_apartment_srv(lst_expense, apartment):
+# filter
+def sum_for_an_apartment(lst_expense: list, apartment: int) -> float:
+    """
+    Calculate the total amount spent on an apartment
+    :param lst_expense: list of all expenses
+    :param apartment:apartment for which is the sum calculated
+    :return: the sum of all expenses for the given apartment
+    """
     validate_apartment(apartment)
-    return sum_for_an_apartment(lst_expense, apartment)
+    sum = 0.0
+    for expense in lst_expense:
+        if get_ap(expense) == apartment:
+            sum += get_value(expense)
+    return sum
 
-def remove_by_type_srv(lst_expense, expense_type):
+def remove_by_type(lst_expense: list, expense_type: str) -> list:
+    """
+    Search all expenses with another expense_type than the given one
+    :param lst_expense: list of all expenses
+    :param expense_type: type of expense to remove
+    :return: a new list which does not include the given expense_type
+    """
     validate_expense_type(expense_type)
-    return remove_by_type(lst_expense, expense_type)
+    lst = []
+    for expense in lst_expense:
+        if get_expense_type(expense) != expense_type:
+            lst.append(expense)
+    return lst
 
-def remove_less_than_srv(lst_expense, value):
+def remove_less_than(lst_expense: list, value: float) -> list:
+    """
+    Search for all expenses higher than the given value
+    :param lst_expense: list of all expenses
+    :param value: a given value
+    :return: a new list which includes only the expenses higher than the given value
+    """
     validate_value(value)
-    return remove_less_than(lst_expense, value)
+    lst = []
+    for expense in lst_expense:
+        if get_value(expense) >= value:
+            lst.append(expense)
+    return lst
+
+def undo_srv(expense_manager):
+    return undo(expense_manager)

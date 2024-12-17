@@ -1,7 +1,7 @@
 from domain.expense_manager import setup_expenses_manager, get_lst_expense, print_as_list
 from repository.repo_expenses import undo
 from service.service_expense import (add_expense_srv, delete_all_expense_from_apartment_srv,
-                                     sum_for_type_srv, remove_by_type_srv, value_higher_than_srv)
+                                     sum_for_type, remove_by_type, value_higher_than)
 from tests.tests import run_tests_batch
 
 def menu():
@@ -41,7 +41,7 @@ def start_v2():
 
             elif x[0] == "search":
                 try:
-                    values = value_higher_than_srv(get_lst_expense(expenses_manager), float(x[1]))
+                    values = value_higher_than(get_lst_expense(expenses_manager), float(x[1]))
                     str_info = ""
                     for s in range(len(values)):
                         str_info += f"{values[s]} | "
@@ -51,14 +51,14 @@ def start_v2():
 
             elif x[0] == "report":
                 try:
-                    s = sum_for_type_srv(get_lst_expense(expenses_manager), str(x[1]))
+                    s = sum_for_type(get_lst_expense(expenses_manager), str(x[1]))
                     print(f"The total amount for {x[1]} expense is {s}")
                 except ValueError as e:
                     print(e)
 
             elif x[0] == "filter":
                 try:
-                    lst = remove_by_type_srv(get_lst_expense(expenses_manager), str(x[1]))
+                    lst = remove_by_type(get_lst_expense(expenses_manager), str(x[1]))
                     print(f"Filter list by removing {x[1]} type of expense")
                     print_as_list(lst)
                 except ValueError as e:

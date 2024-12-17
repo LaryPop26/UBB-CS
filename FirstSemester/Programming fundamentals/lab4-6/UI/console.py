@@ -1,9 +1,7 @@
 from domain.expense_manager import setup_expenses_manager, get_lst_expense, print_as_list
-from repository.repo_expenses import undo
 from service.service_expense import add_expense_srv, modify_expense_srv, delete_all_expense_from_apartment_srv, \
-    delete_consecutive_apartments_srv, delete_by_type_srv, value_higher_than_srv, expense_by_type_srv, \
-    expense_higher_than_and_before_srv, sum_for_type_srv, apartment_after_type_srv, sum_for_an_apartment_srv, \
-    remove_by_type_srv, remove_less_than_srv
+    delete_consecutive_apartments_srv, delete_by_type_srv, value_higher_than, expense_higher_than_and_before, \
+    sum_for_type, apartment_after_type, sum_for_an_apartment, remove_by_type, remove_less_than, expense_by_type, undo_srv
 from tests.tests import run_tests
 
 def read_info() -> tuple:
@@ -64,7 +62,7 @@ def ui_delete_by_type(lst_expense):
 def ui_value_higher_than(lst_expense):
     value = float(input("Enter the value: "))
     try:
-        values = value_higher_than_srv(lst_expense, value)
+        values = value_higher_than(lst_expense, value)
         str_info = ""
         for s in range(len(values)):
             str_info += f"{values[s]} | "
@@ -75,7 +73,7 @@ def ui_value_higher_than(lst_expense):
 def ui_expense_by_type(lst_expense):
     expense_type = input("Enter the type of expense: ")
     try:
-        expenses = expense_by_type_srv(lst_expense, expense_type)
+        expenses = expense_by_type(lst_expense, expense_type)
         if len(expenses) == 0:
             print("There are not compatible expenses!")
         else:
@@ -87,7 +85,7 @@ def ui_expense_higher_than_and_before(lst_expense):
     day = int(input("Enter the day of the expense: "))
     value = int(input("Enter the value of expense: "))
     try:
-        expenses = expense_higher_than_and_before_srv(lst_expense, day, value)
+        expenses = expense_higher_than_and_before(lst_expense, day, value)
         if len(expenses) == 0:
             print("There are not compatible expenses!")
         else:
@@ -99,7 +97,7 @@ def ui_expense_higher_than_and_before(lst_expense):
 def ui_sum_for_type(expenses_manager):
     expense_type = input("Enter the type of expense: ").lower()
     try:
-        s = sum_for_type_srv(expenses_manager, expense_type)
+        s = sum_for_type(expenses_manager, expense_type)
         print(f"The total amount for {expense_type} expense is {s}")
     except ValueError as ve:
         print(ve)
@@ -107,7 +105,7 @@ def ui_sum_for_type(expenses_manager):
 def ui_apartments_by_type(lst_expense):
     expense_type = input("Enter the type of expense: ").lower()
     try:
-        expenses = apartment_after_type_srv(lst_expense, expense_type)
+        expenses = apartment_after_type(lst_expense, expense_type)
         str_info = ""
         for s in range(len(expenses)):
             str_info += f"{expenses[s]} | "
@@ -118,7 +116,7 @@ def ui_apartments_by_type(lst_expense):
 def ui_sum_apartment(lst_expense):
     apartment = int(input("Enter the apartment number: "))
     try:
-        s = sum_for_an_apartment_srv(lst_expense, apartment)
+        s = sum_for_an_apartment(lst_expense, apartment)
         print(f"The total amount of expense for apartment {apartment} is {s}")
     except ValueError as ve:
         print(ve)
@@ -127,7 +125,7 @@ def ui_sum_apartment(lst_expense):
 def ui_remove_by_type(lst_expense):
     expense_type = input("Enter the type of expense: ")
     try:
-        list_without_type = remove_by_type_srv(lst_expense, expense_type)
+        list_without_type = remove_by_type(lst_expense, expense_type)
         if len(list_without_type) == 0:
             print("There is no expense with expense_type")
         else:
@@ -138,7 +136,7 @@ def ui_remove_by_type(lst_expense):
 def ui_remove_less_than(lst_expense):
     value = float(input("Enter a value: "))
     try:
-        list_higher = remove_less_than_srv(lst_expense, value)
+        list_higher = remove_less_than(lst_expense, value)
         if len(list_higher) == 0:
             print(f"There is no expense with less that {value}")
         else:
@@ -148,7 +146,7 @@ def ui_remove_less_than(lst_expense):
 
 def ui_undo(expenses_manager):
     try:
-        undo(expenses_manager)
+        undo_srv(expenses_manager)
         print("Successfully undo")
     except ValueError as ve:
         print(ve)

@@ -1,11 +1,10 @@
 from domain.expense import create_expense, get_ap, get_day, get_value, get_expense_type, get_id
 from domain.expense_manager import setup_expenses_manager, get_lst_expense
 from repository.repo_expenses import (add_expense, delete_all_expense_from_apartment, delete_by_type,
-                                      value_higher_than, expense_by_type, expense_higher_than_and_before, sum_for_type,
-                                      sum_for_an_apartment, remove_by_type, remove_less_than,
-                                      delete_consecutive_apartments, apartment_after_type, modify_expense, undo)
+                                      delete_consecutive_apartments, modify_expense, undo)
 from service.service_expense import add_expense_srv, delete_all_expense_from_apartment_srv, \
-    delete_consecutive_apartments_srv, delete_by_type_srv, modify_expense_srv
+    delete_consecutive_apartments_srv, delete_by_type_srv, modify_expense_srv, value_higher_than, expense_by_type, \
+    expense_higher_than_and_before, sum_for_type, apartment_after_type, sum_for_an_apartment, remove_by_type, remove_less_than
 from validation.validation import validate_inputs, validate_id
 
 def test_validate_inputs():
