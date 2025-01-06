@@ -113,3 +113,17 @@ INSERT INTO JocVideo(CodJoc, Nume, DescriereJoc, DataLansare, TipJoc, GenJoc, Pl
 (2,'Minecraft','Joc de tip sandbox ce da frau liber imaginatiei','2009-05-17','singleplayer / multiplayer','survival, sandbox','Windows',2),
 (9,'Call of Duty: Modern Warfare III','Recreeaza scene de razboi atat in timpul povestii, cat si in dueluri alaturi de alti jucatori','2023-11-09','singleplayer / multiplayer','shooter','Windows, PS, XBOX',3),
 (10,'Pokemon','Captureaza si antreneaza Pokemoni pentru a deveni mai bun','2019-11-15','singleplayer','role-playing','Nintendo',4);
+
+SELECT * FROM Departament
+SELECT * FROM Pozitie
+SELECT * FROM Program
+SELECT * FROM Angajat
+SELECT * FROM AngajatProgram
+SELECT * FROM Produs
+SELECT * FROM Client
+SELECT * FROM Achizitie
+SELECT * FROM Recenzie
+SELECT * FROM Accesorii
+SELECT * FROM Consola
+SELECT * FROM Companie
+SELECT * FROM JocVideo
