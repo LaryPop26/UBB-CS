@@ -1,0 +1,8 @@
+1,papapm,1000,teren,25:10:2020
+2,akc,2500,teren arabil,12:02:2025
+3,abbba,600,agronom,02:06:2022
+4,dada,500,mobil,16:04:2026
+5,fafa,3000,mare,18:11:2028
+6,gagggag,1858,mic,16:10:2000
+7,ffaaafaf,3256,imens,26:04:2023
+14,adv,35,adv,12:10:2002

@@ -1,0 +1,4 @@
+1, La Ionel, munte, 85
+2, Seaside Hotel, mare, 125
+3, River Edge Resort, aproape de munte, 330
+4, Asterias Vilaage, aproape de mare, 200
