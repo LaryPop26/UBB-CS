@@ -1,0 +1,95 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/lab2-4/repository.c
+        -:    0:Graph:C:\Users\popla\CLionProjects\lab2-4\cmake-build-debug-coverage\CMakeFiles\lab2_4.dir\repository.c.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\lab2-4\cmake-build-debug-coverage\CMakeFiles\lab2_4.dir\repository.c.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 12-Mar-25.
+        -:    3://
+        -:    4:
+        -:    5:#include "repository.h"
+        -:    6:
+function addParticipant called 0 returned 0% blocks executed 0%
+    #####:    7:int addParticipant(ParticipantsList* participants, Participant participant) {
+    #####:    8:    int found = 0;
+    #####:    9:    for (int i = 0; i < participants->length; i++) {
+    %%%%%:    9-block  0
+    %%%%%:    9-block  1
+    %%%%%:    9-block  2
+branch  0 never executed
+branch  1 never executed (fallthrough)
+    #####:   10:        if (participant.lastName == participants->elems[i].lastName && participant.firstName == participants->elems[i].firstName) {
+    %%%%%:   10-block  0
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    %%%%%:   10-block  1
+branch  2 never executed (fallthrough)
+branch  3 never executed
+    #####:   11:            found = 1;
+    %%%%%:   11-block  0
+        -:   12:        }
+        -:   13:    }
+    #####:   14:    if (!found) {
+    %%%%%:   14-block  0
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   15:        participants->elems[participants->length] = participant;
+    #####:   16:        participants->length++;
+    #####:   17:        return 1;
+    %%%%%:   17-block  0
+        -:   18:    }
+    #####:   19:    return 0;
+    %%%%%:   19-block  0
+        -:   20:}
+        -:   21:
+function modifyParticipant called 0 returned 0% blocks executed 0%
+    #####:   22:int modifyParticipant(ParticipantsList* participants, Participant participant) {
+    #####:   23:    for (int i = 0; i < participants->length; i++) {
+    %%%%%:   23-block  0
+    %%%%%:   23-block  1
+    %%%%%:   23-block  2
+branch  0 never executed
+branch  1 never executed (fallthrough)
+    #####:   24:        if (participant.ID == participants->elems[i].ID) {
+    %%%%%:   24-block  0
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   25:            participants->elems[i] = participant;
+    #####:   26:            return 1;
+    %%%%%:   26-block  0
+        -:   27:        }
+        -:   28:    }
+    #####:   29:    return 0;
+    %%%%%:   29-block  0
+        -:   30:}
+        -:   31:
+function deleteParticipant called 0 returned 0% blocks executed 0%
+    #####:   32:int deleteParticipant(ParticipantsList* participants, int ID) {
+    #####:   33:    int p = 0;
+    #####:   34:    for (int i = 0; i < participants->length; i++) {
+    %%%%%:   34-block  0
+    %%%%%:   34-block  1
+    %%%%%:   34-block  2
+branch  0 never executed
+branch  1 never executed (fallthrough)
+    #####:   35:        if (ID == participants->elems[i].ID) p = 1;
+    %%%%%:   35-block  0
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    %%%%%:   35-block  1
+    #####:   36:        if (p == 1) participants->elems[i] = participants->elems[i + 1];
+    %%%%%:   36-block  0
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    %%%%%:   36-block  1
+        -:   37:    }
+    #####:   38:    if (p == 1) {
+    %%%%%:   38-block  0
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    #####:   39:        participants->length--;
+    #####:   40:        return 1;
+    %%%%%:   40-block  0
+        -:   41:    }
+    #####:   42:    return 0;
+    %%%%%:   42-block  0
+        -:   43:}

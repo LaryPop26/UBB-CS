@@ -1,0 +1,30 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/lab2-4/entity.c
+        -:    0:Graph:C:\Users\popla\CLionProjects\lab2-4\cmake-build-debug-coverage\CMakeFiles\lab2_4.dir\entity.c.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\lab2-4\cmake-build-debug-coverage\CMakeFiles\lab2_4.dir\entity.c.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 11-Mar-25.
+        -:    3://
+        -:    4:#include "entity.h"
+        -:    5:
+        -:    6:#include <stdio.h>
+        -:    7:#include <string.h>
+        -:    8:
+function createParticipant called 18 returned 100% blocks executed 100%
+       18:    9:Participant createParticipant(char* lastName, char* firstName, int score) {
+        -:   10:    Participant participant;
+       18:   11:    strcpy_s(participant.lastName,sizeof(participant.lastName), lastName);
+       18:   11-block  0
+call    0 returned 18
+       18:   12:    strcpy_s(participant.firstName,sizeof(participant.firstName), firstName);
+call    0 returned 18
+       18:   13:    participant.score = score;
+       18:   14:    return participant;
+        -:   15:}
+        -:   16:
+function destroyParticipant called 1 returned 100% blocks executed 100%
+        1:   17:void destroyParticipant(Participant* participant) {
+        1:   18:    participant->lastName[0] = '\0';
+        1:   19:    participant->firstName[0] = '\0';
+        1:   20:    participant->score = -1;
+        1:   21:}

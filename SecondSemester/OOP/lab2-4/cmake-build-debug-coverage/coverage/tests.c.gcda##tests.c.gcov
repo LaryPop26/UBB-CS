@@ -1,0 +1,367 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/lab2-4/tests.c
+        -:    0:Graph:C:\Users\popla\CLionProjects\lab2-4\cmake-build-debug-coverage\CMakeFiles\lab2_4.dir\tests.c.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\lab2-4\cmake-build-debug-coverage\CMakeFiles\lab2_4.dir\tests.c.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 12-Mar-25.
+        -:    3://
+        -:    4:#include "tests.h"
+        -:    5:
+        -:    6:#include "controller.h"
+        -:    7:
+        -:    8:// entity tests:
+function testCreateParticipant called 1 returned 100% blocks executed 71%
+        1:    9:void  testCreateParticipant() {
+        1:   10:    Participant participant = createParticipant("Ionescu", "Paula",50);
+        1:   10-block  0
+call    0 returned 1
+       1*:   11:    assert(strcmp(participant.lastName, "Ionescu") == 0);
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   11-block  0
+call    2 never executed
+        1:   11-block  1
+       1*:   12:    assert(strcmp(participant.firstName,"Paula")==0);
+        1:   12-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   12-block  1
+call    2 never executed
+        1:   12-block  2
+       1*:   13:    assert(participant.score == 50);
+        1:   13-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   13-block  1
+call    2 never executed
+        1:   13-block  2
+        -:   14:
+        1:   15:    destroyParticipant(&participant);
+        1:   15-block  0
+call    0 returned 1
+       1*:   16:    assert(strlen(participant.lastName) == 0);
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   16-block  0
+call    2 never executed
+        1:   16-block  1
+       1*:   17:    assert(strlen(participant.firstName)==0);
+        1:   17-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   17-block  1
+call    2 never executed
+        1:   17-block  2
+       1*:   18:    assert(participant.score == -1);
+        1:   18-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   18-block  1
+call    2 never executed
+        1:   18-block  2
+        1:   19:}
+        -:   20:
+        -:   21:// MyList tests:
+function testCreateList called 1 returned 100% blocks executed 83%
+        1:   22:void testCreateList() {
+        1:   23:    MyList l = createEmpty();
+        1:   23-block  0
+call    0 returned 1
+       1*:   24:    assert(size(&l) == 0);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   24-block  0
+call    3 never executed
+        1:   24-block  1
+        1:   25:}
+        -:   26:
+function testIterateList called 1 returned 100% blocks executed 77%
+        1:   27:void testIterateList() {
+        1:   28:    MyList l = createEmpty();
+        1:   28-block  0
+call    0 returned 1
+        1:   29:    addElem(&l, createParticipant("Ionescu", "Paula", 60));
+call    0 returned 1
+call    1 returned 1
+        1:   30:    addElem(&l, createParticipant("Popa", "Ioana", 50));
+call    0 returned 1
+call    1 returned 1
+       1*:   31:    assert(size(&l) == 2);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   31-block  0
+call    3 never executed
+        1:   31-block  1
+        1:   32:    Participant p = getMyElement(&l, 0);
+        1:   32-block  0
+call    0 returned 1
+       1*:   33:    assert(strcmp(p.lastName, "Ionescu") == 0);
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   33-block  0
+call    2 never executed
+        1:   33-block  1
+       1*:   34:    assert(p.score == 60);
+        1:   34-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   34-block  1
+call    2 never executed
+        1:   34-block  2
+        1:   35:    Participant p2 = getMyElement(&l, 1);
+        1:   35-block  0
+call    0 returned 1
+       1*:   36:    assert(strcmp(p2.firstName, "Ioana") == 0);
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   36-block  0
+call    2 never executed
+        1:   36-block  1
+        1:   37:    Participant p3 = createParticipant("Ionescu","Paula" ,90);
+        1:   37-block  0
+call    0 returned 1
+        1:   38:    updateElem(&l, p3);
+call    0 returned 1
+        1:   39:    Participant pUpdate = getMyElement(&l, 0);
+call    0 returned 1
+       1*:   40:    assert(strcmp(pUpdate.lastName, "Ionescu") == 0);
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   40-block  0
+call    2 never executed
+        1:   40-block  1
+       1*:   41:    assert(strcmp(pUpdate.firstName, "Paula") == 0);
+        1:   41-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   41-block  1
+call    2 never executed
+        1:   41-block  2
+       1*:   42:    assert(pUpdate.score == 90);
+        1:   42-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   42-block  1
+call    2 never executed
+        1:   42-block  2
+        -:   43:
+       1*:   44:    assert(size(&l) == 2);
+        1:   44-block  0
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   44-block  1
+call    3 never executed
+        1:   44-block  2
+        1:   45:    deleteElem(&l,1);
+        1:   45-block  0
+call    0 returned 1
+       1*:   46:    assert(size(&l) == 1);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   46-block  0
+call    3 never executed
+        1:   46-block  1
+        1:   47:    Participant pRemaining = getMyElement(&l, 0);
+        1:   47-block  0
+call    0 returned 1
+       1*:   48:    assert(strcmp(pRemaining.lastName, "Ionescu") == 0);
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   48-block  0
+call    2 never executed
+        1:   48-block  1
+       1*:   49:    assert(strcmp(pRemaining.firstName, "Paula") == 0);
+        1:   49-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   49-block  1
+call    2 never executed
+        1:   49-block  2
+       1*:   50:    assert(pRemaining.score == 90);
+        1:   50-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   50-block  1
+call    2 never executed
+        1:   50-block  2
+        1:   51:    MyList l2 = copyMyList(&l);
+        1:   51-block  0
+call    0 returned 1
+       1*:   52:    assert(size(&l2) == 1);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   52-block  0
+call    3 never executed
+        1:   52-block  1
+        1:   53:    Participant pn = getMyElement(&l2, 0);
+        1:   53-block  0
+call    0 returned 1
+       1*:   54:    assert(strcmp(pn.lastName, "Ionescu") == 0);
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   54-block  0
+call    2 never executed
+        1:   54-block  1
+        1:   55:    destroyMyList(&l);
+        1:   55-block  0
+call    0 returned 1
+       1*:   56:    assert(size(&l) == 0);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   56-block  0
+call    3 never executed
+        1:   56-block  1
+        1:   57:}
+        -:   58:
+        -:   59://Controller tests:
+function testController called 1 returned 100% blocks executed 81%
+        1:   60:void testController() {
+        1:   61:    MyList testl = createEmpty();
+        1:   61-block  0
+call    0 returned 1
+        1:   62:    int errorCode = addParticipantController(&testl, "", "", 200);
+call    0 returned 1
+       1*:   63:    assert(errorCode == 0);
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   63-block  0
+call    2 never executed
+        1:   63-block  1
+       1*:   64:    assert(size(&testl) == 0);
+        1:   64-block  0
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   64-block  1
+call    3 never executed
+        1:   64-block  2
+        1:   65:    addParticipantController(&testl, "Ionescu", "", 200);
+        1:   65-block  0
+call    0 returned 1
+       1*:   66:    assert(size(&testl) == 0);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   66-block  0
+call    3 never executed
+        1:   66-block  1
+        1:   67:    addParticipantController(&testl, "Ionescu", "Paula", 200);
+        1:   67-block  0
+call    0 returned 1
+       1*:   68:    assert(size(&testl) == 0);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   68-block  0
+call    3 never executed
+        1:   68-block  1
+        1:   69:    addParticipantController(&testl, "Ionescu", "Paula", 50);
+        1:   69-block  0
+call    0 returned 1
+       1*:   70:    assert(size(&testl) == 1);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   70-block  0
+call    3 never executed
+        1:   70-block  1
+        1:   71:    addParticipantController(&testl, "Dumitrescu", "Alex", 80);
+        1:   71-block  0
+call    0 returned 1
+        1:   72:    addParticipantController(&testl, "Stan", "Briana", 90);
+call    0 returned 1
+        1:   73:    addParticipantController(&testl, "Iliescu", "George", 20);
+call    0 returned 1
+        1:   74:    addParticipantController(&testl, "Barbu", "Ionela", 40);
+call    0 returned 1
+       1*:   75:    assert(size(&testl) == 5);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   75-block  0
+call    3 never executed
+        1:   75-block  1
+        -:   76:
+        1:   77:    updateParticipantController(&testl, "Ionescu", "Paula", 90);
+        1:   77-block  0
+call    0 returned 1
+        1:   78:    Participant p = getMyElement(&testl, 0);
+call    0 returned 1
+       1*:   79:    assert(strcmp(p.lastName, "Ionescu") == 0);
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   79-block  0
+call    2 never executed
+        1:   79-block  1
+       1*:   80:    assert(p.score == 90);
+        1:   80-block  0
+branch  0 taken 0 (fallthrough)
+branch  1 taken 1
+    %%%%%:   80-block  1
+call    2 never executed
+        1:   80-block  2
+        -:   81:
+        1:   82:    MyList l2 = filterScore(&testl, 50);
+        1:   82-block  0
+call    0 returned 1
+       1*:   83:    assert(size(&l2) == 2);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   83-block  0
+call    3 never executed
+        1:   83-block  1
+        1:   84:    destroyMyList(&l2);
+        1:   84-block  0
+call    0 returned 1
+        -:   85:
+        1:   86:    MyList l3 = filterFirstLetter(&testl, "I");
+call    0 returned 1
+       1*:   87:    assert(size(&l3) == 2);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   87-block  0
+call    3 never executed
+        1:   87-block  1
+        1:   88:    destroyMyList(&l3);
+        1:   88-block  0
+call    0 returned 1
+        -:   89:
+        1:   90:    deleteParticipantController(&testl, 4);
+call    0 returned 1
+       1*:   91:    assert(size(&testl) == 4);
+call    0 returned 1
+branch  1 taken 0 (fallthrough)
+branch  2 taken 1
+    %%%%%:   91-block  0
+call    3 never executed
+        1:   91-block  1
+        -:   92:
+        1:   93:    destroyMyList(&testl);
+        1:   93-block  0
+call    0 returned 1
+        1:   94:}
+        -:   95:
+function run_tests called 1 returned 100% blocks executed 100%
+        1:   96:void run_tests() {
+        1:   97:    testCreateParticipant();
+        1:   97-block  0
+call    0 returned 1
+        -:   98:
+        1:   99:    testCreateList();
+call    0 returned 1
+        1:  100:    testIterateList();
+call    0 returned 1
+        -:  101:
+        1:  102:    testController();
+call    0 returned 1
+        1:  103:    printf("All tests passed!\n");
+call    0 returned 1
+        1:  104:}

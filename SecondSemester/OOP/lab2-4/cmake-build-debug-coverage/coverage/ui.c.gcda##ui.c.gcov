@@ -1,0 +1,377 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/lab2-4/ui.c
+        -:    0:Graph:C:\Users\popla\CLionProjects\lab2-4\cmake-build-debug-coverage\CMakeFiles\lab2_4.dir\ui.c.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\lab2-4\cmake-build-debug-coverage\CMakeFiles\lab2_4.dir\ui.c.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 12-Mar-25.
+        -:    3://
+        -:    4:
+        -:    5:#include "ui.h"
+        -:    6:#include <stdio.h>
+        -:    7:#include <string.h>
+        -:    8:#include "MyList.h"
+        -:    9:
+function printMenu called 1 returned 100% blocks executed 100%
+        1:   10:void printMenu() {
+        1:   11:    printf("Programing contest Main Menu.\n");
+        1:   11-block  0
+call    0 returned 1
+        1:   12:    printf("1. Add participant\n");
+call    0 returned 1
+        1:   13:    printf("2. Update participant\n");
+call    0 returned 1
+        1:   14:    printf("3. Delete participant\n");
+call    0 returned 1
+        1:   15:    printf("4. Filter participants\n");
+call    0 returned 1
+        1:   16:    printf("5. Sort participants\n");
+call    0 returned 1
+        1:   17:    printf("6. Show all participants\n");
+call    0 returned 1
+        1:   18:    printf("7. Exit\n");
+call    0 returned 1
+        1:   19:}
+        -:   20:
+function filterMenu called 0 returned 0% blocks executed 0%
+    #####:   21:void filterMenu() {
+    #####:   22:    printf("Filter participants.\n");
+    %%%%%:   22-block  0
+call    0 never executed
+    #####:   23:    printf("1. Score under a value\n");
+call    0 never executed
+    #####:   24:    printf("2. Lastname starting with a letter\n");
+call    0 never executed
+    #####:   25:}
+        -:   26:
+function sortMenu called 0 returned 0% blocks executed 0%
+    #####:   27:void sortMenu() {
+    #####:   28:    printf("Sort participants.\n");
+    %%%%%:   28-block  0
+call    0 never executed
+    #####:   29:    printf("1. Ascending names\n");
+call    0 never executed
+    #####:   30:    printf("2. Descending names\n");
+call    0 never executed
+    #####:   31:    printf("3. Ascending score\n");
+call    0 never executed
+    #####:   32:    printf("4. Descending score\n");
+call    0 never executed
+    #####:   33:}
+        -:   34:
+function show called 0 returned 0% blocks executed 0%
+    #####:   35:void show(MyList* participants) {
+    #####:   36:    if (size(participants) == 0) printf("No participants\n");
+    %%%%%:   36-block  0
+call    0 never executed
+branch  1 never executed (fallthrough)
+branch  2 never executed
+    %%%%%:   36-block  1
+call    3 never executed
+    #####:   37:    for (int i=0; i<size(participants); i++) {
+    %%%%%:   37-block  0
+    %%%%%:   37-block  1
+call    0 never executed
+branch  1 never executed
+branch  2 never executed (fallthrough)
+    #####:   38:        Participant p = getMyElement(participants, i);
+    %%%%%:   38-block  0
+call    0 never executed
+    #####:   39:        printf("%d. Name: %s %s | Score: %d\n",i+1,p.lastName, p.firstName, p.score);
+call    0 never executed
+        -:   40:    }
+    #####:   41:}
+        -:   42:
+function addParticipantUI called 0 returned 0% blocks executed 0%
+    #####:   43:void addParticipantUI(MyList* participants) {
+        -:   44:    int score;
+        -:   45:    char lastName[30], firstName[30];
+    #####:   46:    getchar();
+    %%%%%:   46-block  0
+call    0 never executed
+    #####:   47:    printf("Enter last name: ");
+call    0 never executed
+    #####:   48:    fgets(lastName, 30, stdin);
+call    0 never executed
+call    1 never executed
+    #####:   49:    printf("Enter first name: ");
+call    0 never executed
+    #####:   50:    fgets(firstName, 30, stdin);
+call    0 never executed
+call    1 never executed
+    #####:   51:    lastName[strcspn(lastName, "\n")] = 0;
+    #####:   52:    firstName[strcspn(firstName, "\n")] = 0;
+        -:   53:
+    #####:   54:    printf("Enter score: ");
+call    0 never executed
+    #####:   55:    scanf_s("%d", &score);
+call    0 never executed
+    #####:   56:    getchar();
+call    0 never executed
+        -:   57:
+    #####:   58:    int errorCode = addParticipantController(participants, lastName, firstName, score);
+call    0 never executed
+    #####:   59:    if (errorCode != 0) printf("Error while adding participant\n");
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    %%%%%:   59-block  0
+call    2 never executed
+    #####:   60:    else printf("Successfully added Participant\n");
+    %%%%%:   60-block  0
+call    0 never executed
+    #####:   61:}
+        -:   62:
+function addDefault called 1 returned 100% blocks executed 100%
+        1:   63:void addDefault(MyList* participants) {
+        1:   64:    addParticipantController(participants,"Ionescu", "Diana", 100);
+        1:   64-block  0
+call    0 returned 1
+        1:   65:    addParticipantController(participants, "Dumitrescu", "Alex", 80);
+call    0 returned 1
+        1:   66:    addParticipantController(participants, "Stan", "Briana", 90);
+call    0 returned 1
+        1:   67:    addParticipantController(participants, "Iliescu", "George", 20);
+call    0 returned 1
+        1:   68:    addParticipantController(participants, "Barbu", "Ionela", 40);
+call    0 returned 1
+        1:   69:    printf("\n ");
+call    0 returned 1
+        1:   70:}
+        -:   71:
+function updateParticipantUI called 0 returned 0% blocks executed 0%
+    #####:   72:void updateParticipantUI(MyList *participants) {
+        -:   73:    int score;
+        -:   74:    char lastName[30], firstName[30];
+    #####:   75:    getchar();
+    %%%%%:   75-block  0
+call    0 never executed
+    #####:   76:    printf("Enter last name: ");
+call    0 never executed
+    #####:   77:    fgets(lastName, 30, stdin);
+call    0 never executed
+call    1 never executed
+    #####:   78:    lastName[strcspn(lastName, "\n")] = 0;
+    #####:   79:    printf("Enter first name: ");
+call    0 never executed
+    #####:   80:    fgets(firstName, 30, stdin);
+call    0 never executed
+call    1 never executed
+    #####:   81:    firstName[strcspn(firstName, "\n")] = 0;
+        -:   82:
+    #####:   83:    printf("Enter score: ");
+call    0 never executed
+    #####:   84:    scanf_s("%d", &score);
+call    0 never executed
+    #####:   85:    getchar();
+call    0 never executed
+        -:   86:
+    #####:   87:    int errorCode = updateParticipantController(participants, lastName, firstName, score);
+call    0 never executed
+    #####:   88:    if (errorCode != 0) printf("Error while modifing participant\n");
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    %%%%%:   88-block  0
+call    2 never executed
+    #####:   89:    else printf("Successfully modified Participant\n");
+    %%%%%:   89-block  0
+call    0 never executed
+    #####:   90:}
+        -:   91:
+function deleteParticipantUI called 0 returned 0% blocks executed 0%
+    #####:   92:void deleteParticipantUI(MyList *participants) {
+        -:   93:    int poz;
+    #####:   94:    printf("Enter position to be deleted: ");
+    %%%%%:   94-block  0
+call    0 never executed
+    #####:   95:    scanf_s("%d", &poz);
+call    0 never executed
+        -:   96:
+    #####:   97:    int errorCode = deleteParticipantController(participants, poz-1);
+call    0 never executed
+    #####:   98:    if (errorCode != 0) printf("Error while deleting participant\n");
+branch  0 never executed (fallthrough)
+branch  1 never executed
+    %%%%%:   98-block  0
+call    2 never executed
+    #####:   99:    else printf("Successfully deleted Participant\n");
+    %%%%%:   99-block  0
+call    0 never executed
+    #####:  100:}
+        -:  101:
+function filterScoreUI called 0 returned 0% blocks executed 0%
+    #####:  102:void filterScoreUI(MyList* participants) {
+        -:  103:    int score;
+    #####:  104:    printf("Enter maximum score: ");
+    %%%%%:  104-block  0
+call    0 never executed
+    #####:  105:    scanf_s("%d", &score);
+call    0 never executed
+    #####:  106:    MyList filteredList = filterScore(participants, score);
+call    0 never executed
+    #####:  107:    show(&filteredList);
+call    0 never executed
+    #####:  108:}
+        -:  109:
+function filterFirstLetterUI called 0 returned 0% blocks executed 0%
+    #####:  110:void filterFirstLetterUI(MyList * participants) {
+        -:  111:    char firstLetter[2];
+    #####:  112:    getchar();
+    %%%%%:  112-block  0
+call    0 never executed
+    #####:  113:    printf("Enter first letter: ");
+call    0 never executed
+    #####:  114:    fgets(firstLetter, 2, stdin);
+call    0 never executed
+call    1 never executed
+    #####:  115:    firstLetter[strcspn(firstLetter, "\n")] = 0;
+    #####:  116:    MyList filteredList = filterFirstLetter(participants, firstLetter);
+call    0 never executed
+    #####:  117:    show(&filteredList);
+call    0 never executed
+    #####:  118:}
+        -:  119:
+        -:  120:
+function run called 1 returned 0% blocks executed 17%
+        1:  121:void run() {
+        1:  122:    run_tests();
+        1:  122-block  0
+call    0 returned 1
+        1:  123:    bool is_running = true;
+        1:  124:    MyList participants = createEmpty();
+call    0 returned 1
+        1:  125:    addDefault(&participants);
+call    0 returned 1
+        1:  126:    while (is_running) {
+        1:  126-block  0
+branch  0 taken 1
+branch  1 taken 0 (fallthrough)
+        1:  127:        printMenu();
+        1:  127-block  0
+call    0 returned 1
+        1:  128:        printf(">>>");
+call    0 returned 1
+        -:  129:        short int cmd;
+        1:  130:        scanf_s("%hd", &cmd);
+call    0 returned 0
+    #####:  131:        switch (cmd) {
+branch  0 never executed
+branch  1 never executed
+branch  2 never executed
+branch  3 never executed
+branch  4 never executed
+branch  5 never executed
+branch  6 never executed
+branch  7 never executed
+    #####:  132:            case 1:
+    #####:  133:                printf("Add participant\n");
+    %%%%%:  133-block  0
+call    0 never executed
+    #####:  134:                addParticipantUI(&participants);
+call    0 never executed
+    #####:  135:                break;
+    #####:  136:            case 2:
+    #####:  137:                printf("Update participant\n");
+    %%%%%:  137-block  0
+call    0 never executed
+    #####:  138:                updateParticipantUI(&participants);
+call    0 never executed
+    #####:  139:                break;
+    #####:  140:            case 3:
+    #####:  141:                printf("Delete participant\n");
+    %%%%%:  141-block  0
+call    0 never executed
+    #####:  142:                deleteParticipantUI(&participants);
+call    0 never executed
+    #####:  143:                break;
+    #####:  144:            case 4:
+    #####:  145:                filterMenu();
+    %%%%%:  145-block  0
+call    0 never executed
+        -:  146:                short int option1;
+    #####:  147:                printf(">>> ");
+call    0 never executed
+    #####:  148:                scanf_s("%hd", &option1);
+call    0 never executed
+    #####:  149:                switch (option1) {
+branch  0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  150:                    case 1:
+    #####:  151:                        printf("Filter after score\n");
+    %%%%%:  151-block  0
+call    0 never executed
+    #####:  152:                        filterScoreUI(&participants);
+call    0 never executed
+    #####:  153:                        break;
+    #####:  154:                    case 2:
+    #####:  155:                        printf("Filter after first letter\n");
+    %%%%%:  155-block  0
+call    0 never executed
+    #####:  156:                        filterFirstLetterUI(&participants);
+call    0 never executed
+    #####:  157:                        break;
+    #####:  158:                    default:
+    #####:  159:                        break;
+    %%%%%:  159-block  0
+        -:  160:                }
+    #####:  161:                break;
+    %%%%%:  161-block  0
+    #####:  162:            case 5:
+    #####:  163:                sortMenu();
+    %%%%%:  163-block  0
+call    0 never executed
+        -:  164:                short int option2;
+    #####:  165:                printf(">>> ");
+call    0 never executed
+    #####:  166:                scanf_s("%hd", &option2);
+call    0 never executed
+    #####:  167:                switch (option2) {
+branch  0 never executed
+branch  1 never executed
+branch  2 never executed
+branch  3 never executed
+branch  4 never executed
+    #####:  168:                    case 1:
+    #####:  169:                        printf("sort1\n");
+    %%%%%:  169-block  0
+call    0 never executed
+    #####:  170:                        break;
+    #####:  171:                    case 2:
+    #####:  172:                        printf("sort2\n");
+    %%%%%:  172-block  0
+call    0 never executed
+    #####:  173:                        break;
+    #####:  174:                    case 3:
+    #####:  175:                        printf("sort3\n");
+    %%%%%:  175-block  0
+call    0 never executed
+    #####:  176:                        break;
+    #####:  177:                    case 4:
+    #####:  178:                        printf("sort4\n");
+    %%%%%:  178-block  0
+call    0 never executed
+    #####:  179:                        break;
+    #####:  180:                    default:
+    #####:  181:                        break;
+    %%%%%:  181-block  0
+        -:  182:                }
+    #####:  183:                break;
+    %%%%%:  183-block  0
+    #####:  184:            case 6:
+    #####:  185:                printf("List of participants: \n");
+    %%%%%:  185-block  0
+call    0 never executed
+    #####:  186:                show(&participants);
+call    0 never executed
+    #####:  187:                break;
+    #####:  188:            case 7:
+    #####:  189:                is_running = false;
+    #####:  190:                break;
+    %%%%%:  190-block  0
+    #####:  191:            default:
+    #####:  192:                printf("Invalid command\n");
+    %%%%%:  192-block  0
+call    0 never executed
+    #####:  193:                break;
+        -:  194:        }
+        -:  195:    }
+    #####:  196:}
