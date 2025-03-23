@@ -1,0 +1,94 @@
+.menu {
+	display: flex;
+	flex-direction: column;
+}
+
+* {
+	margin: 0;
+}
+
+.menu li{
+	list-style: none;
+	display: block;
+	height: 84px;
+}
+
+.img1 {
+	left: 0;
+	width: 84px;
+	background: url('social.png') 0 -84px;
+}
+
+.img2 {
+	left: 84px;
+	width: 84px;
+	background: url('social.png') -84px -84px;
+
+}
+
+.img3 {
+	left: 168px;
+	width: 84px;
+	background: url('social.png') -168px -84px;
+
+}
+
+.img4 {
+	left: 252px;
+	width: 84px;
+	background: url('social.png') -252px -84px;
+
+}
+
+.img5 {
+	left: 336px;
+	width: 84px;
+	background: url('social.png') -336px -84px;
+
+}
+
+.img6 {
+	left: 420px;
+	width: 84px;
+	background: url('social.png') -420px -84px;
+
+}
+
+.img7 {
+	left: 504px;
+	width: 84px;
+	background: url('social.png') -504px -84px;
+
+}
+
+.img8 {
+	left: 588px;
+	width: 84px;
+	background: url('social.png') -588px -84px;
+
+}
+
+.img9 {
+	left: 670px;
+	width: 84px;
+	background: url('social.png') -670px -84px;
+
+}
+
+.img10 {
+	left: 756px;
+	width: 84px;
+	background: url('social.png') -756px -84px;
+
+}
+
+.img11 {
+	left: 840px;
+	width: 84px;
+	background: url('social.png') -840px -84px;
+
+}
+
+.menu li:hover {
+	background-position-y: 0;
+}
