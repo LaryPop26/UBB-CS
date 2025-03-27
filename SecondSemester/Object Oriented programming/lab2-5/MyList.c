@@ -15,13 +15,13 @@ MyList* createEmpty(DestroyFct f) {
     return lst;
 }
 
-void destroyMyList(MyList* lst) {
+void destroyMyList(void* list) {
+    MyList* lst = (MyList*)list;
     for (int i = 0; i < lst->length; i++) {
         lst->destroy(lst->elems[i]);
     }
 
     free(lst->elems);
-
     lst->length = 0;
     free(lst);
 }

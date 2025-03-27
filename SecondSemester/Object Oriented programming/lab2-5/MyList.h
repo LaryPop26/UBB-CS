@@ -3,6 +3,7 @@
 //
 #ifndef MYLIST_H
 #define MYLIST_H
+#include "entity.h"
 
 typedef void* TElem;
 typedef void (*DestroyFct)(TElem);
@@ -25,7 +26,7 @@ MyList* createEmpty(DestroyFct f);
  * @param myList: list to be destroyed
  * post: free the memory used by list and elements
  */
-void destroyMyList(MyList* lst);
+void destroyMyList(void* lst);
 
 /*
  * Get an element from the list

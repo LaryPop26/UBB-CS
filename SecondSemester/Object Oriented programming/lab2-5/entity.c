@@ -20,12 +20,14 @@ Participant* createParticipant(char* lastName, char* firstName, int score) {
     return p;
 }
 
-void destroyParticipant(Participant* p) {
-    free(p->lastName);
-    free(p->firstName);
-    free(p);
+void destroyParticipant(void* p) {
+    Participant* pt = (Participant*) p;
+    free(pt->lastName);
+    free(pt->firstName);
+    free(pt);
 }
 
-Participant* copyParticipant(Participant* p) {
-    return createParticipant(p->lastName, p->firstName, p->score);
+void* copyParticipant(void* p) {
+    Participant* participant = (Participant*) p;
+    return createParticipant(participant->lastName, participant->firstName, participant->score);
 }

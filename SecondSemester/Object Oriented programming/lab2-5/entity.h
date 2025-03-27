@@ -24,13 +24,13 @@ Participant* createParticipant(char* lastName, char* firstName, int score);
  * Dealocate memory ocupied by pet
  * param: p - Participant to be deatroyed
  */
-void destroyParticipant(Participant* p);
+void destroyParticipant(void* p);
 
 /*
  * Creates a copy of a participant
  * @param p: Participant*, participant to be copied
  * @return a copy of participant p
  */
-Participant* copyParticipant(Participant* p);
+void* copyParticipant(void* p);
 
 #endif //ENTITY_H

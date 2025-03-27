@@ -102,14 +102,18 @@ MyList* filterFirstLetter(ManagerParticipants* contest, char* firstLetter) {
     return copyMyList(contest->lstParticipants, copyParticipant);
 }
 
-int cmpName(Participant* p1, Participant* p2) {
-    return strcmp(p1->lastName, p2->lastName);
+int cmpName(void* p1, void* p2) {
+    Participant *p11 = (Participant*)p1;
+    Participant *p22 = (Participant*)p2;
+    return strcmp(p11->lastName, p22->lastName);
 }
 
-int cmpScore(Participant* p1, Participant* p2) {
-    if (p1->score == p2->score)
+int cmpScore(void* p1, void* p2) {
+    Participant *p11 = (Participant*)p1;
+    Participant *p22 = (Participant*)p2;
+    if (p11->score == p22->score)
         return 0;
-    if (p1->score > p2->score)
+    if (p11->score > p22->score)
         return 1;
     return -1;
 }
