@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Sorting Tables</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+
+    h2 {
+      margin-top: 40px;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      cursor: pointer;
+    }
+
+    td:first-child {
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    td.header {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h2>V1</h2>
+<table id="tabelClasic">
+  <thead>
+    <tr>
+      <th onclick="sorteazaClasic(0)">Fruct</th>
+      <th onclick="sorteazaClasic(1)">Pret</th>
+      <th onclick="sorteazaClasic(2)">Cantitate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Mere</td><td>3</td><td>8</td></tr>
+    <tr><td>Pere</td><td>4</td><td>6</td></tr>
+    <tr><td>Nuci</td><td>50</td><td>20</td></tr>
+    <tr><td>Prune</td><td>4</td><td>10</td></tr>
+    <tr><td>Struguri</td><td>10</td><td>40</td></tr>
+  </tbody>
+</table>
+
+<h2> V2</h2>
+<table id="tabelVertical">
+  <tbody>
+    <tr>
+      <td onclick="sorteazaDupaNumeFruct()" class="header">Fructe</td>
+      <td class="header">Mere</td>
+      <td class="header">Pere</td>
+      <td class="header">Nuci</td>
+      <td class="header">Prune</td>
+      <td class="header">Struguri</td>
+    </tr>
+    <tr onclick="sorteazaDupaRand(1)"><td>Pret</td><td>3</td><td>4</td><td>50</td><td>4</td><td>10</td></tr>
+    <tr onclick="sorteazaDupaRand(2)"><td>Cantitate</td><td>8</td><td>6</td><td>20</td><td>10</td><td>40</td></tr>
+  </tbody>
+</table>
+
+<script>
+let ordineClasic = [true, true, true];
+
+function sorteazaClasic(colIndex) {
+  const tabel = document.getElementById("tabelClasic");
+  const tbody = tabel.tBodies[0];
+  const randuri = Array.from(tbody.rows);
+  const sens = ordineClasic[colIndex] = !ordineClasic[colIndex];
+
+  randuri.sort((a, b) => {
+    let valA = a.cells[colIndex].innerText;
+    let valB = b.cells[colIndex].innerText;
+
+    if (colIndex === 0) {
+      return sens ? valA.localeCompare(valB) : valB.localeCompare(valA);
+    } else {
+      return sens ? valA - valB : valB - valA;
+    }
+  });
+
+  tbody.innerHTML = "";
+  randuri.forEach(r => tbody.appendChild(r));
+}
+
+let ordineVertical = {
+  fructe: true,
+  1: true,
+  2: true
+};
+
+function getColoane() {
+  const tabel = document.getElementById("tabelVertical");
+  const randuri = Array.from(tabel.rows);
+  const capFructe = randuri[0].cells;
+
+  const coloane = [];
+  for (let col = 1; col < capFructe.length; col++) {
+    coloane.push({
+      fruct: capFructe[col].innerText,
+      pret: randuri[1].cells[col].innerText,
+      cant: randuri[2].cells[col].innerText,
+      colIndex: col
+    });
+  }
+
+  return { coloane, capFructe, randuri };
+}
+
+function sorteazaDupaRand(indexRand) {
+  const { coloane, capFructe, randuri } = getColoane();
+  const sens = ordineVertical[indexRand] = !ordineVertical[indexRand];
+
+  coloane.sort((a, b) => {
+    const valA = parseFloat(randuri[indexRand].cells[a.colIndex].innerText);
+    const valB = parseFloat(randuri[indexRand].cells[b.colIndex].innerText);
+    return sens ? valA - valB : valB - valA;
+  });
+
+  actualizeazaTabel(coloane, capFructe, randuri);
+}
+
+function sorteazaDupaNumeFruct() {
+  const { coloane, capFructe, randuri } = getColoane();
+  const sens = ordineVertical['fructe'] = !ordineVertical['fructe'];
+
+  coloane.sort((a, b) => {
+    return sens
+      ? a.fruct.localeCompare(b.fruct)
+      : b.fruct.localeCompare(a.fruct);
+  });
+
+  actualizeazaTabel(coloane, capFructe, randuri);
+}
+
+function actualizeazaTabel(coloane, capFructe, randuri) {
+  for (let i = 0; i < coloane.length; i++) {
+    capFructe[i + 1].innerText = coloane[i].fruct;
+    randuri[1].cells[i + 1].innerText = coloane[i].pret;
+    randuri[2].cells[i + 1].innerText = coloane[i].cant;
+  }
+}
+</script>
+
+</body>
+</html>

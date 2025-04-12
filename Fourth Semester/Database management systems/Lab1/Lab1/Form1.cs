@@ -51,7 +51,7 @@ namespace Lab1
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to exit?", "Exit Confirmation", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                Application.Exit(); // Închide aplicația
+                Application.Exit();
             }
         }
 
@@ -111,65 +111,6 @@ namespace Lab1
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
-
-
-        private void dataGridViewChildViewUpdate()
-        {
-
-
-            dataGridViewChild.ClearSelection();
-            Debug.WriteLine(bsChild.Position);
-
-            if (dataGridViewChild.Rows.Count > 0 && bsChild.Position >= 0 && bsChild.Position < dataGridViewChild.Rows.Count)
-            {
-                dataGridViewChild.Rows[bsChild.Position].Selected = true;
-            }
-            else
-            {
-                MessageBox.Show("No rows available in the child table!");
-            }
-
-            records();
-        }
-
-
-        private void records()
-        {
-            labelRecords.Text = "Record " + (bsChild.Position + 1) + " of " + bsChild.Count;
-        }
-
-
-        private void buttonFirst_Click(object sender, EventArgs e)
-        {
-            bsChild.MoveFirst();
-            dataGridViewChildViewUpdate();
-            records();
-        }
-
-
-        private void buttonLast_Click(object sender, EventArgs e)
-        {
-            bsChild.MoveLast();
-            dataGridViewChildViewUpdate();
-            records();
-        }
-
-
-        private void buttonPrevious_Click(object sender, EventArgs e)
-        {
-            bsChild.MovePrevious();
-            dataGridViewChildViewUpdate();
-            records();
-        }
-
-
-        private void buttonNext_Click(object sender, EventArgs e)
-        {
-            bsChild.MoveNext();
-            dataGridViewChildViewUpdate();
-            records();
-        }
-
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
@@ -350,5 +291,63 @@ namespace Lab1
 
             dataGridViewChild.ClearSelection();
         }
+
+        private void dataGridViewChildViewUpdate()
+        {
+
+
+            dataGridViewChild.ClearSelection();
+            Debug.WriteLine(bsChild.Position);
+
+            if (dataGridViewChild.Rows.Count > 0 && bsChild.Position >= 0 && bsChild.Position < dataGridViewChild.Rows.Count)
+            {
+                dataGridViewChild.Rows[bsChild.Position].Selected = true;
+            }
+            else
+            {
+                MessageBox.Show("No rows available in the child table!");
+            }
+
+            records();
+        }
+
+
+        private void records()
+        {
+            labelRecords.Text = "Record " + (bsChild.Position + 1) + " of " + bsChild.Count;
+        }
+
+
+        private void buttonFirst_Click(object sender, EventArgs e)
+        {
+            bsChild.MoveFirst();
+            dataGridViewChildViewUpdate();
+            records();
+        }
+
+
+        private void buttonLast_Click(object sender, EventArgs e)
+        {
+            bsChild.MoveLast();
+            dataGridViewChildViewUpdate();
+            records();
+        }
+
+
+        private void buttonPrevious_Click(object sender, EventArgs e)
+        {
+            bsChild.MovePrevious();
+            dataGridViewChildViewUpdate();
+            records();
+        }
+
+
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
+            bsChild.MoveNext();
+            dataGridViewChildViewUpdate();
+            records();
+        }
+
     }
 }

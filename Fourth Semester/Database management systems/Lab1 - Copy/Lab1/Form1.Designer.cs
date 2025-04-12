@@ -34,22 +34,13 @@
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
-            this.txtNumePr = new System.Windows.Forms.TextBox();
-            this.txtCantitate = new System.Windows.Forms.TextBox();
-            this.txtPret = new System.Windows.Forms.TextBox();
-            this.numepr = new System.Windows.Forms.Label();
-            this.pret = new System.Windows.Forms.Label();
-            this.cantitate = new System.Windows.Forms.Label();
-            this.codD = new System.Windows.Forms.Label();
             this.buttonFirst = new System.Windows.Forms.Button();
             this.buttonLast = new System.Windows.Forms.Button();
             this.buttonPrevious = new System.Windows.Forms.Button();
             this.buttonNext = new System.Windows.Forms.Button();
             this.labelRecords = new System.Windows.Forms.Label();
-            this.txtCodPr = new System.Windows.Forms.TextBox();
-            this.codpr = new System.Windows.Forms.Label();
-            this.comboBoxCodD = new System.Windows.Forms.ComboBox();
             this.buttonExit = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewParent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewChild)).BeginInit();
             this.SuspendLayout();
@@ -121,66 +112,6 @@
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
-            // txtNumePr
-            // 
-            this.txtNumePr.Location = new System.Drawing.Point(644, 382);
-            this.txtNumePr.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtNumePr.Name = "txtNumePr";
-            this.txtNumePr.Size = new System.Drawing.Size(160, 22);
-            this.txtNumePr.TabIndex = 6;
-            // 
-            // txtCantitate
-            // 
-            this.txtCantitate.Location = new System.Drawing.Point(644, 533);
-            this.txtCantitate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtCantitate.Name = "txtCantitate";
-            this.txtCantitate.Size = new System.Drawing.Size(160, 22);
-            this.txtCantitate.TabIndex = 7;
-            // 
-            // txtPret
-            // 
-            this.txtPret.Location = new System.Drawing.Point(644, 455);
-            this.txtPret.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtPret.Name = "txtPret";
-            this.txtPret.Size = new System.Drawing.Size(160, 22);
-            this.txtPret.TabIndex = 8;
-            // 
-            // numepr
-            // 
-            this.numepr.AutoSize = true;
-            this.numepr.Location = new System.Drawing.Point(641, 350);
-            this.numepr.Name = "numepr";
-            this.numepr.Size = new System.Drawing.Size(56, 16);
-            this.numepr.TabIndex = 10;
-            this.numepr.Text = "NumePr";
-            // 
-            // pret
-            // 
-            this.pret.AutoSize = true;
-            this.pret.Location = new System.Drawing.Point(644, 423);
-            this.pret.Name = "pret";
-            this.pret.Size = new System.Drawing.Size(31, 16);
-            this.pret.TabIndex = 11;
-            this.pret.Text = "Pret";
-            // 
-            // cantitate
-            // 
-            this.cantitate.AutoSize = true;
-            this.cantitate.Location = new System.Drawing.Point(641, 497);
-            this.cantitate.Name = "cantitate";
-            this.cantitate.Size = new System.Drawing.Size(59, 16);
-            this.cantitate.TabIndex = 12;
-            this.cantitate.Text = "Cantitate";
-            // 
-            // codD
-            // 
-            this.codD.AutoSize = true;
-            this.codD.Location = new System.Drawing.Point(644, 582);
-            this.codD.Name = "codD";
-            this.codD.Size = new System.Drawing.Size(42, 16);
-            this.codD.TabIndex = 13;
-            this.codD.Text = "CodD";
-            // 
             // buttonFirst
             // 
             this.buttonFirst.Location = new System.Drawing.Point(417, 14);
@@ -234,36 +165,10 @@
             this.labelRecords.TabIndex = 18;
             this.labelRecords.Text = "Records";
             // 
-            // txtCodPr
-            // 
-            this.txtCodPr.Location = new System.Drawing.Point(644, 311);
-            this.txtCodPr.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtCodPr.Name = "txtCodPr";
-            this.txtCodPr.Size = new System.Drawing.Size(160, 22);
-            this.txtCodPr.TabIndex = 19;
-            // 
-            // codpr
-            // 
-            this.codpr.AutoSize = true;
-            this.codpr.Location = new System.Drawing.Point(641, 282);
-            this.codpr.Name = "codpr";
-            this.codpr.Size = new System.Drawing.Size(45, 16);
-            this.codpr.TabIndex = 20;
-            this.codpr.Text = "CodPr";
-            // 
-            // comboBoxCodD
-            // 
-            this.comboBoxCodD.FormattingEnabled = true;
-            this.comboBoxCodD.Location = new System.Drawing.Point(644, 608);
-            this.comboBoxCodD.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.comboBoxCodD.Name = "comboBoxCodD";
-            this.comboBoxCodD.Size = new System.Drawing.Size(160, 24);
-            this.comboBoxCodD.TabIndex = 21;
-            // 
             // buttonExit
             // 
             this.buttonExit.Location = new System.Drawing.Point(137, 33);
-            this.buttonExit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonExit.Margin = new System.Windows.Forms.Padding(4);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(100, 28);
             this.buttonExit.TabIndex = 22;
@@ -271,27 +176,32 @@
             this.buttonExit.UseVisualStyleBackColor = true;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(653, 271);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(338, 362);
+            this.tableLayoutPanel1.TabIndex = 23;
+            
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(817, 649);
+            this.ClientSize = new System.Drawing.Size(1003, 645);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.buttonExit);
-            this.Controls.Add(this.comboBoxCodD);
-            this.Controls.Add(this.codpr);
-            this.Controls.Add(this.txtCodPr);
             this.Controls.Add(this.labelRecords);
             this.Controls.Add(this.buttonNext);
             this.Controls.Add(this.buttonPrevious);
             this.Controls.Add(this.buttonLast);
             this.Controls.Add(this.buttonFirst);
-            this.Controls.Add(this.codD);
-            this.Controls.Add(this.cantitate);
-            this.Controls.Add(this.pret);
-            this.Controls.Add(this.numepr);
-            this.Controls.Add(this.txtPret);
-            this.Controls.Add(this.txtCantitate);
-            this.Controls.Add(this.txtNumePr);
             this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.buttonAdd);
@@ -316,22 +226,13 @@
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.Button buttonDelete;
-        private System.Windows.Forms.TextBox txtNumePr;
-        private System.Windows.Forms.TextBox txtCantitate;
-        private System.Windows.Forms.TextBox txtPret;
-        private System.Windows.Forms.Label numepr;
-        private System.Windows.Forms.Label pret;
-        private System.Windows.Forms.Label cantitate;
-        private System.Windows.Forms.Label codD;
         private System.Windows.Forms.Button buttonFirst;
         private System.Windows.Forms.Button buttonLast;
         private System.Windows.Forms.Button buttonPrevious;
         private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.Label labelRecords;
-        private System.Windows.Forms.TextBox txtCodPr;
-        private System.Windows.Forms.Label codpr;
-        private System.Windows.Forms.ComboBox comboBoxCodD;
         private System.Windows.Forms.Button buttonExit;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
 

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Puzzle</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    td {
+      width: 50px;
+      height: 50px;
+      border: 1px solid #333;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .empty {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+<table id="puzzle"></table>
+
+<script>
+const n = 4;
+let grid = [];
+let emptyRow = 0, emptyCol = 0;
+
+// Generare puzzle aleator
+function generatePuzzle() {
+  const numbers = Array.from({length: n * n}, (_, i) => i);
+  shuffleArray(numbers);
+
+  grid = [];
+  let idx = 0;
+  for (let i = 0; i < n; i++) {
+    grid[i] = [];
+    for (let j = 0; j < n; j++) {
+      grid[i][j] = numbers[idx];
+      if (numbers[idx] === 0) {
+        emptyRow = i;
+        emptyCol = j;
+      }
+      idx++;
+    }
+  }
+}
+
+// Shuffle (Fisher–Yates)
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+// Redesenare tabel
+function drawPuzzle() {
+  const table = document.getElementById("puzzle");
+  table.innerHTML = "";
+  for (let i = 0; i < n; i++) {
+    const row = document.createElement("tr");
+    for (let j = 0; j < n; j++) {
+      const cell = document.createElement("td");
+      const val = grid[i][j];
+      cell.textContent = val !== 0 ? val : "";
+      if (val === 0) cell.classList.add("empty");
+      row.appendChild(cell);
+    }
+    table.appendChild(row);
+  }
+}
+
+// Mișcare în funcție de săgeată
+function move(dx, dy) {
+  const newRow = emptyRow + dx;
+  const newCol = emptyCol + dy;
+
+  if (newRow >= 0 && newRow < n && newCol >= 0 && newCol < n) {
+    [grid[emptyRow][emptyCol], grid[newRow][newCol]] = [grid[newRow][newCol], grid[emptyRow][emptyCol]];
+    emptyRow = newRow;
+    emptyCol = newCol;
+    drawPuzzle();
+  }
+}
+
+// Control cu taste
+document.addEventListener("keydown", (e) => {
+  switch (e.key) {
+    case "ArrowUp": move(1, 0); break;
+    case "ArrowDown": move(-1, 0); break;
+    case "ArrowLeft": move(0, 1); break;
+    case "ArrowRight": move(0, -1); break;
+  }
+});
+
+generatePuzzle();
+drawPuzzle();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task 01</title>
+</head>
+<body>
+	<h4>L1</h4>
+    <select id="#first_select" size="10">
+        <option value = "Strawberry"> Strawberry </option>
+        <option value = "Apple"> Apple </option>
+        <option value = "Pear"> Pear </option>
+        <option value = "Peach"> Peach </option>
+        <option value = "Blueberry"> Blueberry </option>
+    </select>
+    <h4>L2</h4>
+    <select id = "#second_select" size = "10">
+        <option value = "Tomato"> Tomato </option>
+        <option value = "Garlic"> Garlic </option>
+        <option value = "Carrot"> Carrot </option>
+        <option value = "Potato"> Potato </option>
+        <option value = "Beetroot"> Beetroot </option>
+    </select>
+
+    <script>
+        document.getElementById("#first_select").addEventListener(
+            "dblclick", function () {
+                let e = document.getElementById("#first_select");
+                const elem = e.options[e.selectedIndex];
+                let newOption = new Option(elem.value, elem.text);
+                elem.remove();
+                document.getElementById("#second_select").add(newOption)
+            }
+        )
+
+        document.getElementById("#second_select").addEventListener(
+            "dblclick", function () {
+                let e = document.getElementById("#second_select");
+                const elem = e.options[e.selectedIndex];
+                let newOption = new Option(elem.value, elem.text);
+                elem.remove();
+                document.getElementById("#first_select").add(newOption)
+            }
+        )
+    </script>
+</body>
+</html>

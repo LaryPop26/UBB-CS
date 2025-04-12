@@ -1,6 +1,7 @@
 html, body{
 	height: 100%;
 	width: 100%;
+	overflow: hidden;
 }
 
 .header {
@@ -10,7 +11,7 @@ html, body{
 
 .footer {
 	background-color: pink;
-	height: 20%;
+	height: 18%;
 }
 
 * {

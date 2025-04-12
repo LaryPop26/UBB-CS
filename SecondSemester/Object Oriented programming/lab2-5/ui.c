@@ -222,5 +222,6 @@ void run() {
 }
 
 int main(void) {
+    int x;
     run();
 }

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <style>
+        #board {
+            display: grid;
+            grid-template-columns: repeat(5, 100px);
+            grid-gap: 10px;
+            width: max-content;
+            margin: 20px auto;
+        }
+        .card {
+            width: 100px;
+            height: 100px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .revealed img {
+            display: block;
+        }
+        .revealed.text {
+            background-color: lightgreen;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align:center;">Memory Game</h2>
+    <div id="board"></div>
+    <p id="winMessage" style="text-align:center; font-weight:bold;"></p>
+
+    <script>
+        const useImages = true; // Setează `true` pentru imagini, `false` pentru numere
+
+        const imageUrls = [
+            'https://picsum.photos/100/100?random=1',
+    		'https://picsum.photos/100/100?random=2',
+    		'https://picsum.photos/100/100?random=3',
+    		'https://picsum.photos/100/100?random=4',
+  		  	'https://picsum.photos/100/100?random=5',
+    		'https://picsum.photos/100/100?random=6',
+    		'https://picsum.photos/100/100?random=7',
+   		 	'https://picsum.photos/100/100?random=8',
+   		 	'https://picsum.photos/100/100?random=9',
+   			'https://picsum.photos/100/100?random=10',
+        ];
+
+        let values = [];
+        let clicked = [];
+        let idS = [];
+        let noFlipped = 0;
+
+        Array.prototype.shuffle = function() {
+            for (let i = this.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [this[i], this[j]] = [this[j], this[i]];
+            }
+        };
+
+        function startNewGame() {
+            noFlipped = 0;
+            clicked = [];
+            idS = [];
+
+            if (useImages) {
+                values = imageUrls.concat(imageUrls); // Dublăm imaginile pentru perechi
+            } else {
+                values = [];
+                for (let i = 0; i < 10; i++) {
+                    values.push(i.toString(), i.toString()); // Adăugăm perechi de numere
+                }
+            }
+
+            values.shuffle();
+
+            let output = '';
+            for (let i = 0; i < values.length; i++) {
+                if (useImages) {
+                    output += `
+                        <div id="card_${i}" class="card" onclick="flip(this, '${values[i]}')">
+                            <img src="${values[i]}" alt="img${i}">
+                        </div>
+                    `;
+                } else {
+                    output += `
+                        <div id="card_${i}" class="card text" onclick="flip(this, '${values[i]}')">
+                            <span class="hidden">${values[i]}</span>
+                        </div>
+                    `;
+                }
+            }
+            document.getElementById('board').innerHTML = output;
+            document.getElementById('winMessage').innerText = '';
+        }
+
+        function flip(card, value) {
+            if (clicked.length < 2 && !card.classList.contains('revealed')) {
+                if (useImages) {
+                    card.classList.add('revealed');
+                } else {
+                    card.querySelector('.hidden').style.display = 'block'; // Afișează numărul
+                    card.classList.add('revealed', 'text');
+                }
+
+                clicked.push(value);
+                idS.push(card.id);
+
+                if (clicked.length === 2) {
+                    if (clicked[0] === clicked[1]) {
+                        clicked = [];
+                        idS = [];
+                        noFlipped += 2;
+                        if (noFlipped === values.length) {
+                            document.getElementById('winMessage').innerText = 'Ai câștigat!';
+                        }
+                    } else {
+                        setTimeout(() => {
+                            for (let i = 0; i < idS.length; i++) {
+                                const cardToHide = document.getElementById(idS[i]);
+                                if (useImages) {
+                                    cardToHide.classList.remove('revealed');
+                                } else {
+                                    cardToHide.querySelector('.hidden').style.display = 'none'; // Ascunde numărul
+                                    cardToHide.classList.remove('revealed', 'text');
+                                }
+                            }
+                            clicked = [];
+                            idS = [];
+                        }, 2000);
+                    }
+                }
+            }
+        }
+
+        window.onload = startNewGame;
+    </script>
+
+</body>
+</html>
