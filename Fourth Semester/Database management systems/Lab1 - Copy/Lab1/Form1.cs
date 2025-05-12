@@ -62,7 +62,7 @@ namespace Lab1
 
             textBoxes = new TextBox[columnNames.Length];
 
-            for (int i = 0; i < columnNames.Length; i++)
+            for (int i = 0; i < columnNames.Length-1; i++)
             {
                 string colName = columnNames[i];
 
@@ -163,36 +163,42 @@ namespace Lab1
             da.InsertCommand = new SqlCommand(insert, cs);
             string f_key = dataGridViewParent.SelectedRows[0].Cells[0].Value.ToString();
             da.InsertCommand.Parameters.Add("@id", SqlDbType.Int).Value = f_key;
-            
+
             string[] args = childArr.Split(',');
             string[] types = childColumnTypes.Split(',');
 
             try
             {
-                for (int i = 0; i < childNumberOfColumns-1; i++)
+                for (int i = 0; i < childNumberOfColumns - 1; i++)
                 {
-                    string arg = args[i].Trim(); 
+                    string arg = args[i].Trim();
                     string type = types[i].Trim();
 
                     AddParameterToCommand(da.InsertCommand, arg, type, textBoxes[i].Text);
                 }
-                
+
                 cs.Open();
                 da.InsertCommand.ExecuteNonQuery();
                 MessageBox.Show("Added successfully!");
 
+               
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
                 cs.Close();
+
                 dsChild.Clear();
                 da.Fill(dsChild);
 
                 bsChild.DataSource = dsChild.Tables[0];
                 dataGridViewChild.DataSource = bsChild;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
         }
+
 
         private void AddParameterToCommand(SqlCommand command, string paramName, string type, string value)
         {
@@ -234,22 +240,26 @@ namespace Lab1
                 MessageBox.Show("Please select a row from the child table!");
                 return;
             }
-           
             
             da.UpdateCommand = new SqlCommand(update, cs);
 
-            string p_key = dataGridViewChild.SelectedRows[0].Cells[0].Value.ToString();
-            if (!da.UpdateCommand.Parameters.Contains("@id"))
+            int cod;
+            if (dataGridViewChild.SelectedRows[0].Cells[0].Value == null ||
+                !int.TryParse(dataGridViewChild.SelectedRows[0].Cells[0].Value.ToString(), out cod))
             {
-                da.UpdateCommand.Parameters.Add("@id", SqlDbType.Int).Value = p_key;
+                MessageBox.Show("Invalid!");
+                return;
             }
+            da.UpdateCommand.Parameters.Add("@id", SqlDbType.Int).Value = cod;
+
+            
 
             string[] args = childArr.Split(',');
             string[] types = childColumnTypes.Split(',');
 
             try
             {
-                for (int i = 0; i < childNumberOfColumns; i++)
+                for (int i = 1; i < childNumberOfColumns-1; i++)
                 {
                     string arg = args[i].Trim();
                     string type = types[i].Trim();
@@ -261,21 +271,21 @@ namespace Lab1
                 da.UpdateCommand.ExecuteNonQuery();
                 MessageBox.Show("Updated successfully!");
 
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
                 cs.Close();
-
                 dsChild.Clear();
                 da.Fill(dsChild);
 
                 bsChild.DataSource = dsChild.Tables[0];
                 dataGridViewChild.DataSource = bsChild;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
-
-            
-
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
@@ -300,23 +310,29 @@ namespace Lab1
                 return;
             }
 
-            da.DeleteCommand = new SqlCommand(delete, cs);
-            da.DeleteCommand.Parameters.Add("@id", SqlDbType.Int).Value = cod;
+            try
+            {
+                da.DeleteCommand = new SqlCommand(delete, cs);
+                da.DeleteCommand.Parameters.Add("@id", SqlDbType.Int).Value = cod;
 
-            cs.Open();
-            da.DeleteCommand.ExecuteNonQuery();
-            MessageBox.Show("Deleted successfully!");
-            cs.Close();
+                cs.Open();
+                da.DeleteCommand.ExecuteNonQuery();
+                MessageBox.Show("Deleted successfully!");
+               
+            }
+            finally
+            {
+                cs.Close();
 
-            dsChild.Clear();
-            da.Fill(dsChild);
+                dsChild.Clear();
+                da.Fill(dsChild);
 
-            dataGridViewChild.ClearSelection();
+                dataGridViewChild.ClearSelection();
+            }
         }
 
         private void dataGridViewChildViewUpdate()
         {
-
 
             dataGridViewChild.ClearSelection();
             Debug.WriteLine(bsChild.Position);
@@ -339,38 +355,5 @@ namespace Lab1
             labelRecords.Text = "Record " + (bsChild.Position + 1) + " of " + bsChild.Count;
         }
 
-
-        private void buttonFirst_Click(object sender, EventArgs e)
-        {
-            bsChild.MoveFirst();
-            dataGridViewChildViewUpdate();
-            records();
-        }
-
-
-        private void buttonLast_Click(object sender, EventArgs e)
-        {
-            bsChild.MoveLast();
-            dataGridViewChildViewUpdate();
-            records();
-        }
-
-
-        private void buttonPrevious_Click(object sender, EventArgs e)
-        {
-            bsChild.MovePrevious();
-            dataGridViewChildViewUpdate();
-            records();
-        }
-
-
-        private void buttonNext_Click(object sender, EventArgs e)
-        {
-            bsChild.MoveNext();
-            dataGridViewChildViewUpdate();
-            records();
-        }
-
-       
     }
 }

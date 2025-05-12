@@ -34,10 +34,6 @@
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
-            this.buttonFirst = new System.Windows.Forms.Button();
-            this.buttonLast = new System.Windows.Forms.Button();
-            this.buttonPrevious = new System.Windows.Forms.Button();
-            this.buttonNext = new System.Windows.Forms.Button();
             this.labelRecords = new System.Windows.Forms.Label();
             this.buttonExit = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -112,50 +108,6 @@
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
-            // buttonFirst
-            // 
-            this.buttonFirst.Location = new System.Drawing.Point(417, 14);
-            this.buttonFirst.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.buttonFirst.Name = "buttonFirst";
-            this.buttonFirst.Size = new System.Drawing.Size(99, 30);
-            this.buttonFirst.TabIndex = 14;
-            this.buttonFirst.Text = "First";
-            this.buttonFirst.UseVisualStyleBackColor = true;
-            this.buttonFirst.Click += new System.EventHandler(this.buttonFirst_Click);
-            // 
-            // buttonLast
-            // 
-            this.buttonLast.Location = new System.Drawing.Point(521, 14);
-            this.buttonLast.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.buttonLast.Name = "buttonLast";
-            this.buttonLast.Size = new System.Drawing.Size(99, 30);
-            this.buttonLast.TabIndex = 15;
-            this.buttonLast.Text = "Last";
-            this.buttonLast.UseVisualStyleBackColor = true;
-            this.buttonLast.Click += new System.EventHandler(this.buttonLast_Click);
-            // 
-            // buttonPrevious
-            // 
-            this.buttonPrevious.Location = new System.Drawing.Point(417, 48);
-            this.buttonPrevious.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.buttonPrevious.Name = "buttonPrevious";
-            this.buttonPrevious.Size = new System.Drawing.Size(99, 30);
-            this.buttonPrevious.TabIndex = 16;
-            this.buttonPrevious.Text = "Previous";
-            this.buttonPrevious.UseVisualStyleBackColor = true;
-            this.buttonPrevious.Click += new System.EventHandler(this.buttonPrevious_Click);
-            // 
-            // buttonNext
-            // 
-            this.buttonNext.Location = new System.Drawing.Point(521, 48);
-            this.buttonNext.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.buttonNext.Name = "buttonNext";
-            this.buttonNext.Size = new System.Drawing.Size(99, 30);
-            this.buttonNext.TabIndex = 17;
-            this.buttonNext.Text = "Next";
-            this.buttonNext.UseVisualStyleBackColor = true;
-            this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
-            // 
             // labelRecords
             // 
             this.labelRecords.AutoSize = true;
@@ -188,7 +140,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(338, 362);
             this.tableLayoutPanel1.TabIndex = 23;
-            
             // 
             // Form1
             // 
@@ -198,10 +149,6 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.labelRecords);
-            this.Controls.Add(this.buttonNext);
-            this.Controls.Add(this.buttonPrevious);
-            this.Controls.Add(this.buttonLast);
-            this.Controls.Add(this.buttonFirst);
             this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.buttonAdd);
@@ -226,10 +173,6 @@
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.Button buttonDelete;
-        private System.Windows.Forms.Button buttonFirst;
-        private System.Windows.Forms.Button buttonLast;
-        private System.Windows.Forms.Button buttonPrevious;
-        private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.Label labelRecords;
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;

@@ -48,7 +48,7 @@
     <p id="winMessage" style="text-align:center; font-weight:bold;"></p>
 
     <script>
-        const useImages = true; // Setează `true` pentru imagini, `false` pentru numere
+        const useImages = false; //  `true` pentru imagini, `false` pentru numere
 
         const imageUrls = [
             'https://picsum.photos/100/100?random=1',
@@ -81,11 +81,11 @@
             idS = [];
 
             if (useImages) {
-                values = imageUrls.concat(imageUrls); // Dublăm imaginile pentru perechi
+                values = imageUrls.concat(imageUrls); 
             } else {
                 values = [];
                 for (let i = 0; i < 10; i++) {
-                    values.push(i.toString(), i.toString()); // Adăugăm perechi de numere
+                    values.push(i.toString(), i.toString());
                 }
             }
 

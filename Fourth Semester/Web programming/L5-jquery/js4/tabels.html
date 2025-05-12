@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Sorting Tables</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+
+    h2 {
+      margin-top: 40px;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      cursor: pointer;
+    }
+
+    td:first-child {
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    td.header {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h2>V1</h2>
+<table id="tabelClasic">
+  <thead>
+    <tr>
+      <th onclick="sorteazaClasic(0)">Fruct</th>
+      <th onclick="sorteazaClasic(1)">Pret</th>
+      <th onclick="sorteazaClasic(2)">Cantitate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Mere</td><td>3</td><td>8</td></tr>
+    <tr><td>Pere</td><td>4</td><td>6</td></tr>
+    <tr><td>Nuci</td><td>50</td><td>20</td></tr>
+    <tr><td>Prune</td><td>4</td><td>10</td></tr>
+    <tr><td>Struguri</td><td>10</td><td>40</td></tr>
+  </tbody>
+</table>
+
+<h2> V2</h2>
+<table id="tabelVertical">
+  <tbody>
+    <tr>
+      <td onclick="sorteazaDupaNumeFruct()" class="header">Fructe</td>
+      <td class="header">Mere</td>
+      <td class="header">Pere</td>
+      <td class="header">Nuci</td>
+      <td class="header">Prune</td>
+      <td class="header">Struguri</td>
+    </tr>
+    <tr onclick="sorteazaDupaRand(1)"><td>Pret</td><td>3</td><td>4</td><td>50</td><td>4</td><td>10</td></tr>
+    <tr onclick="sorteazaDupaRand(2)"><td>Cantitate</td><td>8</td><td>6</td><td>20</td><td>10</td><td>40</td></tr>
+  </tbody>
+</table>
+<script src="script.js" type="text/javascript"></script>    
+
+</body>
+</html>

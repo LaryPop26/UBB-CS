@@ -20,7 +20,6 @@ document.getElementById("submitBtn").addEventListener("click", () => {
 
 	let campuriInvalide = [];
 
-	// Validare nume
 	if (!name || !nameRegex.test(name)) {
 		campuriInvalide.push("nume");
 		nameInput.classList.add("invalid");
@@ -28,21 +27,19 @@ document.getElementById("submitBtn").addEventListener("click", () => {
 		nameInput.classList.add("valid");
 	}
 
-	// Validare data nașterii
 	let parsedBirthdate = null;
 	if (!birthdate || !birthdateRegex.test(birthdate)) {
-		campuriInvalide.push("data nașterii");
+		campuriInvalide.push("data nasterii");
 		birthdateInput.classList.add("invalid");
 	} else {
 		const parts = birthdate.split("-");
 		const day = parseInt(parts[0], 10);
-		const month = parseInt(parts[1], 10) - 1; // JS months are 0-based
+		const month = parseInt(parts[1], 10) - 1; 
 		const year = parseInt(parts[2], 10);
 		parsedBirthdate = new Date(year, month, day);
 		birthdateInput.classList.add("valid");
 	}
 
-	// Validare vârstă (inclusiv diferență cu data nașterii)
 	let ageValid = false;
 	if (!age || !ageRegex.test(age)) {
 		ageValid = false;
@@ -62,13 +59,12 @@ document.getElementById("submitBtn").addEventListener("click", () => {
 	}
 
 	if (!ageValid) {
-		campuriInvalide.push("vârstă");
+		campuriInvalide.push("varsta");
 		ageInput.classList.add("invalid");
 	} else {
 		ageInput.classList.add("valid");
 	}
 
-	// Validare email
 	if (!email || !emailRegex.test(email)) {
 		campuriInvalide.push("email");
 		emailInput.classList.add("invalid");
@@ -76,13 +72,12 @@ document.getElementById("submitBtn").addEventListener("click", () => {
 		emailInput.classList.add("valid");
 	}
 
-	// Afișăm mesajul final
 	const message = document.getElementById("message");
 	if (campuriInvalide.length === 0) {
 		message.textContent = "Datele sunt completate corect.";
 		message.style.color = "green";
 	} else {
-		message.textContent = "Câmpurile " + campuriInvalide.join(" și ") + " nu sunt completate corect.";
+		message.textContent = "Campurile " + campuriInvalide.join(" și ") + " nu sunt completate corect.";
 		message.style.color = "red";
 	}
 });

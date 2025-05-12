@@ -1,38 +1,9 @@
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-  <meta charset="UTF-8">
-  <title>Puzzle</title>
-  <style>
-    table {
-      border-collapse: collapse;
-      margin: 20px 0;
-    }
-    td {
-      width: 50px;
-      height: 50px;
-      border: 1px solid #333;
-      text-align: center;
-      vertical-align: middle;
-      font-size: 20px;
-      cursor: pointer;
-    }
-    .empty {
-      background-color: #ddd;
-    }
-  </style>
-</head>
-<body>
-
-<table id="puzzle"></table>
-
-<script>
 const n = 4;
 let grid = [];
 let emptyRow = 0, emptyCol = 0;
 
 function generatePuzzle() {
-  const numbers = Array.from({length: n * n}, (_, i) => i);
+  const numbers = Array.from({ length: n * n }, (_, i) => i);
   shuffleArray(numbers);
 
   grid = [];
@@ -58,18 +29,16 @@ function shuffleArray(arr) {
 }
 
 function drawPuzzle() {
-  const table = document.getElementById("puzzle");
-  table.innerHTML = "";
+  const $table = $("#puzzle");
+  $table.empty();
   for (let i = 0; i < n; i++) {
-    const row = document.createElement("tr");
+    const $row = $("<tr></tr>");
     for (let j = 0; j < n; j++) {
-      const cell = document.createElement("td");
       const val = grid[i][j];
-      cell.textContent = val !== 0 ? val : "";
-      if (val === 0) cell.classList.add("empty");
-      row.appendChild(cell);
+      const $cell = $("<td></td>").text(val !== 0 ? val : "").addClass(val === 0 ? "empty" : "");
+      $row.append($cell);
     }
-    table.appendChild(row);
+    $table.append($row);
   }
 }
 
@@ -85,7 +54,7 @@ function move(dx, dy) {
   }
 }
 
-document.addEventListener("keydown", (e) => {
+$(document).keydown((e) => {
   switch (e.key) {
     case "ArrowUp": move(1, 0); break;
     case "ArrowDown": move(-1, 0); break;
@@ -96,7 +65,3 @@ document.addEventListener("keydown", (e) => {
 
 generatePuzzle();
 drawPuzzle();
-</script>
-
-</body>
-</html>
