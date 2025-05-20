@@ -61,6 +61,68 @@ bool Multime::cauta(TElem elem) const {
 	return false;
 }
 
+// CF = Θ(1) - multimea e vida
+// CM = CD: Θ(n) - se parcurg toate elementele in orice caz
+int Multime::diferentaMaxMin() const {
+	if (vida()) {
+		return -1;
+	}
+
+	TElem minVal = NULL_TELEM;
+	TElem maxVal = NULL_TELEM;
+	bool prim = true;
+
+	for ( const auto& lista : tabela ) {
+		for (TElem e : lista) {
+			if (prim) {
+				minVal = e;
+				maxVal = e;
+				prim = false;
+			}
+			else {
+				if (e < minVal) {
+					minVal = e;
+				}
+				if (e>maxVal) {
+					maxVal = e;
+				}
+			}
+		}
+	}
+	return maxVal - minVal;
+}
+
+
+/*
+	Subalgoritm diferentaMaxMin(int rez)
+		// pre: Multime M
+
+		daca M.vida() atunci
+			rez <- -1
+
+		minVal <- NULL
+		maxVal <- NULL
+		prim <- true
+
+		Pentru fiecare lista L din M.tabela executa
+			Pentru fiecare e in L executa
+				Daca prim atunci
+					minVal <- e
+					maxVal <- e
+					prim <- false
+				altfel
+					Daca e < minVal atunci
+						minVal <- e
+					SfDaca
+					Daca e > maxVal atunci
+					SfDaca
+				SfDaca
+			SfPentru
+		SfPentru
+
+		rez <- maxVal - minVal
+ */
+
 // Teta(1)
 int Multime::dim() const {
 	/* de adaugat */
@@ -77,7 +139,6 @@ bool Multime::vida() const {
 Multime::~Multime() {
 	/* de adaugat */
 }
-
 
 
 IteratorMultime Multime::iterator() const {

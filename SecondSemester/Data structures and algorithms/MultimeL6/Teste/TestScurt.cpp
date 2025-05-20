@@ -33,3 +33,36 @@ void testAll() { //apelam fiecare functie sa vedem daca exista
 	assert(s == 19);
 
 }
+
+void test_diferentaMaxMin() {
+	Multime m;
+
+	// cazul multimii vide
+	assert(m.diferentaMaxMin() == -1);
+
+	// adăugăm elemente
+	m.adauga(10);
+	m.adauga(3);
+	m.adauga(7);
+	m.adauga(20);
+	m.adauga(-5);
+
+	// minim -5, maxim 20 => diferenta = 25
+	assert(m.diferentaMaxMin() == 25);
+
+	// adăugăm un element duplicat - nu trebuie să influențeze rezultatul
+	m.adauga(10);
+	assert(m.diferentaMaxMin() == 25);
+
+	// eliminăm elementul maxim (20)
+	m.sterge(20);
+	// noua valoare maxima este 10 => diferenta = 15
+	assert(m.diferentaMaxMin() == 15);
+
+	// eliminăm toate elementele
+	m.sterge(10);
+	m.sterge(3);
+	m.sterge(7);
+	m.sterge(-5);
+	assert(m.diferentaMaxMin() == -1); // din nou, mulțimea e vidă
+}

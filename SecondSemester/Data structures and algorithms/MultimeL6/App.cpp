@@ -7,7 +7,7 @@ int main() {
 
 	testAll();
 	testAllExtins();
-
+	test_diferentaMaxMin();
 	cout << "That's all!" << endl;
 
 }

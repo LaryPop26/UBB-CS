@@ -36,6 +36,10 @@ class Multime {
 		//verifica daca un element se afla in multime
 		bool cauta(TElem elem) const;
 
+		// returneaza diferenta dintre valoarea maxima si cea minima ( pp valori intregi)
+		// daca multimea e vida, se returneaza -1
+		int diferentaMaxMin() const;
+
 		//intoarce numarul de elemente din multime;
 		int dim() const;
 
