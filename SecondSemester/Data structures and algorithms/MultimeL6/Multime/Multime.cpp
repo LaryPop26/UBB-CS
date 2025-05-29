@@ -4,25 +4,26 @@
 #include <iostream>
 //Teta(1)
 Multime::Multime() {
-	/* de adaugat */
 	capacitate = 13;
-	tabela = std::vector<std::list<TElem>>(capacitate);
 	nrElem = 0;
+	tabela = new Nod*[capacitate];
+	for (int i = 0; i < capacitate; ++i) {
+		tabela[i] = nullptr;
+	}
 }
 
 // CF: Teta(1) - lista de pe pozitia hash-ului e goala
 // CD: Teta(n) - toate elem sunt in aceeasi lista
 // CM: Teta(1) - presupune o fct de dispersie buna
-bool Multime::adauga(TElem elem) {
-	/* de adaugat */
-	int pozitie = dispersie(elem);
-	for (TElem e : tabela[pozitie]) {
-		if (e == elem) {
+bool Multime::adauga(TElem e) {
+	int poz = dispersie(e);
+	Nod* curent = tabela[poz];
+	while (curent != nullptr) {
+		if (curent->valoare == e)
 			return false;
-		}
+		curent = curent->urm;
 	}
-
-	tabela[pozitie].push_back(elem);
+	tabela[poz] = new Nod(e, tabela[poz]);
 	nrElem++;
 	return true;
 }
@@ -31,16 +32,23 @@ bool Multime::adauga(TElem elem) {
 // CD: Θ(n) - când toate elementele sunt in aceeasi lista
 // CM: Θ(1) - presupunand o functie de dispersie buna
 
-bool Multime::sterge(TElem elem) {
-	/* de adaugat */
-	int pozitie = dispersie(elem);
-	auto &lista = tabela[pozitie];
-	for (auto it = lista.begin(); it != lista.end(); ++it) {
-		if (*it == elem) {
-			lista.erase(it);
+bool Multime::sterge(TElem e) {
+	int poz = dispersie(e);
+	Nod* curent = tabela[poz];
+	Nod* anterior = nullptr;
+
+	while (curent != nullptr) {
+		if (curent->valoare == e) {
+			if (anterior == nullptr)
+				tabela[poz] = curent->urm;
+			else
+				anterior->urm = curent->urm;
+			delete curent;
 			nrElem--;
 			return true;
 		}
+		anterior = curent;
+		curent = curent->urm;
 	}
 	return false;
 }
@@ -50,13 +58,13 @@ bool Multime::sterge(TElem elem) {
 // CD: Θ(n) - când toate elementele sunt în aceeași listă
 // CM: Θ(1) - presupunând o funcție de dispersie bună
 
-bool Multime::cauta(TElem elem) const {
-	/* de adaugat */
-	int pozitie = dispersie(elem);
-	for (TElem e : tabela[pozitie]) {
-		if (e == elem) {
+bool Multime::cauta(TElem e) const {
+	int poz = dispersie(e);
+	Nod* curent = tabela[poz];
+	while (curent != nullptr) {
+		if (curent->valoare == e)
 			return true;
-		}
+		curent = curent->urm;
 	}
 	return false;
 }
@@ -64,29 +72,20 @@ bool Multime::cauta(TElem elem) const {
 // CF = Θ(1) - multimea e vida
 // CM = CD: Θ(n) - se parcurg toate elementele in orice caz
 int Multime::diferentaMaxMin() const {
-	if (vida()) {
+	if (vida())
 		return -1;
-	}
 
-	TElem minVal = NULL_TELEM;
-	TElem maxVal = NULL_TELEM;
-	bool prim = true;
+	int minVal = NULL_TELEM;
+	int maxVal = NULL_TELEM;
 
-	for ( const auto& lista : tabela ) {
-		for (TElem e : lista) {
-			if (prim) {
-				minVal = e;
-				maxVal = e;
-				prim = false;
-			}
-			else {
-				if (e < minVal) {
-					minVal = e;
-				}
-				if (e>maxVal) {
-					maxVal = e;
-				}
-			}
+	for (int i = 0; i < capacitate; ++i) {
+		Nod* curent = tabela[i];
+		while (curent != nullptr) {
+			if (curent->valoare < minVal)
+				minVal = curent->valoare;
+			if (curent->valoare > maxVal)
+				maxVal = curent->valoare;
+			curent = curent->urm;
 		}
 	}
 	return maxVal - minVal;
@@ -138,6 +137,15 @@ bool Multime::vida() const {
 
 Multime::~Multime() {
 	/* de adaugat */
+	for (int i = 0; i < capacitate; ++i) {
+		Nod* curent = tabela[i];
+		while (curent != nullptr) {
+			Nod* deSters = curent;
+			curent = curent->urm;
+			delete deSters;
+		}
+	}
+	delete[] tabela;
 }
 
 

@@ -13,26 +13,25 @@ IteratorMultime::IteratorMultime(const Multime &m) : multime(m){
 // CM: Θ(1)
 
 void IteratorMultime::avanseazaLaUrmator() {
-	++itLista;
-	while (indexTabela < multime.capacitate && itLista == multime.tabela[indexTabela].end()) {
-		indexTabela++;
-		if (indexTabela < multime.capacitate) {
-			itLista = multime.tabela[indexTabela].begin();
-		}
+	if (curent != nullptr)
+		curent = curent->urm;
+
+	while (curent == nullptr && ++indexTabela < multime.capacitate) {
+		curent = multime.tabela[indexTabela];
 	}
 }
 
 // CF: Teta(1)- prima lista nu este vida
 // CD: Teta(m) - m este numarul de pozitii in tabela de dispersie
 void IteratorMultime::prim() {
-	/* de adaugat */
 	indexTabela = 0;
-	while (indexTabela < multime.capacitate && multime.tabela[indexTabela].empty()) {
+	while (indexTabela < multime.capacitate && multime.tabela[indexTabela] == nullptr) {
 		indexTabela++;
 	}
-
 	if (indexTabela < multime.capacitate) {
-		itLista = multime.tabela[indexTabela].begin();
+		curent = multime.tabela[indexTabela];
+	} else {
+		curent = nullptr;
 	}
 }
 
@@ -40,7 +39,6 @@ void IteratorMultime::prim() {
 // CD: Θ(m) - trebuie sa parcurga mai multe pozitii din tabela pentru a gasi urmatorul element
 // CM: Θ(1)
 void IteratorMultime::urmator() {
-	/* de adaugat */
 	if (!valid())
 		throw std::exception();
 	avanseazaLaUrmator();
@@ -48,14 +46,12 @@ void IteratorMultime::urmator() {
 
 // Teta(1)
 TElem IteratorMultime::element() const {
-	/* de adaugat */
 	if (!valid())
 		throw std::exception();
-	return *itLista;
+	return curent->valoare;
 }
 
 // Teta(1)
 bool IteratorMultime::valid() const {
-	/* de adaugat */
-	return indexTabela < multime.capacitate && itLista != multime.tabela[indexTabela].end();
+	return curent != nullptr;
 }

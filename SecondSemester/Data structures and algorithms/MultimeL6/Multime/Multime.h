@@ -8,12 +8,20 @@ typedef int TElem;
 
 class IteratorMultime;
 
+class Nod {
+public:
+	TElem valoare;
+	Nod* urm;
+
+	Nod(TElem v, Nod* u = nullptr) : valoare(v), urm(u) {}
+};
+
 class Multime {
 	friend class IteratorMultime;
 
     private:
 		/* aici e reprezentarea */
-	std::vector<std::list<TElem>> tabela;
+	Nod** tabela;
 	int capacitate;
 	int nrElem;
 

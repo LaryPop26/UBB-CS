@@ -1,6 +1,8 @@
 #pragma once
 #include <list>
 
+#include "Multime.h"
+
 class Multime;
 typedef int TElem;
 
@@ -18,7 +20,7 @@ private:
 	/* aici e reprezentarea  specifica a iteratorului */
 
 	int indexTabela{};
-	std::list<TElem>::const_iterator itLista;
+	Nod* curent;
 
 	void avanseazaLaUrmator();
 
