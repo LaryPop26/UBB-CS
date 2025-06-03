@@ -32,3 +32,40 @@ void testAll() {
 	assert(ic.valid() == true);
 
 }
+
+
+void testValoareMaxima() {
+	Colectie c;
+	try {
+
+		assert(c.valoareMaxima() == false);
+	}
+	catch(std::exception&) {}
+
+	c.adauga(4);
+	c.adauga(2);
+	c.adauga(9);
+	c.adauga(1);
+	c.adauga(9);
+	c.adauga(7);
+
+	// Verificăm valoarea maximă (ar trebui să fie 9)
+	assert(c.valoareMaxima() == 9);
+
+	c.sterge(9); // ștergem un 9, dar mai rămâne unul
+	assert(c.valoareMaxima() == 9);
+
+	c.sterge(9); // ștergem și al doilea 9
+	assert(c.valoareMaxima() == 7); // noua valoare maximă este 7
+
+	c.sterge(7);
+	c.sterge(4);
+	c.sterge(2);
+	c.sterge(1);
+
+	try {
+
+		assert(c.valoareMaxima() == false);
+	}
+	catch(std::exception&) {}
+}

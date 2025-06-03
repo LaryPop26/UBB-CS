@@ -55,11 +55,12 @@ public:
 		//returneaza adevarat daca s-a putut sterge
 		bool sterge(TElem e);
 
-		//
-		int stergeToateElementeleRepetitive();
-
 		//verifica daca un element se afla in colectie
 		bool cauta(TElem elem) const;
+
+		// gaseste si returneaza valoarea maxima din colectie
+	    // daca colectia e vida, se returneaza NULL_TVALOARE
+		int valoareMaxima() const;
 
 		//returneaza numar de aparitii ale unui element in colectie
 		int nrAparitii(TElem elem) const;

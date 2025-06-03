@@ -10,6 +10,6 @@ using namespace std;
 int main() {
 	// testAllExtins();
 	testAll();
-
+	testValoareMaxima();
 	cout<< "End";
 }

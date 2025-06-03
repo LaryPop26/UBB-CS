@@ -4,17 +4,20 @@
 
 using namespace std;
 
+// Teta(1)
 bool rel(TElem e1, TElem e2) {
 	/* de adaugat */
 	return e1<=e2;
 }
 
+// Teta(1)
 void Colectie::dealoca(int p) {
 	drept[p] = primLiber;
 	stang[p] = -1;
 	primLiber = p;
 }
 
+// Teta(1)
 int Colectie::aloca() {
 	// alocare un spatiu liber pe prima poz libera
 	int p = primLiber;
@@ -22,6 +25,7 @@ int Colectie::aloca() {
 	return p;
 }
 
+// complexitate: O(n) - capacitatea curenta a colectiei
 void Colectie::resize() {
 	// redimensionare pt cele 3 tablouri
 	TComparabil* new_elems = new TComparabil[cp * 2];
@@ -50,7 +54,7 @@ void Colectie::resize() {
 	cp = cp*2;
 }
 
-
+// complexitate: O(n) - capacitatea curenta a colectiei
 int Colectie::creeazaNod(TElem e) {
 	if (size >= cp) {
 		resize();
@@ -63,7 +67,7 @@ int Colectie::creeazaNod(TElem e) {
 }
 
 
-
+// O(h)
 int Colectie::minim(int p) {
 	while (p!= -1) {
 		p = stang[p];
@@ -71,11 +75,7 @@ int Colectie::minim(int p) {
 	return p;
 }
 
-
-int Colectie::stergeToateElementeleRepetitive() {
-}
-
-
+// O(n)
 Colectie::Colectie() {
 	/* de adaugat */
 	cp = CAPACITY;
@@ -99,11 +99,14 @@ Colectie::Colectie() {
 
 }
 
+// CF: Teta(1)
+// CM: O(h)
+// CT: O(n)
 void Colectie::adauga(TElem e) {
 	/* de adaugat */
 	size++;
 
-	// daaca colectia e vida
+	// daca colectia e vida
 	if (radacina == -1) {
 		radacina = creeazaNod(e);
 		return;
@@ -135,7 +138,7 @@ void Colectie::adauga(TElem e) {
 	}
 }
 
-// complexitate: O(n) - capacitatea curenta a arborelui
+// complexitate: O(h)
 bool Colectie::sterge_rec(int curent, int anterior, TElem e) {
 	// daca am ajuns la un subarbore vid
 	if (curent == -1) {
@@ -210,7 +213,7 @@ bool Colectie::sterge(TElem e) {
 	return sterge_rec(radacina, -1, e);
 }
 
-
+// O(h)
 bool Colectie::cauta(TElem elem) const {
 	// parcurgem arborele pana gasim elementul sau ajungem la capatul arborelui
 	int pos = radacina;
@@ -228,6 +231,33 @@ bool Colectie::cauta(TElem elem) const {
 	}
 	return false;
 }
+
+// CF: Teta(1) - arborele are un singur nod / nodul maxim este chiar rădăcina sau copilul imediat dreapta
+// CD: Teta(n) - arborele este complet degenerat
+// CT: O(n)
+int Colectie::valoareMaxima() const {
+	if (vida()) throw exception();  // colecție vidă
+
+	// pentru că arborele e ordonat conform relației (<=), maximul e în partea dreaptă
+	int p = radacina;
+	// cat timp are fii in dreapta
+	while (drept[p] != -1) {
+		p = drept[p];
+	}
+	return elems[p].first;
+}
+
+/* Subalgoritm valoareMaxima
+ *     @ arunca exceptie: c.vida()
+ *
+ *		p <- c.radacina
+ *		CatTimp c.drept[p] != -1 executa
+ *			p <- c.drept[p]
+ *		SfCatTimp
+ *
+ *		valoareMaxima <- c.elems[p].first
+ *	SfSubalgoritm
+ */
 
 // O(n) - capacitatea curenta a arborelui
 int Colectie::nrAparitii(TElem elem) const {
