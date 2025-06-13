@@ -1,0 +1,43 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/MovieRentalAppL8/movie.cpp
+        -:    0:Graph:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\movie.cpp.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\movie.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 29-Mar-25.
+        -:    3://
+        -:    4:
+        -:    5:#include "movie.h"
+        -:    6:
+        -:    7:#include <utility>
+        -:    8:
+      207:    9:auto Movie::getTitle() const -> string {
+      207:   10:    return this->title;
+        -:   11:}
+        -:   12:
+       61:   13:auto Movie::getGenre() const -> string {
+       61:   14:    return this->genre;
+        -:   15:}
+        -:   16:
+      132:   17:auto Movie::getYear() const -> int {
+      132:   18:    return this->year;
+        -:   19:}
+        -:   20:
+       98:   21:auto Movie::getMainChar() const -> string {
+       98:   22:    return this->mainChar;
+        -:   23:}
+        -:   24:
+        -:   25:/*void Movie::setTitle(string newTitle) {
+        -:   26:    this->title = newTitle;
+        -:   27:}*/
+        -:   28:
+        3:   29:void Movie::setGenre(string newGenre) {
+        3:   30:    this->genre = std::move(newGenre);
+        3:   31:}
+        -:   32:
+        3:   33:void Movie::setYear(int newYear) {
+        3:   34:    this->year = newYear;
+        3:   35:}
+        -:   36:
+        3:   37:void Movie::setMainChar(string newMainChar) {
+        3:   38:    this->mainChar = std::move(newMainChar);
+        3:   39:}

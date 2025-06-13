@@ -1,0 +1,184 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/MovieRentalAppL8/service.cpp
+        -:    0:Graph:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\service.cpp.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\service.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 29-Mar-25.
+        -:    3://
+        -:    4:
+        -:    5:#include "service.h"
+        -:    6:#include <algorithm>
+        -:    7:#include <fstream>
+        -:    8:
+        -:    9:#include <ios>
+        -:   10:#include <map>
+        -:   11:
+       18:   12:void MovieRent::addMovie(const string& title,const string& genre,const int year,const string& mainChar) {
+       18:   13:    const Movie movie{title, genre, year, mainChar};
+       18:   14:    Validator::validate(movie);
+       17:   15:    repo.addMovie(movie);
+       17:   16:    UndoActions.push_back(std::make_unique<AddUndo>(movie, this->repo));
+       18:   17:}
+        -:   18:
+        2:   19:void MovieRent::deleteMovie(const string& title) {
+        2:   20:    const int position = repo.findPosition(title);
+        2:   21:    Movie movie = repo.searchMovie(title);
+        2:   22:    repo.deleteMovie(position);
+        2:   23:    UndoActions.push_back(std::make_unique<DeleteUndo>(movie, this->repo));
+        2:   24:}
+        -:   25:
+        2:   26:void MovieRent::updateMovie (const string& title,const string& genre, const int year,const string& mainChar) {
+        2:   27:    const Movie movie{title, genre, year, mainChar};
+        2:   28:    Validator::validate(movie);
+        2:   29:    Movie oldMovie = repo.searchMovie(title);
+        2:   30:    repo.updateMovie(movie);
+        2:   31:    UndoActions.push_back(std::make_unique<UpdateUndo>(oldMovie, this->repo));
+        2:   32:}
+        -:   33:
+        1:   34:auto MovieRent::searchMovie(const string &title) const -> Movie{
+        1:   35:    return repo.searchMovie(title);
+        -:   36:}
+        -:   37:
+        1:   38:auto MovieRent::filterGenre(const string &genre) const -> vector<Movie> {
+        1:   39:    const vector<Movie> movies = repo.getMovies();
+        1:   40:    vector<Movie> filtered;
+        -:   41:
+        1:   42:    std::copy_if(movies.begin(), movies.end(), std::back_inserter(filtered),
+        5:   43:                 [&genre](const Movie& movie) {
+        5:   44:                     return movie.getGenre() == genre;
+        -:   45:                 });
+        -:   46:
+        2:   47:    return filtered;
+        1:   48:}
+        -:   49:
+        2:   50:auto MovieRent::filterYear(const int year) const -> vector<Movie> {
+        2:   51:    const vector<Movie>& movies = repo.getMovies();
+        2:   52:    std::map<int, vector<Movie>> yearToMovies;
+        -:   53:
+       12:   54:    for (const auto& movie : movies) {
+       10:   55:        yearToMovies[movie.getYear()].push_back(movie);
+        -:   56:    }
+        -:   57:
+        -:   58:    // Dacă anul nu există în map, returnează vector gol
+        2:   59:    if (yearToMovies.find(year) == yearToMovies.end()) {
+        1:   60:        return {};
+        -:   61:    }
+        -:   62:
+        1:   63:    return yearToMovies[year];
+        2:   64:}
+        -:   65:
+       10:   66:auto cmpTitleAscending(const Movie &movie1, const Movie &movie2) -> bool {
+       10:   67:    return movie1.getTitle() < movie2.getTitle();
+        -:   68:}
+        -:   69:
+        7:   70:auto cmpTitleDescending(const Movie &movie1, const Movie &movie2) -> bool {
+        7:   71:    return movie1.getTitle() > movie2.getTitle();
+        -:   72:}
+        -:   73:
+        8:   74:auto cmpMainCharAscending(const Movie &movie1, const Movie &movie2) -> bool {
+        8:   75:    return movie1.getMainChar() < movie2.getMainChar();
+        -:   76:}
+        -:   77:
+       11:   78:auto cmpMainCharDescending(const Movie &movie1, const Movie &movie2) -> bool {
+       11:   79:    return movie1.getMainChar() > movie2.getMainChar();
+        -:   80:}
+        -:   81:
+       10:   82:auto cmpGenreYearAscending(const Movie &movie1, const Movie &movie2) -> bool {
+       10:   83:    if (movie1.getYear() == movie2.getYear()) {
+        1:   84:        return movie1.getGenre() < movie2.getGenre();
+        -:   85:}
+        9:   86:    return movie1.getYear() < movie2.getYear();
+        -:   87:}
+        -:   88:
+        9:   89:auto cmpGenreYearDescending(const Movie &movie1, const Movie &movie2) -> bool {
+        9:   90:    if (movie1.getYear() == movie2.getYear()) {
+        1:   91:        return movie1.getGenre() > movie2.getGenre();
+        -:   92:}
+        8:   93:    return movie1.getYear() > movie2.getYear();
+        -:   94:}
+        -:   95:
+        7:   96:auto MovieRent::sorting(SortType type, SortOrder order) const -> vector<Movie> {
+        7:   97:    vector<Movie> movies = repo.getMovies();
+        7:   98:    bool (*cmp)(const Movie &, const Movie &) = nullptr;
+        -:   99:
+        7:  100:    if (type == SortType::Title) {
+        2:  101:        cmp = (order == SortOrder::Ascending) ? cmpTitleAscending : cmpTitleDescending;
+        5:  102:    } else if (type == SortType::MainChar) {
+        2:  103:        cmp = (order == SortOrder::Ascending) ? cmpMainCharAscending : cmpMainCharDescending;
+        3:  104:    } else if (type == SortType::GenreYear) {
+        2:  105:        cmp = (order == SortOrder::Ascending) ? cmpGenreYearAscending : cmpGenreYearDescending;
+        -:  106:    }
+        -:  107:
+        7:  108:    if (cmp == nullptr) {
+        3:  109:        throw RepoException("Invalid sort type or order");
+        -:  110:    }
+        -:  111:
+        6:  112:    std::sort(movies.begin(), movies.end(), cmp);
+        6:  113:    return movies;
+        1:  114:}
+        -:  115:
+       13:  116:auto MovieRent::getMovies() const -> const vector<Movie> & {
+       13:  117:    return repo.getMovies();
+        -:  118:}
+        -:  119:
+        2:  120:auto MovieRent::addToCart(const string & title) const -> vector<Movie> {
+        -:  121:
+        2:  122:    const vector<Movie> movies = getAllCart();
+        2:  123:    const Movie& searchedMovie = this->repo.searchMovie(title);
+       2*:  124:    for (const auto &movie : movies) {
+        1:  125:        if (movie.getTitle() == title) {
+        3:  126:            throw RepoException("Movie already exists");
+        -:  127:        }
+        -:  128:    }
+        1:  129:    this ->shoppingCart.addToCart(searchedMovie);
+        2:  130:    return getAllCart();
+        2:  131:}
+        -:  132:
+        1:  133:auto MovieRent::deleteCart() const -> vector<Movie> {
+        1:  134:    this->shoppingCart.deleteCart();
+        1:  135:    return getAllCart();
+        -:  136:}
+        -:  137:
+        3:  138:auto MovieRent::randomCart(const int dim) const -> vector<Movie> {
+        3:  139:    this->shoppingCart.randomCart(dim, getMovies());
+        3:  140:    return getAllCart();
+        -:  141:}
+        -:  142:
+        9:  143:auto MovieRent::getAllCart() const -> vector<Movie> {
+        9:  144:    return this->shoppingCart.getallShoppingCart();
+        -:  145:}
+        -:  146:
+        1:  147:void MovieRent::exportCSV(const string& fileName, const vector<Movie>& movies) {
+        1:  148:    std::ofstream fout(fileName, std::ios::trunc);
+       1*:  149:    if (!fout.is_open()) { throw RepoException("Error opening file"); }
+        3:  150:    for (const auto &movie : movies) {
+        2:  151:        fout << movie.getTitle() <<","<<movie.getGenre() << ","<< movie.getYear() << ","<< movie.getMainChar() << "\n";
+        -:  152:    }
+        1:  153:    fout.close();
+        1:  154:}
+        -:  155:
+        1:  156:void MovieRent::exportHTML(const string &fileName,
+        -:  157:                           const vector<Movie> &movies) {
+        1:  158:  std::ofstream fout(fileName);
+       1*:  159:  if (!fout.is_open()) { throw RepoException("Error opening file"); }
+        1:  160:  fout << "<html><body>\n";
+        1:  161:  fout << "<table border=\"1\" style=\"width:100 % \">\n";
+        2:  162:  for (const auto &movie : movies) {
+        -:  163:    fout << "<tr>\n"
+        1:  164:         << "<td>" << movie.getTitle() << "</td>\n"
+        1:  165:         << "<td>" << movie.getGenre() << "</td>\n"
+        1:  166:         << "<td>" << movie.getYear() << "</td>\n"
+        1:  167:         << "<td>" << movie.getMainChar() << "</td>\n"
+        1:  168:         << "</tr>\n";
+        -:  169:  }
+        1:  170:  fout << "</table>\n";
+        1:  171:  fout << "</body></html>\n";
+        1:  172:  fout.close();
+        1:  173:}
+        3:  174:void MovieRent::undo() {
+       3*:  175:    if (UndoActions.empty()) { throw RepoException("Cannot undo anymore"); }
+        3:  176:    UndoActions.back()->doUndo();
+        3:  177:    UndoActions.pop_back();
+        3:  178:}
+        -:  179:
+        -:  180:

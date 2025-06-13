@@ -1,0 +1,56 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/MovieRentalAppL8/movie.h
+        -:    0:Graph:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\tests.cpp.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\tests.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 29-Mar-25.
+        -:    3://
+        -:    4:
+        -:    5:#ifndef MOVIE_H
+        -:    6:#define MOVIE_H
+        -:    7:#include <string>
+        -:    8:using std::string;
+        -:    9:class Movie {
+        -:   10:private:
+        -:   11:    string title;
+        -:   12:    string genre;
+        -:   13:    int year;
+        -:   14:    string mainChar;
+        -:   15:
+        -:   16:public:
+        -:   17:    Movie()= default;
+    #####:   18:    Movie(const string &title,const string &genre,const int year,const string &mainChar)/*
+        -:   19:    {
+        -:   20:        this->title = title;
+        -:   21:        this->genre = genre;
+        -:   22:        this->year = year;
+        -:   23:        this->mainChar = mainChar;
+        -:   24:    }*/
+    #####:   25:    :title{title}, genre{genre}, year{year}, mainChar{mainChar} {};
+    #####:   26:    Movie(const Movie &ot) : title(ot.title), genre(ot.genre), year(ot.year), mainChar(ot.mainChar) {};
+        -:   27:
+        -:   28:    bool operator == (const Movie &m) const {
+        -:   29:        return this->getTitle() == m.getTitle() /*&& this->getGenre() == m.getGenre()*/;
+        -:   30:    }
+        -:   31:
+        -:   32:    Movie& operator=(const Movie& ot) {
+        -:   33:        if (this != &ot) {
+        -:   34:            title = ot.title;
+        -:   35:            genre = ot.genre;
+        -:   36:            year = ot.year;
+        -:   37:            mainChar = ot.mainChar;
+        -:   38:        }
+        -:   39:        return *this;
+        -:   40:    }
+        -:   41:
+        -:   42:    [[nodiscard]] string getTitle() const;
+        -:   43:    [[nodiscard]] string getGenre() const;
+        -:   44:    [[nodiscard]] int getYear() const;
+        -:   45:    [[nodiscard]] string getMainChar() const;
+        -:   46:
+        -:   47:    void setGenre(string newGenre);
+        -:   48:    void setYear(int year);
+        -:   49:    void setMainChar(string mainChar);
+        -:   50:};
+        -:   51:
+        -:   52:#endif //MOVIE_H

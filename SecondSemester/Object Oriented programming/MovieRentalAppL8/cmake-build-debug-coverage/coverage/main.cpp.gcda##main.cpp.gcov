@@ -1,0 +1,20 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/MovieRentalAppL8/main.cpp
+        -:    0:Graph:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1:#include "repository.h"
+        -:    2:#include "service.h"
+        -:    3:#include "UI.h"
+        -:    4:
+        1:    5:void startApp() {
+        -:    6:    //MovieRepository repo;
+        1:    7:    RepoFile repo("movies.txt");
+        -:    8:    Validator validator;
+        1:    9:    ShoppingCart shoppingCart;
+        1:   10:    MovieRent srv{repo, validator, shoppingCart};
+        1:   11:    UI user_interface{srv};
+       1*:   12:    user_interface.run();}
+        -:   13:
+        1:   14:auto main() -> int {
+        1:   15:    startApp();
+    #####:   16:    return 0;}

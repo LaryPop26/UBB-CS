@@ -1,0 +1,432 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/MovieRentalAppL8/tests.cpp
+        -:    0:Graph:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\tests.cpp.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\tests.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 02-Apr-25.
+        -:    3://
+        -:    4:
+        -:    5:#include "tests.h"
+        -:    6:#include "service.h"
+        -:    7:#include <cassert>
+        -:    8:#include <iostream>
+        -:    9:#include <sstream>
+        -:   10:
+        -:   11:#include <fstream>
+        -:   12:
+        -:   13:constexpr int year_1990 = 1990;
+        -:   14:constexpr int year_1972 = 1972;
+        -:   15:constexpr int year_1993 = 1993;
+        -:   16:constexpr int year_1997 = 1997;
+        -:   17:constexpr int year_2000 = 2000;
+        -:   18:constexpr int year_2003 = 2003;
+        -:   19:constexpr int year_2004 = 2004;
+        -:   20:constexpr int year_2005 = 2005;
+        -:   21:constexpr int number_5 = 5;
+        -:   22:constexpr int number_10 = 10;
+        -:   23:
+        1:   24:void testRepo() {
+        -:   25:    //MovieRepository repo;
+        2:   26:    RepoFile repo("movies-testing.txt");
+        -:   27:    // add
+        5:   28:    Movie movie1{"Titanic","Action",year_1997, "Leonardo DiCaprio"};
+        1:   29:    repo.addMovie(movie1);
+       1*:   30:    assert(repo.getMovies().size() == 1);
+        -:   31:
+        -:   32:    try {
+        1:   33:        repo.addMovie(movie1);
+        -:   34:    }
+        1:   35:    catch(const RepoException& exp) {
+        1:   36:        std::stringstream out;
+        1:   37:        out << exp;
+        1:   38:        assert(out.str() == "Movie is already in the list");
+        1:   39:    }
+        -:   40:
+        -:   41:    // delete
+        5:   42:    Movie movie2{"The piano","Drama",year_1993, "Anna Paquin"};
+        1:   43:    repo.addMovie(movie2);
+        5:   44:    Movie movie3{"Mystic River","Crime", year_2003,"Kevin Bacon"};
+        1:   45:    repo.addMovie(movie3);
+       1*:   46:    assert(repo.getMovies().size() == 3);
+        1:   47:    repo.deleteMovie(2);
+       1*:   48:    assert(repo.getMovies().size() == 2);
+        1:   49:    repo.deleteMovie(0);
+       1*:   50:    assert(repo.getMovies().size() == 1);
+        -:   51:
+        -:   52:    try {
+        1:   53:        repo.deleteMovie(-1);
+        1:   54:    } catch (const RepoException& e) {
+        1:   55:        std::stringstream out;
+        1:   56:        out << e;
+        1:   57:        assert(out.str() == "Invalid position");
+        1:   58:    }
+        -:   59:
+        1:   60:    repo.addMovie(movie1);
+        1:   61:    repo.addMovie(movie3);
+       1*:   62:    assert(repo.getMovies().size() == 3);
+        -:   63:
+        -:   64:    // update
+        5:   65:    Movie m4Update{"Mystic River","Thriller", year_2004,"Kevin Bacon"};
+        -:   66:
+        1:   67:    repo.updateMovie(m4Update);
+       1*:   68:    assert(repo.getMovies().size() == 3);
+       1*:   69:    assert(m4Update.getGenre()=="Thriller");
+        5:   70:    Movie movie5{"Mystic","Thriller", year_2004,"Kevin Bacon"};
+        -:   71:    try {
+        1:   72:        repo.updateMovie(movie5);
+        -:   73:    }
+        1:   74:    catch(const RepoException&) {
+        -:   75:        assert(true);
+        1:   76:    }
+        -:   77:
+        -:   78:    // find position
+        1:   79:    const int position = repo.findPosition("Mystic River");
+       1*:   80:    assert(position == 2);
+        -:   81:    try {
+       2*:   82:        (void)repo.findPosition("Speedy");
+        -:   83:    }
+        1:   84:    catch(const RepoException&) {
+        -:   85:        assert(true);
+        1:   86:    }
+        -:   87:    try {
+       2*:   88:        (void)repo.searchMovie("NonExistingMovie");
+        1:   89:    } catch (const RepoException& e) {
+        1:   90:        std::stringstream out;
+        1:   91:        out << e;
+        1:   92:        assert(out.str() == "Movie not found");
+        1:   93:    }
+        -:   94:
+        1:   95:    std::ofstream clear1("movies-testing.txt", std::ios::trunc);
+        1:   96:    clear1.close();
+        1:   97:}
+        -:   98:
+        1:   99:void test_read_from_file() {
+        -:  100:
+        -:  101:    try {
+       2*:  102:        RepoFile repo("mov.txt");
+       1*:  103:    } catch (const RepoException& e) {
+        1:  104:        std::stringstream out;
+        1:  105:        out << e;
+        1:  106:        assert(out.str() == "File not found");
+        1:  107:    }
+        -:  108:
+        1:  109:    std::ofstream fout("movies-test1.txt");
+        1:  110:    fout<<"Titanic\n";
+        1:  111:    fout<<"Romance\n";
+        1:  112:    fout<<"1997\n";
+        1:  113:    fout<<"Leonardo DiCaprio\n";
+        -:  114:
+        1:  115:    fout<<"Spider-Man 2\n";
+        1:  116:    fout<<"SF\n";
+        1:  117:    fout<<"2004\n";
+        1:  118:    fout<<"Tobey Maguire\n";
+        1:  119:    fout.close();
+        -:  120:
+        1:  121:    RepoFile repo{"movies-test1.txt"};
+       1*:  122:    assert(repo.getMovies().size() == 2);
+        -:  123:
+       1*:  124:    assert(repo.getMovies()[0].getGenre()=="Romance");
+        -:  125:
+        1:  126:    std::ofstream out("movies-test1.txt",std::ios::trunc);
+        1:  127:    out.close();
+        1:  128:}
+        -:  129:
+        1:  130:void testService() {
+        1:  131:    MovieRepository repo;
+        -:  132:    Validator validator;
+        1:  133:    ShoppingCart shoppingCart;
+        1:  134:    MovieRent srv{repo, validator, shoppingCart};
+        -:  135:
+        -:  136:    // add
+        6:  137:    srv.addMovie("Fast&Furious","Action",year_2004,"Vin Diesel");
+        6:  138:    srv.addMovie("Titanic","Romance",year_1997,"Leonardo DiCaprio");
+        -:  139:    try {
+       6*:  140:        srv.addMovie("","",number_10,"");
+        -:  141:    }
+        1:  142:    catch(const ValidationError& exp) {
+        1:  143:        std::stringstream out;
+        1:  144:        out << exp;
+        1:  145:        assert(out.str().find("empty") >= 3);
+        1:  146:        assert(out.str().find("correct") >= 1);
+        1:  147:    }
+        -:  148:
+        -:  149:    // delete
+       1*:  150:    assert(srv.getMovies().size() == 2);
+        1:  151:    srv.deleteMovie("Titanic");
+       1*:  152:    assert(srv.getMovies().size() == 1);
+        -:  153:
+        6:  154:    srv.addMovie("Titanic","Romance",year_1997,"Leonardo DiCaprio");
+        -:  155:
+        -:  156:    // update
+        5:  157:    srv.updateMovie("Titanic","Comedy",year_2000, "Leo DiCaprio");
+       1*:  158:    assert(srv.getMovies().size() == 2);
+        -:  159:
+        -:  160:    // find
+        1:  161:    const Movie movie = srv.searchMovie("Titanic");
+       1*:  162:    assert(movie.getGenre()=="Comedy");
+       1*:  163:    assert(movie.getYear()==2000);
+       1*:  164:    assert(movie.getMainChar()=="Leo DiCaprio");
+        1:  165:}
+        -:  166:
+        1:  167:void testFilterFunctions(const MovieRent & srv) {
+        1:  168:  const vector<Movie> filteredGenre = srv.filterGenre("Romance");
+       1*:  169:    assert(filteredGenre.size() == 3);
+       1*:  170:    assert(filteredGenre[0].getTitle() == "Titanic");
+       1*:  171:    assert(filteredGenre[2].getTitle() == "ABCD");
+        -:  172:
+        1:  173:    const vector<Movie> filteredYear = srv.filterYear(year_2000);
+       1*:  174:    assert(filteredYear.size() == 2);
+       1*:  175:    assert(filteredYear[0].getTitle() == "ABC");
+       1*:  176:    assert(filteredYear[1].getTitle() == "ABCD");
+        -:  177:
+        1:  178:    const vector<Movie> filteredYear2 = srv.filterYear(year_1990);
+       1*:  179:    assert(filteredYear2.size() == 0);
+        1:  180:}
+        -:  181:
+        1:  182:void testSortTitle(const MovieRent & srv) {
+        1:  183:    const vector<Movie> sortTitleAsc = srv.sorting(SortType::Title, SortOrder::Ascending);
+       1*:  184:    assert(sortTitleAsc[0].getTitle() == "ABC");
+       1*:  185:    assert(sortTitleAsc[1].getTitle() == "ABCD");
+       1*:  186:    assert(sortTitleAsc[2].getTitle() == "Fast&Furious");
+       1*:  187:    assert(sortTitleAsc[3].getTitle() == "Titanic");
+       1*:  188:    assert(sortTitleAsc[4].getTitle() == "Yas");
+        -:  189:
+        1:  190:    const vector<Movie> sortTitleDesc = srv.sorting(SortType::Title, SortOrder::Descending);
+       1*:  191:    assert(sortTitleDesc[0].getTitle() == "Yas");
+       1*:  192:    assert(sortTitleDesc[1].getTitle() == "Titanic");
+       1*:  193:    assert(sortTitleDesc[2].getTitle() == "Fast&Furious");
+       1*:  194:    assert(sortTitleDesc[3].getTitle() == "ABCD");
+       1*:  195:    assert(sortTitleDesc[4].getTitle() == "ABC");
+        1:  196:}
+        -:  197:
+        1:  198:void testSortMainChar(const MovieRent & srv) {
+        1:  199:  const vector<Movie> sortMainCharAsc = srv.sorting(SortType::MainChar, SortOrder::Ascending);
+       1*:  200:    assert(sortMainCharAsc[0].getMainChar() == "Johnny Depp");
+       1*:  201:    assert(sortMainCharAsc[1].getMainChar() == "Leonardo DiCaprio");
+       1*:  202:    assert(sortMainCharAsc[2].getMainChar() == "Nicolas Cage");
+       1*:  203:    assert(sortMainCharAsc[3].getMainChar() == "Paul Walker");
+       1*:  204:    assert(sortMainCharAsc[4].getMainChar() == "Vin Diesel");
+        -:  205:
+        1:  206:    const vector<Movie> sortMainCharDesc = srv.sorting(SortType::MainChar, SortOrder::Descending);
+       1*:  207:    assert(sortMainCharDesc[0].getMainChar() == "Vin Diesel");
+       1*:  208:    assert(sortMainCharDesc[1].getMainChar() == "Paul Walker");
+       1*:  209:    assert(sortMainCharDesc[2].getMainChar() == "Nicolas Cage");
+       1*:  210:    assert(sortMainCharDesc[3].getMainChar() == "Leonardo DiCaprio");
+       1*:  211:    assert(sortMainCharDesc[4].getMainChar() == "Johnny Depp");
+        1:  212:}
+        -:  213:
+        1:  214:void testSortGenreYear(const MovieRent & srv) {
+        1:  215:  const vector<Movie> sortGenreYearAsc = srv.sorting(SortType::GenreYear, SortOrder::Ascending);
+       1*:  216:    assert(sortGenreYearAsc[0].getTitle() == "Titanic");
+        -:  217:
+        1:  218:  const vector<Movie> sortGenreYearDesc = srv.sorting(SortType::GenreYear, SortOrder::Descending);
+       1*:  219:    assert(sortGenreYearDesc[0].getTitle() == "Yas");
+        1:  220:}
+        -:  221:
+        1:  222:void testInvalidSort() {
+        1:  223:    MovieRepository repo;
+        -:  224:    Validator validator;
+        1:  225:    ShoppingCart shoppingCart;
+        1:  226:    MovieRent srv{repo, validator, shoppingCart};
+        -:  227:
+        5:  228:    srv.addMovie("Test", "Genre", year_2000, "Actor");
+        -:  229:
+        1:  230:    bool exceptionThrown = false;
+        -:  231:    try {
+        1:  232:        vector<Movie> sort = srv.sorting(static_cast<SortType>(-1), SortOrder::Ascending);
+       1*:  233:    } catch (const RepoException&) {
+        1:  234:        exceptionThrown = true;
+        1:  235:    }
+       1*:  236:    assert(exceptionThrown);
+        1:  237:}
+        -:  238:
+        1:  239:void testingService2() {
+        1:  240:    MovieRepository repo;
+        -:  241:    Validator validator;
+        1:  242:    ShoppingCart shoppingCart;
+        1:  243:    MovieRent srv{repo, validator, shoppingCart};
+        -:  244:
+        -:  245:    // setup
+        6:  246:    srv.addMovie("Fast&Furious", "Action", year_2004, "Vin Diesel");
+        6:  247:    srv.addMovie("Titanic", "Romance", year_1997, "Leonardo DiCaprio");
+        6:  248:    srv.addMovie("ABC", "Romance", year_2000, "Nicolas Cage");
+        6:  249:    srv.addMovie("Yas", "Drama", year_2005, "Paul Walker");
+        5:  250:    srv.addMovie("ABCD", "Romance", year_2000, "Johnny Depp");
+       1*:  251:    assert(srv.getMovies().size() == 5);
+        -:  252:
+        1:  253:    testFilterFunctions(srv);
+        1:  254:    testSortTitle(srv);
+        1:  255:    testSortMainChar(srv);
+        1:  256:    testSortGenreYear(srv);
+        1:  257:    testInvalidSort();
+        1:  258:}
+        -:  259:
+        1:  260:void test_shopping_cart() {
+        1:  261:    ShoppingCart shoppingCart;
+       1*:  262:    assert(shoppingCart.getallShoppingCart().empty());
+        -:  263:
+        -:  264:    // add to cart
+        5:  265:    const Movie movie1("Fast&Furious","Action",year_2004,"Vin Diesel");
+        1:  266:    shoppingCart.addToCart(movie1);
+       1*:  267:    assert(shoppingCart.getallShoppingCart().size() == 1);
+       1*:  268:    assert(shoppingCart.getallShoppingCart()[0].getTitle()=="Fast&Furious");
+        -:  269:
+        -:  270:    // delete cart
+        1:  271:    shoppingCart.deleteCart();
+       1*:  272:    assert(shoppingCart.getallShoppingCart().empty());
+        -:  273:
+        -:  274:    // random cart
+        -:  275:    const vector<Movie> movies = {Movie("Fast&Furious","Action",year_2004,"Vin Diesel"),
+        -:  276:                            Movie("Titanic","Romance",year_1997,"Leonardo DiCaprio"),
+        5:  277:                            Movie("Mystic River","Crime", year_2003,"Kevin Bacon")};
+        -:  278:
+        1:  279:    shoppingCart.randomCart(2,movies);
+       1*:  280:    assert(shoppingCart.getallShoppingCart().size() == 2);
+        -:  281:
+        1:  282:    shoppingCart.deleteCart();
+        1:  283:    shoppingCart.randomCart(number_5,movies);
+       1*:  284:    assert(shoppingCart.getallShoppingCart().size() == 5);
+        5:  285:}
+        -:  286:
+        1:  287:void test_service_shopping_cart_add() {
+        1:  288:    MovieRepository repo;
+        -:  289:    Validator validator;
+        1:  290:    ShoppingCart shoppingCart;
+        1:  291:    MovieRent srv{repo, validator, shoppingCart};
+        -:  292:
+        5:  293:    srv.addMovie("Fast&Furious", "Action", year_2004, "Vin Diesel");
+        1:  294:    const vector<Movie> shopping_cart_init = srv.getAllCart();
+       1*:  295:    assert(shopping_cart_init.empty());
+        1:  296:    const vector<Movie> shopping_cart = srv.addToCart("Fast&Furious");
+       1*:  297:    assert(shopping_cart.size() == 1);
+       1*:  298:    assert(shoppingCart.getallShoppingCart()[0].getTitle() == "Fast&Furious");
+        -:  299:
+        -:  300:    try {
+       2*:  301:      (void)srv.addToCart("Fast&Furious");
+        1:  302:    } catch (RepoException &) { assert(true);
+        1:  303:    }
+        -:  304:
+        1:  305:    const vector<Movie> delete_cart = srv.deleteCart();
+       1*:  306:    assert(delete_cart.empty());
+        1:  307:}
+        -:  308:
+        1:  309:void test_srv_random_cart() {
+        1:  310:    MovieRepository repo;
+        -:  311:    Validator validator;
+        1:  312:    ShoppingCart shoppingCart;
+        1:  313:    MovieRent srv{repo, validator, shoppingCart};
+        -:  314:
+        6:  315:    srv.addMovie("Fast&Furious","Action",year_2004,"Vin Diesel");
+        6:  316:    srv.addMovie("Titanic","Romance",year_1997,"Leonardo DiCaprio");
+        6:  317:    srv.addMovie("ABC","Romance",year_2000," DiCaprio");
+        5:  318:    srv.addMovie("Yas","Drama",year_2005,"Paul Walker");
+        -:  319:
+        1:  320:    vector<Movie> random1 = srv.randomCart(2);
+       1*:  321:    assert(srv.getAllCart().size() == 2);
+        1:  322:}
+        -:  323:
+        1:  324:void test_export_csv () {
+        1:  325:    MovieRepository repo;
+        -:  326:    Validator validator;
+        1:  327:    ShoppingCart shoppingCart;
+        1:  328:    MovieRent srv{repo, validator, shoppingCart};
+        -:  329:
+        5:  330:    srv.addMovie("Titanic", "Romantic", year_1997, "Leonardo DiCaprio");
+        -:  331:
+        1:  332:    const vector<Movie>& movies = srv.randomCart(2);;
+        1:  333:    MovieRent::exportCSV("testcsv.csv", movies);
+        1:  334:    std::ifstream fin("testcsv.csv");
+        1:  335:    string line;
+        1:  336:    getline(fin, line);
+       1*:  337:    assert(line == "Titanic,Romantic,1997,Leonardo DiCaprio");
+        1:  338:    fin.close();
+        1:  339:    std::ofstream ofs("testcsv.csv", std::ios::trunc);
+        1:  340:    ofs.close();
+        1:  341:}
+        -:  342:
+        1:  343:void test_srv_export_html() {
+        1:  344:    MovieRepository repo;
+        -:  345:    Validator validator;
+        1:  346:    ShoppingCart shoppingCart;
+        1:  347:    MovieRent srv{repo, validator, shoppingCart};
+        -:  348:
+        5:  349:    srv.addMovie("The Godfather", "Drama", year_1972, "Marlon Brando");
+        -:  350:
+        1:  351:    const vector<Movie>& movies = srv.randomCart(1);
+        1:  352:    MovieRent::exportHTML("testhtml.html", movies);
+        1:  353:    std::ifstream fin("testhtml.html");
+        1:  354:    string line;
+        1:  355:    getline(fin, line);
+       1*:  356:    assert(line == "<html><body>");
+        1:  357:    getline(fin, line);
+       1*:  358:    assert(line == "<table border=\"1\" style=\"width:100 % \">");
+        1:  359:    getline(fin, line);
+       1*:  360:    assert(line == "<tr>");
+        1:  361:    getline(fin, line);
+       1*:  362:    assert(line == "<td>The Godfather</td>");
+        1:  363:    getline(fin, line);
+       1*:  364:    assert(line == "<td>Drama</td>");
+        1:  365:    getline(fin, line);
+       1*:  366:    assert(line == "<td>1972</td>");
+        1:  367:    getline(fin, line);
+       1*:  368:    assert(line == "<td>Marlon Brando</td>");
+        1:  369:    getline(fin, line);
+       1*:  370:    assert(line == "</tr>");
+        1:  371:    getline(fin, line);
+       1*:  372:    assert(line == "</table>");
+        1:  373:    getline(fin, line);
+       1*:  374:    assert(line == "</body></html>");
+        1:  375:    fin.close();
+        1:  376:    std::ofstream fout("testhtml.html", std::ios::trunc);
+        1:  377:    fout.close();
+        1:  378:}
+        -:  379:
+        1:  380:void test_undo() {
+        1:  381:    RepoFile repo{"movies-undo.txt"};
+        -:  382:    Validator validator;
+        1:  383:    ShoppingCart shoppingCart;
+        1:  384:    MovieRent srv{repo, validator, shoppingCart};
+        -:  385:
+        5:  386:    srv.addMovie("Titanic","Romance",year_1997,"Leonardo DiCaprio");
+       1*:  387:    assert(srv.getMovies().size() == 1);
+        5:  388:    srv.updateMovie("Titanic","Action",year_2004,"Vin Diesel");
+       1*:  389:    assert(srv.getMovies().size() == 1);
+        1:  390:    srv.deleteMovie("Titanic");
+       1*:  391:    assert(srv.getMovies().size() == 0);
+        -:  392:
+        1:  393:    srv.undo();
+       1*:  394:    assert(srv.getMovies().size() == 1);
+       1*:  395:    assert(repo.getMovies()[0].getTitle() == "Titanic");
+       1*:  396:    assert(repo.getMovies()[0].getGenre() == "Action");
+       1*:  397:    assert(repo.getMovies()[0].getYear() == year_2004);
+       1*:  398:    assert(repo.getMovies()[0].getMainChar() == "Vin Diesel");
+        -:  399:
+        1:  400:    srv.undo();
+       1*:  401:    assert(srv.getMovies().size() == 1);
+       1*:  402:    assert(repo.getMovies()[0].getTitle() == "Titanic");
+       1*:  403:    assert(repo.getMovies()[0].getGenre() == "Romance");
+       1*:  404:    assert(repo.getMovies()[0].getYear() == year_1997);
+       1*:  405:    assert(repo.getMovies()[0].getMainChar() == "Leonardo DiCaprio");
+        -:  406:
+        1:  407:    srv.undo();
+       1*:  408:    assert(srv.getMovies().size() == 0);
+        -:  409:
+        1:  410:}
+        -:  411:
+        1:  412:void test_service() {
+        1:  413:    testService();
+        1:  414:    testingService2();
+        1:  415:    test_service_shopping_cart_add();
+        1:  416:    test_srv_random_cart();
+        1:  417:    test_export_csv();
+        1:  418:    test_srv_export_html();
+        1:  419:    test_undo();
+        1:  420:}
+        -:  421:
+        1:  422:void testing() {
+        1:  423:    testRepo();
+        1:  424:    test_read_from_file();
+        1:  425:    test_service();
+        1:  426:    test_shopping_cart();
+        1:  427:    std::cout << "All tests have passed!" << '\n';
+        1:  428:}

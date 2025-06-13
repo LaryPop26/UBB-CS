@@ -1,0 +1,116 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/MovieRentalAppL8/service.h
+        -:    0:Graph:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\tests.cpp.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\tests.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 29-Mar-25.
+        -:    3://
+        -:    4:
+        -:    5:#ifndef SERVICE_H
+        -:    6:#define SERVICE_H
+        -:    7:#include "repository.h"
+        -:    8:#include "shoppingCart.h"
+        -:    9:#include "undo.h"
+        -:   10:#include "validator.h"
+        -:   11:
+        -:   12:#include <cstdint>
+        -:   13:#include <memory>
+        -:   14:
+        -:   15:using std::vector;
+        -:   16:
+        -:   17:enum class SortType : std::uint8_t { Title = 1, MainChar, GenreYear };
+        -:   18:enum class SortOrder : std::uint8_t { Ascending = 1, Descending };
+        -:   19:
+        -:   20:class MovieRent {
+        -:   21:    private:
+        -:   22:        MovieRepository& repo;
+        -:   23:        Validator& validator;
+        -:   24:        ShoppingCart& shoppingCart;
+        -:   25:        vector<std::unique_ptr<UndoAction>> UndoActions;
+        -:   26:
+        -:   27:    public:
+    #####:   28:        MovieRent(MovieRepository& repo, Validator& validator, ShoppingCart& shoppingCart) noexcept:
+    #####:   29:            repo(repo), validator(validator) , shoppingCart(shoppingCart){};
+        -:   30:
+        -:   31:        MovieRent(const MovieRent& other);
+        -:   32:    
+        -:   33:        /**
+        -:   34:         * Add a movie into the list
+        -:   35:         * @param title : string, movie title
+        -:   36:         * @param genre : string, movie genre
+        -:   37:         * @param year : int, movie year
+        -:   38:         * @param mainChar : string, movie main character
+        -:   39:         */
+        -:   40:        void addMovie(const string &title, const string &genre, int year, const string &mainChar);
+        -:   41:    
+        -:   42:        /**
+        -:   43:         * Delete a movie from list
+        -:   44:         * @param title : string, movie title to be deleted
+        -:   45:         */
+        -:   46:        void deleteMovie(const string &title);
+        -:   47:
+        -:   48:        /**
+        -:   49:         * Update movie information
+        -:   50:         * @param title : string, movie title
+        -:   51:         * @param genre  : string, updated movie title
+        -:   52:         * @param year  : int, updated movie year
+        -:   53:         * @param mainChar : string, updated movie main Char
+        -:   54:         */
+        -:   55:        void updateMovie (const string &title, const string &genre, int year, const string &mainChar);
+        -:   56:
+        -:   57:        /**
+        -:   58:         * Search a movie into the list
+        -:   59:         * @param title : string , movie title
+        -:   60:         * @return movie:Movie, info for searched title
+        -:   61:         */
+        -:   62:        [[nodiscard]] auto searchMovie(const string &title) const -> Movie;
+        -:   63:
+        -:   64:        /**
+        -:   65:         * Filter the list after genre criteria
+        -:   66:         * @param genre: genre to be searched
+        -:   67:         * @return all Movies with genre - genre
+        -:   68:         */
+        -:   69:        [[nodiscard]] auto filterGenre(const string &genre) const -> vector<Movie>;
+        -:   70:
+        -:   71:        /*vector<Movie> filterTitle(const string &title);*/
+        -:   72:
+        -:   73:        /**
+        -:   74:         * Filter the list after year criteria
+        -:   75:         * @param year: year to be searched
+        -:   76:         * @return all Movies with year - year
+        -:   77:         */
+        -:   78:        [[nodiscard]] auto filterYear(int year) const -> vector<Movie>;
+        -:   79:
+        -:   80:        /**
+        -:   81:         * Sort the list after a type ascending/descending
+        -:   82:         * @param type : criteria to sort by
+        -:   83:         * @param order : sort order - ascending or descending
+        -:   84:         * @return sorted list
+        -:   85:         */
+        -:   86:        [[nodiscard]] auto sorting(SortType type, SortOrder order) const -> vector<Movie>;
+        -:   87:
+        -:   88:        /**
+        -:   89:         * Get all movies
+        -:   90:         * @return list, all movies
+        -:   91:         */
+        -:   92:        [[nodiscard]] auto getMovies() const -> const std::vector<Movie>&;
+        -:   93:
+        -:   94:        [[nodiscard]] auto addToCart(const string & title) const -> vector<Movie>;
+        -:   95:
+        -:   96:        [[nodiscard]] auto deleteCart() const -> vector<Movie>;
+        -:   97:
+        -:   98:        [[nodiscard]] auto randomCart(int dim) const -> vector<Movie>;
+        -:   99:
+        -:  100:        [[nodiscard]] auto getAllCart() const -> vector<Movie>;
+        -:  101:
+        -:  102:        static void exportCSV(const string& fileName, const vector<Movie>& movies);
+        -:  103:
+        -:  104:        static void exportHTML(const string& fileName, const vector<Movie> &movies);
+        -:  105:
+        -:  106:        void notify() const { this->shoppingCart.notify();}
+        -:  107:
+        -:  108:        void undo();
+        -:  109:
+        -:  110:};
+        -:  111:
+        -:  112:#endif //SERVICE_H

@@ -1,0 +1,5 @@
+E01;Concert Simfonic;concert;Opera Nationala Romana;Muzica sub cerul liber in Piata Unirii
+E02;Proiectie de film romanesc;proiectie;Cinema Arta;Film despre viata clujeana
+E03;Ateliere de creatie;atelier;Asociatia Educatie;Copiii creeaza obiecte din materiale reciclabile
+E04;Dansuri traditionale;dans;Ansamblul Folcloric Somesul;Spectacol cu dansuri populare
+E05;Expozitie foto Clujul vechi;expozitie;Muzeul de Istorie;Fotografii rare ale Clujului de altadata

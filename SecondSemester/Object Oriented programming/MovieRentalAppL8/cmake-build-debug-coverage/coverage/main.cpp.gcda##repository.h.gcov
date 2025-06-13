@@ -1,0 +1,136 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/MovieRentalAppL8/repository.h
+        -:    0:Graph:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 29-Mar-25.
+        -:    3://
+        -:    4:
+        -:    5:#ifndef REPOSITORY_H
+        -:    6:#define REPOSITORY_H
+        -:    7:
+        -:    8:#include "movie.h"
+        -:    9:
+        -:   10:#include <fstream>
+        -:   11:#include <ostream>
+        -:   12:#include <utility>
+        -:   13:#include <vector>
+        -:   14:
+        -:   15:using std::vector;
+        -:   16:using std::ostream;
+        -:   17:using std::string;
+        -:   18:
+        -:   19:class RepoException {
+        -:   20:    private:
+        -:   21:        string errorMessage;
+        -:   22:    public:
+        -:   23:        explicit RepoException(string message): errorMessage{std::move(message)} {};
+        -:   24:        auto getMessage() -> string {
+        -:   25:            return this->errorMessage;
+        -:   26:        }
+        -:   27:        friend auto operator<<(std::ostream& out, const RepoException& repo_exception) -> ostream&;
+        -:   28:};
+        -:   29:
+        -:   30:class MovieRepository {
+        -:   31:    private:
+        -:   32:        vector<Movie> movies;
+        -:   33:
+        -:   34:        /**
+        -:   35:         * Verify if a movie is in the list
+        -:   36:         * @param movie_to_search_for :Movie(),searched entity
+        -:   37:         * @return true/false
+        -:   38:         */
+        -:   39:        auto isin(const Movie& movie_to_search_for) -> bool;
+        -:   40:    public:
+        -:   41:
+        -:   42:        // constructor
+        5:   43:        MovieRepository()=default;
+        -:   44:
+        -:   45:        MovieRepository(const MovieRepository& other)=delete;
+        -:   46:
+        -:   47:        /**
+        -:   48:         * Add a movie in the movie list
+        -:   49:         * @param movie
+        -:   50:         * throws an exception if there is already a movie with the same name
+        -:   51:         */
+        -:   52:        virtual void addMovie(const Movie& movie);
+        -:   53:
+        -:   54:        /**
+        -:   55:         * Delete a movie using its position
+        -:   56:         * @param position: position in the list
+        -:   57:         */
+        -:   58:        virtual void deleteMovie(int position);
+        -:   59:
+        -:   60:        /**
+        -:   61:         * Update a movie
+        -:   62:         * @param movie : movie to be updated
+        -:   63:         */
+        -:   64:        virtual void updateMovie(const Movie& movie);
+        -:   65:
+        -:   66:        /**
+        -:   67:         * Get all movies
+        -:   68:         * @return a vector with all movies
+        -:   69:         */
+        -:   70:        [[nodiscard]] virtual auto getMovies() const -> const vector<Movie>&;
+        -:   71:
+        -:   72:        /**
+        -:   73:         * Find an entity after title
+        -:   74:         * @param title : string, str to search for
+        -:   75:         * @return : movie, if found, exception otherwise
+        -:   76:         */
+        -:   77:        [[nodiscard]] virtual auto findPosition(const string & title) const -> int;
+        -:   78:
+        -:   79:
+        -:   80:        /**
+        -:   81:         * Search a movie into the list
+        -:   82:         * @param title : string , movie title
+        -:   83:         * @return movie:Movie, info for searched title
+        -:   84:         */
+        -:   85:        virtual auto searchMovie(const string &title) -> const Movie &;
+        -:   86:
+        -:   87:        virtual ~MovieRepository();
+        -:   88:};
+        -:   89:
+        -:   90:auto operator<<(ostream& out, const RepoException& repo_exception) -> ostream&;
+        -:   91:
+        -:   92:class RepoFile: public MovieRepository {
+        -:   93:    private:
+        -:   94:        void read_from_file();
+        -:   95:        void write_to_file();
+        -:   96:        string file_name;
+        -:   97:        void clear_file() {
+        -:   98:            std::ofstream fin(file_name, std::ios::trunc);
+        -:   99:            fin.close();
+        -:  100:        }
+        -:  101:
+        -:  102:public:
+        5:  103:    RepoFile(string file_name): MovieRepository (), file_name{std::move(file_name)} {
+        5:  104:        read_from_file();
+        6:  105:    };
+        -:  106:
+        9:  107:    void addMovie(const Movie& movie) override {
+        9:  108:        MovieRepository::addMovie(movie);
+        8:  109:        write_to_file();
+        8:  110:    }
+        -:  111:
+        6:  112:    void deleteMovie(int position) override {
+        6:  113:        MovieRepository::deleteMovie(position);
+        5:  114:        write_to_file();
+        5:  115:    }
+        -:  116:
+        3:  117:    void updateMovie(const Movie& movie) override {
+        3:  118:            MovieRepository::updateMovie(movie);
+        2:  119:            write_to_file();
+        2:  120:        }
+        -:  121:
+       3*:  122:    ~RepoFile() override {};
+------------------
+_ZN8RepoFileD0Ev:
+    #####:  122:    ~RepoFile() override {};
+------------------
+_ZN8RepoFileD1Ev:
+        3:  122:    ~RepoFile() override {};
+------------------
+        -:  123:};
+        -:  124:
+        -:  125:#endif //REPOSITORY_H

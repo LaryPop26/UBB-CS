@@ -1,0 +1,35 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/MovieRentalAppL8/validator.h
+        -:    0:Graph:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\validator.cpp.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\validator.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 31-Mar-25.
+        -:    3://
+        -:    4:
+        -:    5:#ifndef VALIDATOR_H
+        -:    6:#define VALIDATOR_H
+        -:    7:#include <string>
+        -:    8:#include <utility>
+        -:    9:#include <vector>
+        -:   10:#include "movie.h"
+        -:   11:using std::string;
+        -:   12:using std::vector;
+        -:   13:using std::ostream;
+        -:   14:
+        -:   15:class ValidationError {
+        -:   16:    vector<string> errorValidation;
+        -:   17:public:
+        1:   18:    ValidationError(vector<string> message) :errorValidation{std::move(message)} {}
+        -:   19:    friend auto operator<<(ostream& out, const ValidationError& exceptie) -> ostream&;
+        -:   20:
+        -:   21:    auto getMessage() -> vector<string> { return errorValidation; }
+        -:   22:};
+        -:   23:
+        -:   24:auto operator<<(ostream& out, const ValidationError& exceptie) -> ostream&;
+        -:   25:
+        -:   26:class Validator {
+        -:   27:public:
+        -:   28:  static void validate(const Movie &movie) ;
+        -:   29:};
+        -:   30:
+        -:   31:#endif //VALIDATOR_H

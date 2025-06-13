@@ -1,0 +1,10 @@
+1,Larisa,23,info
+2,BBB,21,mate
+3,Paul,22,ai
+4,Cristina,20,mate-info
+5,Bogdan,22,info
+6,Marta,23,mate
+7,Ioana,20,info
+8,Oana,22,ai
+9,Raul,24,info
+10,Matei,22,mate-info

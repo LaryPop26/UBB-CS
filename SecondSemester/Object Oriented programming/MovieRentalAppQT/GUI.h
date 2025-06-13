@@ -1,10 +1,8 @@
 #pragma once
-#include <QMainWindow>
 #include <QListWidget>
 #include <QTableWidget>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMessageBox>

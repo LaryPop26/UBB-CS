@@ -1,0 +1,12 @@
+# ninja log v6
+44	57	7684228648571759	clean	a912d6e803ee3202
+29	472	7684228649076055	CMakeFiles/MovieRentalApp.dir/movie.cpp.obj	8991b7f5339f96a1
+56	1374	7684228649361240	CMakeFiles/MovieRentalApp.dir/tests.cpp.obj	939629d8b86ee126
+34	966	7684228649126010	CMakeFiles/MovieRentalApp.dir/repository.cpp.obj	9a3d7b8f4dd92120
+38	1675	7684228649176006	CMakeFiles/MovieRentalApp.dir/service.cpp.obj	4270fd012a8d97fc
+51	731	7684228649296094	CMakeFiles/MovieRentalApp.dir/validator.cpp.obj	89f83bf0cfafe2b2
+23	1018	7684228649026058	CMakeFiles/MovieRentalApp.dir/main.cpp.obj	23f4fdfa1221511e
+45	985	7684228649246096	CMakeFiles/MovieRentalApp.dir/UI.cpp.obj	19da0f33032c3c17
+1675	2028	7684228665534324	MovieRentalApp.exe	824ec6e0c56b0305
+3	247	7715244589040300	build.ninja	5101612e6ad10a0b
+64	1202	7684228649431240	CMakeFiles/MovieRentalApp.dir/shoppingCart.cpp.obj	5e9953a37efbe9b8

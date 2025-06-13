@@ -1,0 +1,42 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/MovieRentalAppL8/shoppingCart.cpp
+        -:    0:Graph:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\shoppingCart.cpp.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\shoppingCart.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 16-Apr-25.
+        -:    3://
+        -:    4:
+        -:    5:#include "shoppingCart.h"
+        -:    6:#include <algorithm>
+        -:    7:#include <random>
+        -:    8:
+       10:    9:ShoppingCart::ShoppingCart() = default;
+        -:   10:
+        2:   11:void ShoppingCart::addToCart(const Movie &movie) {
+        2:   12:    this->shoppingCart.push_back(movie);
+        2:   13:}
+        -:   14:
+        3:   15:void ShoppingCart::deleteCart() {
+        3:   16:    this->shoppingCart.clear();
+        3:   17:}
+        -:   18:
+        5:   19:void ShoppingCart::randomCart(size_t dim, vector<Movie> movies) {
+        5:   20:    vector<Movie> moviesAux;
+        5:   21:    std::shuffle(movies.begin(),movies.end(), std::default_random_engine(std::random_device{}()));
+       22:   22:    while ((this->shoppingCart.size() < dim) && (!movies.empty())) {
+       12:   23:        this->shoppingCart.push_back(movies.back());
+       12:   24:        moviesAux.push_back(movies.back());
+       12:   25:        movies.pop_back();
+       12:   26:        if (movies.empty() && shoppingCart.size() < dim) {
+        2:   27:            movies = moviesAux;
+        2:   28:            moviesAux.clear();
+        2:   29:            std::shuffle(movies.begin(),movies.end(), std::default_random_engine(std::random_device{}()));
+        -:   30:        }
+        -:   31:    }
+        5:   32:}
+        -:   33:
+       16:   34:auto ShoppingCart::getallShoppingCart() -> const vector<Movie> & {
+       16:   35:    return this->shoppingCart;
+        -:   36:}
+        -:   37:
+        9:   38:ShoppingCart::~ShoppingCart() = default;

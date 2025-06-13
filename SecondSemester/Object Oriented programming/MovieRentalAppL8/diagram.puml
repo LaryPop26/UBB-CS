@@ -1,0 +1,117 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' UI Layer
+package "UI Layer" {
+    class UI {
+        - MovieRent& srv
+        + run(): void
+    }
+}
+
+' Service Layer
+package "Service Layer" {
+    class MovieRent {
+        - MovieRepository& repo
+        - Validator& validator
+        - ShoppingCart& shoppingCart
+        + addMovie(title: string, genre: string, year: int, mainChar: string): void
+        + deleteMovie(title: string): void
+        + updateMovie(title: string, genre: string, year: int, mainChar: string): void
+        + searchMovie(title: string): Movie
+        + filterGenre(genre: string): vector<Movie>
+        + filterYear(year: int): vector<Movie>
+        + sorting(type: int, order: int): vector<Movie>
+        + getMovies(): vector<Movie>
+        + addToCart(title: string): vector<Movie>
+        + deleteCart(): vector<Movie>
+        + randomCart(dim: int): vector<Movie>
+        + getAllCart(): vector<Movie>
+        + exportCSV(fileName: string, movies: vector<Movie>): void
+        + exportHTML(fileName: string, movies: vector<Movie>): void
+        + notify(): void
+    }
+}
+
+' Repository Layer
+package "Repository Layer" {
+    class MovieRepository {
+        - vector<Movie> movies
+        - isin(movie: Movie): bool
+        + addMovie(movie: Movie): void
+        + deleteMovie(position: int): void
+        + updateMovie(movie: Movie, position: int): void
+        + getMovies(): vector<Movie>
+        + findPosition(title: string): int
+        + searchMovie(title: string): Movie
+    }
+
+    class RepoException {
+        - string errorMessage
+        + RepoException(message: string)
+        + getMessage(): string
+    }
+}
+
+' Domain Layer
+package "Domain Layer" {
+    class Movie {
+        - string title
+        - string genre
+        - int year
+        - string mainChar
+        + getTitle(): string
+        + getGenre(): string
+        + getYear(): int
+        + getMainChar(): string
+        + setGenre(newGenre: string): void
+        + setYear(year: int): void
+        + setMainChar(mainChar: string): void
+    }
+
+    class Validator {
+        + validate(movie: Movie): void
+    }
+
+    class ValidationError {
+        - vector<string> errorValidation
+        + getMessage(): vector<string>
+    }
+}
+
+' Infrastructure Layer
+package "Infrastructure Layer" {
+    class ShoppingCart {
+        - vector<Movie> shoppingCart
+        + addToCart(movie: Movie): void
+        + deleteCart(): void
+        + randomCart(dim: size_t, movies: vector<Movie>): void
+        + getallShoppingCart(): vector<Movie>
+    }
+
+    class Observable {
+        - vector<Observer*> observers
+        + addObserver(observer: Observer*): void
+        + deleteObserver(observer: Observer*): void
+        + notify(): void
+    }
+
+    class Observer {
+        + update(): void
+    }
+}
+
+' Relationships
+ShoppingCart --|> Observable
+Observable <|-- Observer
+ValidationError <.. Validator
+
+MovieRepository --> Movie
+MovieRent --> MovieRepository
+MovieRent --> Validator
+MovieRent --> ShoppingCart
+ShoppingCart --> Movie
+Validator --> Movie
+UI --> MovieRent
+
+@enduml

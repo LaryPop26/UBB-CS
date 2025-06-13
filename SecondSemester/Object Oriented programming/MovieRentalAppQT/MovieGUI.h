@@ -9,7 +9,6 @@
 #include "CosReadOnlyGUI.h"
 #include <QApplication>
 #include <QTextEdit>
-#include <QtWidgets/QApplication>
 #include <QtWidgets/qlabel.h>
 #include <QtWidgets/qwidget.h>
 #include <QtWidgets/qpushbutton.h>
@@ -46,10 +45,6 @@ private:
     ShoppingCart& cos;
     vector<Movie> filme;
 
-    //CosCRUDGUI* cosCRUDGUI = new CosCRUDGUI();
-    //CosReadOnlyGUI* cosReadOnlyGUI = new CosReadOnlyGUI();
-
-    //QListWidget* lista = new QListWidget{};
     QScrollArea* scrollArea = new QScrollArea();
     QTableWidget* tabelFilme = new QTableWidget();
     QListWidget* listaInchirieri = new QListWidget{};

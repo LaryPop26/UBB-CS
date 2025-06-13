@@ -1,0 +1,50 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/MovieRentalAppL8/UI.h
+        -:    0:Graph:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\main.cpp.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\main.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 29-Mar-25.
+        -:    3://
+        -:    4:
+        -:    5:#ifndef UI_H
+        -:    6:#define UI_H
+        -:    7:#include "service.h"
+        -:    8:class UI {
+        -:    9:private:
+        -:   10:    MovieRent& srv;
+        -:   11:
+        -:   12:    void addUI() const;
+        -:   13:
+        -:   14:    void deleteUI() const;
+        -:   15:
+        -:   16:    void updateUI() const;
+        -:   17:
+        -:   18:    void searchUI() const;
+        -:   19:
+        -:   20:    void filterUI() const;
+        -:   21:
+        -:   22:    void sortUI() const;
+        -:   23:
+        -:   24:    static void printAllMovies(const vector<Movie>& movies);
+        -:   25:
+        -:   26:    void addToCartUI() const;
+        -:   27:
+        -:   28:    /*void deleteFromCartUI();*/
+        -:   29:
+        -:   30:    void randomCartUI() const;
+        -:   31:
+        -:   32:    void exportUI() const;
+        -:   33:    void undoUI() const;
+        -:   34:
+        -:   35:  public:
+        1:   36:  explicit UI(MovieRent& srv):srv{srv} {};
+        -:   37:  UI(const UI& other) = delete;
+        -:   38:
+        -:   39:  ~UI()=default;
+        -:   40:
+        -:   41:  static void printMenu();
+        -:   42:
+        -:   43:  void run() const;
+        -:   44:};
+        -:   45:
+        -:   46:#endif //UI_H

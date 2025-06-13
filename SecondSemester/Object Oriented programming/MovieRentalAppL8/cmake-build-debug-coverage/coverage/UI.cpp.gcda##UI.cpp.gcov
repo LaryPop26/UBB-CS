@@ -1,0 +1,302 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/MovieRentalAppL8/UI.cpp
+        -:    0:Graph:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\UI.cpp.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\UI.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 29-Mar-25.
+        -:    3://
+        -:    4:
+        -:    5:#include "UI.h"
+        -:    6:#include <iostream>
+        -:    7:#include "tests.h"
+        -:    8:
+        -:    9:using std::cout;
+        -:   10:using std::endl;
+        -:   11:using std::cin;
+        -:   12:
+        -:   13:constexpr int OptionClose = 0;
+        -:   14:constexpr int OptionAddMovie = 1;
+        -:   15:constexpr int OptionDeleteMovie = 2;
+        -:   16:constexpr int OptionUpdateMovie = 3;
+        -:   17:constexpr int OptionSearchMovie = 4;
+        -:   18:constexpr int OptionFilterMovie = 5;
+        -:   19:constexpr int OptionSortMovie = 6;
+        -:   20:constexpr int OptionShowMovies = 7;
+        -:   21:constexpr int OptionAddToCart = 8;
+        -:   22:constexpr int OptionDeleteCart = 9;
+        -:   23:constexpr int OptionEmptyCart = 10;
+        -:   24:constexpr int OptionRandomCart = 11;
+        -:   25:constexpr int OptionExportCart = 12;
+        -:   26:constexpr int OptionShowCart = 13;
+        -:   27:constexpr int OptionUndo = 14;
+        -:   28:
+        1:   29:void UI::printMenu() {
+        1:   30:    cout << "Movie Rental App" << '\n';
+        1:   31:    cout << "1. Add movie" << '\n';
+        1:   32:    cout << "2. Delete movie" << '\n';
+        1:   33:    cout << "3. Update movie" << '\n';
+        1:   34:    cout << "4. Search movie" << '\n';
+        1:   35:    cout << "5. Filter" << '\n';
+        1:   36:    cout << "6. Sort" << '\n';
+        1:   37:    cout << "7. Print all movies" << '\n';
+        1:   38:    cout << "8. Add to cart" << '\n';
+        1:   39:    cout << "9. Delete cart" << '\n';
+        1:   40:    cout << "10. Empty cart" << '\n';
+        1:   41:    cout << "11. Random cart" << '\n';
+        1:   42:    cout << "12. Export cart" << '\n';
+        1:   43:    cout << "13. Show cart" << '\n';
+        1:   44:    cout<< "14. Undo" << '\n';
+        1:   45:    cout << "0. Exit" << '\n';
+        1:   46:}
+        -:   47:
+    #####:   48:void UI::printAllMovies(const std::vector<Movie> &movies) {
+    #####:   49:  if (movies.empty()) {
+    #####:   50:    cout << "Currently, there are no movies in the list." << '\n';
+        -:   51:  } else {
+    #####:   52:    for (const auto &movie : movies) {
+    #####:   53:      cout << "Title: " << movie.getTitle() << " | Genre: " << movie.getGenre()
+    #####:   54:           << " | Year: " << movie.getYear()
+    #####:   55:           << " | Main Character: " << movie.getMainChar() << '\n';
+        -:   56:    }
+        -:   57:    }
+    #####:   58:}
+        -:   59:
+    #####:   60:void UI::addUI() const{
+    #####:   61:    string title;
+    #####:   62:    string genre;
+    #####:   63:    string mainChar;
+    #####:   64:    int year=0;
+    #####:   65:    cin.ignore();
+    #####:   66:    cout << "Enter title: ";
+    #####:   67:    getline(cin, title);
+    #####:   68:    cout << "Enter genre: ";
+    #####:   69:    getline(cin, genre);
+    #####:   70:    cout << "Enter year: ";
+    #####:   71:    cin >> year;
+    #####:   72:    cin.ignore();
+    #####:   73:    cout << "Enter main character: ";
+    #####:   74:    getline(cin, mainChar);
+    #####:   75:    srv.addMovie(title, genre, year, mainChar);
+    #####:   76:}
+        -:   77:
+    #####:   78:void UI::deleteUI() const{
+    #####:   79:    string title;
+    #####:   80:    cout << "Enter the title of the movie to delete: ";
+    #####:   81:    getline(std::cin>>std::ws, title);
+        -:   82:
+    #####:   83:    srv.deleteMovie(title);
+    #####:   84:    cout << "Movie deleted successfully." << '\n';
+    #####:   85:}
+        -:   86:
+    #####:   87:void UI::updateUI() const{
+    #####:   88:    int year = 0;
+    #####:   89:    string title;
+    #####:   90:    string genre;
+    #####:   91:    string mainChar;
+    #####:   92:    cin.ignore();
+    #####:   93:    cout << "Enter title: ";
+    #####:   94:    getline(cin, title);
+    #####:   95:    cout << "Enter new genre: ";
+    #####:   96:    getline(cin, genre);
+    #####:   97:    cout << "Enter new year: ";
+    #####:   98:    cin >> year;
+    #####:   99:    cin.ignore();
+    #####:  100:    cout << "Enter new main character: ";
+    #####:  101:    getline(cin, mainChar);
+        -:  102:
+    #####:  103:    srv.updateMovie(title, genre, year, mainChar);
+    #####:  104:    cout<< "Movie updated successfully." << '\n';
+    #####:  105:}
+        -:  106:
+    #####:  107:void UI::searchUI() const {
+    #####:  108:    string title;
+    #####:  109:    cout << "Enter title: ";
+    #####:  110:    cin.ignore();
+    #####:  111:    getline(cin, title);
+    #####:  112:    const Movie movie = srv.searchMovie(title);
+    #####:  113:    cout << "Movie:  " << '\n' << "Title: " << movie.getTitle() << " | Genre: " << movie.getGenre() << " | Year: " << movie.getYear()
+    #####:  114:            << " | Main Character: " << movie.getMainChar() << '\n';;
+    #####:  115:}
+        -:  116:
+    #####:  117:void UI::filterUI() const {
+    #####:  118:    int type = 0;
+    #####:  119:    cin.ignore();
+    #####:  120:    cout << "Enter type of filter: 1 - genre, 2 - year: ";
+    #####:  121:    cin >> type;
+    #####:  122:    if (type == 1) {
+    #####:  123:        string genre;
+    #####:  124:        cout << "Enter genre: ";
+    #####:  125:        cin.ignore();
+    #####:  126:        getline(cin, genre);
+        -:  127:
+    #####:  128:        printAllMovies(srv.filterGenre(genre));
+    #####:  129:    }
+    #####:  130:    else if (type == 2) {
+    #####:  131:        int year = 0;
+    #####:  132:        cout << "Enter year: ";
+    #####:  133:        cin >> year;
+        -:  134:
+    #####:  135:        printAllMovies(srv.filterYear(year));
+        -:  136:    }
+        -:  137:    else {
+    #####:  138:        cout << "Invalid input." << '\n';
+        -:  139:    }
+    #####:  140:}
+    #####:  141:void UI::sortUI() const {
+    #####:  142:    int type = 0;
+    #####:  143:    int order = 0;
+        -:  144:
+        -:  145:    // Alegerea tipului de sortare
+    #####:  146:    cout << "Enter type of sort:\n";
+    #####:  147:    cout << "1. Title\n";
+    #####:  148:    cout << "2. Main Character\n";
+    #####:  149:    cout << "3. Genre + Year\n";
+    #####:  150:    cout << "Choose an option: ";
+    #####:  151:    cin >> type;
+        -:  152:
+        -:  153:    // Verificăm dacă inputul pentru tipul de sortare este valid
+    #####:  154:    if (type < 1 || type > 3) {
+    #####:  155:        cout << "Invalid input for type." << '\n';
+    #####:  156:        return;
+        -:  157:    }
+        -:  158:
+        -:  159:    // Alegerea ordinii
+    #####:  160:    cout << "Enter order:\n";
+    #####:  161:    cout << "1. Ascending\n";
+    #####:  162:    cout << "2. Descending\n";
+    #####:  163:    cout << "Choose an option: ";
+    #####:  164:    cin >> order;
+        -:  165:
+        -:  166:    // Verificăm dacă inputul pentru ordine este valid
+    #####:  167:    if (order < 1 || order > 2) {
+    #####:  168:        cout << "Invalid input for order." << '\n';
+    #####:  169:        return;
+        -:  170:    }
+        -:  171:
+        -:  172:    // Folosim enum-urile pentru a selecta tipul de sortare și ordinea
+    #####:  173:    const auto enumType = static_cast<SortType>(type);
+    #####:  174:    const auto enumOrder = static_cast<SortOrder>(order);
+        -:  175:
+        -:  176:    // Apelăm funcția de sortare
+    #####:  177:    const vector<Movie> movies = srv.sorting(enumType, enumOrder);
+        -:  178:
+        -:  179:    // Afișăm rezultatele
+    #####:  180:    printAllMovies(movies);
+    #####:  181:}
+        -:  182:
+    #####:  183:void UI::addToCartUI() const {
+    #####:  184:    string title;
+    #####:  185:    cin.ignore();
+    #####:  186:    cout << "Enter movie title to be added in cart: ";
+    #####:  187:    getline(cin, title);
+    #####:  188:    printAllMovies(srv.addToCart(title));
+    #####:  189:}
+        -:  190:
+        -:  191:/*void UI::deleteFromCartUI() {
+        -:  192:    string title;
+        -:  193:    cin.ignore();
+        -:  194:    cout << "Enter movie title to be deleted from cart: ";
+        -:  195:    printAllMovies(srv.deleteFromCart(title));
+        -:  196:}*/
+        -:  197:
+    #####:  198:void UI::randomCartUI() const {
+    #####:  199:    int dim = 0;
+    #####:  200:    cin.ignore();
+    #####:  201:    cout << "Enter number of random movies: ";
+    #####:  202:    cin >> dim;
+    #####:  203:    printAllMovies(srv.randomCart(dim));
+    #####:  204:}
+        -:  205:
+    #####:  206:void UI::exportUI() const {
+    #####:  207:    string fileName;
+    #####:  208:    string type;
+    #####:  209:    cin.ignore();
+    #####:  210:    cout << "Enter file type (csv/html): ";
+    #####:  211:    getline(cin, type);
+    #####:  212:    cout << "Enter file name: ";
+    #####:  213:    getline(cin, fileName);
+    #####:  214:    const vector<Movie>& movies = srv.getAllCart();
+    #####:  215:    if (type == "csv") {
+    #####:  216:        MovieRent::exportCSV(fileName, movies);
+        -:  217:    }
+    #####:  218:    else if (type == "html") {
+    #####:  219:        MovieRent::exportHTML(fileName, movies);
+        -:  220:    }
+        -:  221:    else {
+    #####:  222:        cout << "Invalid input." << '\n';
+        -:  223:    }
+    #####:  224:}
+        -:  225:
+    #####:  226:void UI::undoUI() const {
+    #####:  227:    srv.undo();
+    #####:  228:    printAllMovies(srv.getMovies());
+    #####:  229:}
+        -:  230:
+        1:  231:void UI::run() const{
+        1:  232:    testing();
+        1:  233:    bool running = true ;
+        1:  234:    int cmd = 0;
+        1:  235:    while (running) {
+        1:  236:        printMenu();
+        1:  237:        cout << "Choose an option: "<< '\n';
+        1:  238:        cin >> cmd;
+        -:  239:        try {
+    #####:  240:            switch (cmd) {
+    #####:  241:                case OptionAddMovie:
+    #####:  242:                    addUI();
+    #####:  243:                    break;
+    #####:  244:                case OptionDeleteMovie:
+    #####:  245:                    deleteUI();
+    #####:  246:                    break;
+    #####:  247:                case OptionUpdateMovie:
+    #####:  248:                    updateUI();
+    #####:  249:                    break;
+    #####:  250:                case OptionSearchMovie:
+    #####:  251:                    searchUI();
+    #####:  252:                    break;
+    #####:  253:                case OptionFilterMovie:
+    #####:  254:                    filterUI();
+    #####:  255:                    break;
+    #####:  256:                case OptionSortMovie:
+    #####:  257:                    sortUI();
+    #####:  258:                    break;
+    #####:  259:                case OptionShowMovies:
+    #####:  260:                    printAllMovies(srv.getMovies());
+    #####:  261:                    break;
+    #####:  262:                case OptionAddToCart:
+    #####:  263:                    addToCartUI();
+    #####:  264:                    break;
+    #####:  265:                case OptionDeleteCart:
+        -:  266:                    /*deleteFromCartUI();*/
+    #####:  267:                    break;
+    #####:  268:                case OptionEmptyCart:
+    #####:  269:                    printAllMovies(srv.deleteCart());
+    #####:  270:                    break;
+    #####:  271:                case OptionRandomCart:
+    #####:  272:                    randomCartUI();
+    #####:  273:                    break;
+    #####:  274:                case OptionExportCart:
+    #####:  275:                    exportUI();
+    #####:  276:                    break;
+    #####:  277:                case OptionShowCart:
+    #####:  278:                    printAllMovies(srv.getAllCart());
+    #####:  279:                    break;
+    #####:  280:                case OptionUndo:
+    #####:  281:                    undoUI();
+    #####:  282:                    break;
+    #####:  283:                case OptionClose:
+    #####:  284:                    running = false;
+    #####:  285:                break;
+    #####:  286:                default:
+    #####:  287:                    cout << "Invalid option." << '\n';
+    #####:  288:                break;
+        -:  289:            }
+        -:  290:        }
+    =====:  291:        catch (RepoException& re) {
+    =====:  292:            cout << re << '\n';
+    =====:  293:        }
+    =====:  294:        catch (ValidationError& ve) {
+    =====:  295:            cout << ve << "\n";
+    =====:  296:        }
+        -:  297:    }
+    #####:  298:}

@@ -1,0 +1,31 @@
+        -:    0:Source:C:/Users/popla/CLionProjects/MovieRentalAppL8/validator.cpp
+        -:    0:Graph:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\validator.cpp.gcno
+        -:    0:Data:C:\Users\popla\CLionProjects\MovieRentalAppL8\cmake-build-debug-coverage\CMakeFiles\MovieRentalApp.dir\validator.cpp.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by popla on 31-Mar-25.
+        -:    3://
+        -:    4:
+        -:    5:#include "validator.h"
+        -:    6:constexpr int min_year = 1000;
+       20:    7:void Validator::validate(const Movie& movie) {
+       20:    8:    vector<string> errorMessage;
+       20:    9:    if (movie.getTitle().empty()) { errorMessage.emplace_back("Title is empty");
+        -:   10:}
+       20:   11:    if (movie.getGenre().empty()) { errorMessage.emplace_back("Genre is empty");
+        -:   12:}
+       20:   13:    if (movie.getYear()<min_year) { errorMessage.emplace_back("Year is not correct");
+        -:   14:}
+       20:   15:    if (movie.getMainChar().empty()) { errorMessage.emplace_back("MainChar is empty");
+        -:   16:}
+       20:   17:    if (!errorMessage.empty()) {
+        1:   18:        throw ValidationError(errorMessage);
+        -:   19:    }
+       20:   20:}
+        -:   21:
+        1:   22:auto operator<<(ostream& out, const ValidationError& exceptie) -> ostream& {
+        5:   23:    for (const auto& message : exceptie.errorValidation) {
+        4:   24:        out << message;
+        -:   25:    }
+        1:   26:    return out;
+        -:   27:}
