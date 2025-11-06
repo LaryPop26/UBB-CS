@@ -1,0 +1,13 @@
+=== TABELA DE SIMBOLURI ===
+   1  iostream
+   2  std
+   3  cerc
+   4  circle
+   5  r
+   6  pi
+   7  3.14
+   8  " Introdu raza: "
+   9  "Perimetru = "
+  10  2
+  11  "Arie: "
+  12  0

@@ -1,0 +1,12 @@
+AutomatFinit
+ descriere: String                      /** Automat finit determinist */
+ stareInitiala: Stare                   /** Starea inițială */
+ stari: UnorderedSet<Stare>             /** Mulțimea stărilor, memorată neordonat */
+ alfabet: UnorderedSet<Simbol>          /** Mulțimea simbolurilor de intrare */
+ tranzitii: UnorderedMap<(String, Char), String>  
+                                        /** Funcția δ implementată ca hash map */
+
+Stare
+ nume: String                           /** Identificatorul unic al stării */
+ esteFinala: Boolean                    /** Indică dacă starea este de acceptare */
+ tranzitii: UnorderedMap<Char, String>  /** Tranzițiile posibile */

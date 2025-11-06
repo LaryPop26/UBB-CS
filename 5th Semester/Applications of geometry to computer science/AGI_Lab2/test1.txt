@@ -1,0 +1,70 @@
+=== Determinarea imaginii unui poliedru prin reflexie fata de un plan ===
+
+Punct plan: (1.0, 1.0, 0.0)
+Normal: (0.0, 0.0, 1.0)
+Nr varfuri: 4
+Introdu coordonatele varfurilor (x y z):
+V1: 0.0 0.0 0.0
+V2: 1.0 0.0 0.0
+V3: 1.0 1.0 0.0
+V4: 0.0 1.0 0.0
+
+-------------------- REZULTATE --------------------
+Plan (normalizat): a,b,c,d = (np.float64(0.0), np.float64(0.0), np.float64(1.0), np.float64(-0.0))
+Punct pe plan: [0. 0. 0.]
+Planul trece prin origine ⇒ nu este nevoie de translație.
+Plan paralel cu XY ⇒ fara rotatii.
+
+--- 1. Matricea T (translatie) ---
+[[1. 0. 0. 0.]
+ [0. 1. 0. 0.]
+ [0. 0. 1. 0.]
+ [0. 0. 0. 1.]]
+
+--- 2. Matricea R3 (rotatie spre plan de coordonate) ---
+[[1. 0. 0. 0.]
+ [0. 1. 0. 0.]
+ [0. 0. 1. 0.]
+ [0. 0. 0. 1.]]
+
+--- 3. Matricea R4 (rotatie pentru coincidenta cu planul de coordonate) ---
+[[1. 0. 0. 0.]
+ [0. 1. 0. 0.]
+ [0. 0. 1. 0.]
+ [0. 0. 0. 1.]]
+
+--- 4. Matricea Ref (reflexie) ---
+[[ 1.  0.  0.  0.]
+ [ 0.  1.  0.  0.]
+ [ 0.  0. -1.  0.]
+ [ 0.  0.  0.  1.]]
+
+--- 5. Matricea R4_inv ---
+[[1. 0. 0. 0.]
+ [0. 1. 0. 0.]
+ [0. 0. 1. 0.]
+ [0. 0. 0. 1.]]
+
+--- 6. Matricea R3_inv ---
+[[1. 0. 0. 0.]
+ [0. 1. 0. 0.]
+ [0. 0. 1. 0.]
+ [0. 0. 0. 1.]]
+
+--- 7. Matricea T_inv ---
+[[1. 0. 0. 0.]
+ [0. 1. 0. 0.]
+ [0. 0. 1. 0.]
+ [0. 0. 0. 1.]]
+
+--- Matricea compusă a transformării ---
+[[ 1.  0.  0.  0.]
+ [ 0.  1.  0.  0.]
+ [ 0.  0. -1.  0.]
+ [ 0.  0.  0.  1.]]
+
+--- Matricea coordonatelor omogene ale vârfurilor transformate ---
+[[0. 0. 0. 1.]
+ [1. 0. 0. 1.]
+ [1. 1. 0. 1.]
+ [0. 1. 0. 1.]]

@@ -1,0 +1,67 @@
+=== Determinarea imaginii unui poliedru prin reflexie fata de un plan ===
+
+Coeficienti plan: 2 3 1 -6
+Nr varfuri: 4
+Introdu coordonatele varfurilor (x y z):
+V1: 1.0 1.0 1.0
+V2: 2.0 0.0 0.0
+V3: 0.0 2.0 1.0
+V4: 3.0 1.0 2.0
+
+-------------------- REZULTATE --------------------
+Plan (normalizat): a,b,c,d = (np.float64(0.534522), np.float64(0.801784), np.float64(0.267261), np.float64(-1.603567))
+Punct pe plan: [3. 0. 0.]
+
+--- 1. Matricea T (translatie) ---
+[[ 1.  0.  0. -3.]
+ [ 0.  1.  0. -0.]
+ [ 0.  0.  1. -0.]
+ [ 0.  0.  0.  1.]]
+
+--- 2. Matricea R3 (rotatie spre plan de coordonate) ---
+[[ 0.5547   0.83205  0.       0.     ]
+ [-0.83205  0.5547   0.       0.     ]
+ [ 0.       0.       1.       0.     ]
+ [ 0.       0.       0.       1.     ]]
+
+--- 3. Matricea R4 (rotatie pentru coincidenta cu planul de coordonate) ---
+[[ 0.267261  0.       -0.963624  0.      ]
+ [ 0.        1.        0.        0.      ]
+ [ 0.963624  0.        0.267261  0.      ]
+ [ 0.        0.        0.        1.      ]]
+
+--- 4. Matricea Ref (reflexie) ---
+[[ 1.  0.  0.  0.]
+ [ 0.  1.  0.  0.]
+ [ 0.  0. -1.  0.]
+ [ 0.  0.  0.  1.]]
+
+--- 5. Matricea R4_inv ---
+[[ 0.267261  0.        0.963624  0.      ]
+ [ 0.        1.        0.        0.      ]
+ [-0.963624 -0.        0.267261 -0.      ]
+ [ 0.        0.        0.        1.      ]]
+
+--- 6. Matricea R3_inv ---
+[[ 0.5547  -0.83205 -0.      -0.     ]
+ [ 0.83205  0.5547   0.       0.     ]
+ [ 0.       0.       1.       0.     ]
+ [ 0.       0.       0.       1.     ]]
+
+--- 7. Matricea T_inv ---
+[[1. 0. 0. 3.]
+ [0. 1. 0. 0.]
+ [0. 0. 1. 0.]
+ [0. 0. 0. 1.]]
+
+--- Matricea compusă a transformării ---
+[[ 0.428571 -0.857143 -0.285714  1.714286]
+ [-0.857143 -0.285714 -0.428571  2.571429]
+ [-0.285714 -0.428571  0.857143  0.857143]
+ [ 0.        0.        0.        1.      ]]
+
+--- Matricea coordonatelor omogene ale vârfurilor transformate ---
+[[ 1.        1.        1.        1.      ]
+ [ 2.571429  0.857143  0.285714  1.      ]
+ [-0.285714  1.571429  0.857143  1.      ]
+ [ 1.571429 -1.142857  1.285714  1.      ]]

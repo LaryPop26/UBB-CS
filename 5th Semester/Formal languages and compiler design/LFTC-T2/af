@@ -1,0 +1,16 @@
+Sursa documentației
+Standard oficial C++: ISO/IEC 14882:2017 – Programming Language C++ (C++17)
+
+AFD = (Q, Σ, δ, q₀, F), unde:
+Q = {q0, q1}
+Σ = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+q₀ = q0
+F = {q1}
+δ:
+δ(q0, [0-9]) = q1
+δ(q1, [0-9]) = q1
+
+(q0) --[0-9]--> (q1*)
+(q1) --[0-9]--> (q1)
+
+Automatul acceptă orice secvență formată din una sau mai multe cifre consecutive, fără alte caractere.

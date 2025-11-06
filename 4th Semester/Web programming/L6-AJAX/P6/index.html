@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Filtrare Notebookuri</title>
+</head>
+<body>
+  <h2>Filtrare produse IT</h2>
+
+  <label>Producător:</label>
+  <select id="producator">
+    <option value="">-- Toți --</option>
+    <option value="Dell">Dell</option>
+    <option value="HP">HP</option>
+    <option value="Lenovo">Lenovo</option>
+    <option value="Asus">Asus</option>
+  </select>
+
+  <label>Procesor:</label>
+  <select id="procesor">
+    <option value="">-- Toți --</option>
+    <option value="Intel Core I5">Intel Core I5</option>
+    <option value="Intel Core I7">Intel Core I7</option>
+    <option value="AMD Ryzen 3 5300U">AMD Ryzen 3 5300U</option>
+    <option value="AMD Ryzen 7 4700H">AMD Ryzen 7 4700H</option>
+  </select>
+
+  <label>Memorie:</label>
+  <select id="memorie">
+    <option value="">-- Toate --</option>
+    <option value="8GB">8GB</option>
+    <option value="16GB">16GB</option>
+    <option value="24GB">24GB</option>
+  </select>
+
+  <label>Capacitate HDD:</label>
+  <select id="capacitateHDD">
+    <option value="">-- Toate --</option>
+    <option value="512">512</option>
+    <option value="1024">1024</option>
+    <option value="2048">2048</option>
+  </select>
+
+  <label>Placă video:</label>
+  <select id="placavideo">
+    <option value="">-- Toate --</option>
+    <option value="Nvidia GTX 1050">Nvidia GTX 1050</option>
+    <option value="Nvidia RTX 2060">Nvidia RTX 2060</option>
+    <option value="Nvidia RTX 4060">Nvidia RTX 4060</option>
+    <option value="Intel Graphics">Intel Graphics</option>
+    <option value="AMD Radeon Graphics">AMD Radeon Graphics</option>
+  </select>
+
+  <br><br>
+  <button onclick="filtrareProduse()">Filtrare</button>
+
+  <br><br>
+  <table border="1" id="tabelProduse" style="width:100%; border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th>Producător</th>
+        <th>Procesor</th>
+        <th>Memorie</th>
+        <th>Capacitate HDD</th>
+        <th>Placă video</th>
+      </tr>
+    </thead>
+    <tbody id="rezultate">
+      <!-- rândurile vor fi adăugate dinamic -->
+    </tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>

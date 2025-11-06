@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8" />
+    <title>Formular Update</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <h2>Lista persoane</h2>
+    <select id="personSelect">
+        <option value="">-- Selectează o persoană --</option>
+    </select>
+
+    <form id="personForm">
+        <div>
+            <label>Nume:</label>
+            <input type="text" id="nume" name="nume" />
+        </div>
+        <div>
+            <label>Prenume:</label>
+            <input type="text" id="prenume" name="prenume" />
+        </div>
+        <div>
+            <label>Telefon:</label>
+            <input type="text" id="telefon" name="telefon" />
+        </div>
+        <div>
+            <label>Email:</label>
+            <input type="email" id="email" name="email" />
+        </div>
+        <input type="hidden" id="id" name="id" />
+        <button type="button" id="saveBtn" disabled>Save</button>
+    </form>
+
+    <script>
+    $(document).ready(function() {
+        let isFormInitialized = false;
+        let isFormDirty = false;
+
+        // Încarcă lista de id-uri în select la încărcarea paginii
+        function loadPersonIds() {
+            $.ajax({
+                url: 'get_person_ids.php',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#personSelect').append(
+                        data.map(person => `<option value="${person.id}">${person.id}</option>`)
+                    );
+                }
+            });
+        }
+
+        // Încarcă datele unei persoane în formular
+        function loadFormData(id) {
+            if (!id) {
+                // Dacă nu e selectat nimic, resetează formularul
+                $('#personForm')[0].reset();
+                $('#id').val('');
+                $('#saveBtn').prop('disabled', true);
+                isFormDirty = false;
+                return;
+            }
+
+            $.ajax({
+                url: 'get_person_data.php',
+                method: 'GET',
+                data: { id: id },
+                dataType: 'json',
+                success: function(data) {
+                    $('#nume').val(data.nume);
+                    $('#prenume').val(data.prenume);
+                    $('#telefon').val(data.telefon);
+                    $('#email').val(data.email);
+                    $('#id').val(data.id);
+
+                    $('#saveBtn').prop('disabled', true);
+                    isFormDirty = false;
+                }
+            });
+        }
+
+        // Salvează datele modificate
+        function saveFormData() {
+            const formData = {
+                id: $('#id').val(),
+                nume: $('#nume').val(),
+                prenume: $('#prenume').val(),
+                telefon: $('#telefon').val(),
+                email: $('#email').val()
+            };
+
+            $.ajax({
+                url: 'save_person_data.php',
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    alert('Datele au fost salvate cu succes!');
+                    $('#saveBtn').prop('disabled', true);
+                    isFormDirty = false;
+                },
+                error: function() {
+                    alert('Eroare la salvarea datelor.');
+                }
+            });
+        }
+
+        // La schimbarea selecției
+        $('#personSelect').on('change', function() {
+            const selectedId = $(this).val();
+
+            if (!isFormInitialized) {
+                // Prima încărcare: fără alertă
+                loadFormData(selectedId);
+                isFormInitialized = true;
+                isFormDirty = false;
+            } else {
+                if (isFormDirty) {
+                    if (confirm('Datele s-au modificat. Vrei să salvezi înainte de a schimba persoana?')) {
+                        saveFormData();
+                    }
+                }
+                loadFormData(selectedId);
+                isFormDirty = false;
+            }
+        });
+
+        // Detectează modificările în formular
+        $('#personForm input').on('input', function() {
+            if (!$('#saveBtn').prop('disabled')) return; // dacă deja e activat
+            $('#saveBtn').prop('disabled', false);
+            isFormDirty = true;
+        });
+
+        // Click pe butonul Save
+        $('#saveBtn').on('click', function() {
+            saveFormData();
+        });
+
+        // La încărcare, încarcă lista de id-uri
+        loadPersonIds();
+    });
+    </script>
+</body>
+</html>
+
+
+<!-- 
+function loadPersonIds() {
+    $('#personSelect').empty().append('<option value="">-- Selectează o persoană --</option>');
+    $.ajax({
+        url: 'get_person_ids.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            $('#personSelect').append(
+                data.map(person => `<option value="${person.id}">${person.id}</option>`)
+            );
+        }
+    });
+}
+    
+
+$('#personSelect').append(
+    data.map(person => `<option value="${person.id}">${person.nume} ${person.prenume}</option>`)
+);
+
+
+function saveFormData() {
+    const formData = {
+        id: $('#id').val(),
+        nume: $('#nume').val(),
+        prenume: $('#prenume').val(),
+        telefon: $('#telefon').val(),
+        email: $('#email').val()
+    };
+
+    if (!formData.nume || !formData.prenume || !formData.email) {
+        alert('Toate câmpurile obligatorii trebuie completate.');
+        return;
+    }
+
+    $.ajax({
+        url: 'save_person_data.php',
+        method: 'POST',
+        data: formData,
+        success: function(response) {
+            alert('Datele au fost salvate cu succes!');
+            $('#saveBtn').prop('disabled', true);
+            isFormDirty = false;
+        },
+        error: function() {
+            alert('Eroare la salvarea datelor.');
+        }
+    });
+}
+-->

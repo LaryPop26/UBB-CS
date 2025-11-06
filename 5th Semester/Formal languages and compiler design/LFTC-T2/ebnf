@@ -1,0 +1,31 @@
+Automat        = NrStari , LF , ListaStari , LF ,
+                 NrSimboluri , LF , ListaSimboluri , LF ,
+                 StareInitiala , LF ,
+                 NrStariFinale , LF , ListaStariFinale , LF ,
+                 NrTranzitii , LF , ListaTranzitii ;
+
+NrStari        = Int ;
+NrSimboluri    = Int ;
+NrStariFinale  = Int ;
+NrTranzitii    = Int ;
+
+ListaStari     = Stare , { " " , Stare } ;
+ListaSimboluri = Simbol , { " " , Simbol } ;
+ListaStariFinale = Stare , { " " , Stare } ;
+ListaTranzitii = Tranzitie , { LF , Tranzitie } ;
+
+Tranzitie      = Stare , " " , Simbol , " " , Stare ;
+
+Stare          = Identificator ;
+StareInitiala  = Stare ;
+
+Int            = Digit , { Digit } ;
+Digit          = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+
+Identificator  = Letter , { Letter | Digit } ;
+Letter         = "a" | … | "z" | "A" | … | "Z" ;
+
+Simbol         = Character ;
+
+Character      = orice caracter definit în alfabet ;
+LF             = linie nouă ;

@@ -1,0 +1,4 @@
+body { font-family: sans-serif; padding: 1em; }
+form { margin-top: 1em; }
+.gallery img { max-width: 150px; display: block; margin-bottom: 5px; }
+.gallery div { display: inline-block; margin: 10px; text-align: center; }

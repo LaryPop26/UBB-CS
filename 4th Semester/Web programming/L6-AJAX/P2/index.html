@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8" />
+    <title>Tabel 3 afisari</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <table border="1" id="tabela">
+        <thead>
+            <tr>
+                <th>Nume</th>
+                <th>Prenume</th>
+                <th>Telefon</th>
+                <th>E-mail</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-body">
+            <!-- aici vor intra datele -->
+        </tbody>
+    </table>
+
+    <button id="btnPrev" disabled>Previous</button>
+    <button id="btnNext" disabled>Next</button>
+
+    <script>
+        let currentPage = 1;
+
+        function incarcaDate(page) {
+            $.ajax({
+                url: 'get_records.php',
+                type: 'GET',
+                data: { page: page },
+                dataType: 'json',
+                success: function(data) {
+                    const tbody = $('#tabela-body');
+                    tbody.empty();
+
+                    $.each(data.records, function(index, item) {
+                        const tr = $('<tr></tr>');
+                        tr.append($('<td></td>').text(item.nume));
+                        tr.append($('<td></td>').text(item.prenume));
+                        tr.append($('<td></td>').text(item.telefon));
+                        tr.append($('<td></td>').text(item.email));
+                        tbody.append(tr);
+                    });
+
+                    $('#btnPrev').prop('disabled', !data.hasPrevious);
+                    $('#btnNext').prop('disabled', !data.hasNext);
+
+                    currentPage = data.currentPage;
+                },
+                error: function(xhr, status, error) {
+                    console.error('Eroare AJAX:', error);
+                }
+            });
+        }
+
+        $('#btnPrev').click(function() {
+            if(currentPage > 1) {
+                incarcaDate(currentPage - 1);
+            }
+        });
+
+        $('#btnNext').click(function() {
+            incarcaDate(currentPage + 1);
+        });
+
+        // Încarcă prima pagină la încărcarea paginii
+        $(document).ready(function() {
+            incarcaDate(currentPage);
+        });
+    </script>
+
+</body>
+</html>

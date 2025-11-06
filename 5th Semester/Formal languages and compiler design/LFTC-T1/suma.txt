@@ -1,0 +1,16 @@
+int suma() {
+    int n;
+    int x;
+    cout<< " Introdu nr de numere: ";
+    cin >> n;
+    int s = 0;
+    for(int i = 1; i <= n; i++) {
+        cout<< " Introdu un numar: ";
+        cin >> x;
+        s = s + x;
+    }
+    cout <<"Suma este: ";
+    cout << s;
+    cout << endl;
+    return 0;
+}

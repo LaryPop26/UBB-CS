@@ -1,0 +1,15 @@
+4
+q0 qc qa qb
+3
+a b c
+q0
+4
+q0 qc qa qb
+7
+q0 c qc
+q0 a qa
+q0 b qb
+qc c qc
+qa a qa
+qa b qb
+qb b qb

@@ -1,0 +1,17 @@
+int cmmdc() {
+    int a;
+    int b;
+    int r;
+    cout<< " Introdu numerele: ";
+    cin >> a;
+    cin >> b;
+    while(b != 0) {
+        r = a % b;
+        a = b;
+        b = r;
+    }
+    cout << "Cmmdc: ";
+    cout << a;
+    cout << endl;
+    return 0;
+}

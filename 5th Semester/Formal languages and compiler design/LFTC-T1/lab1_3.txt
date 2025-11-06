@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+// determina perimetru
+int cerc() {
+    struct circle {
+        float r;};
+    struct circle cerc;
+    float pi = 3.14;
+
+    cout<< " Introdu raza: ";
+    cin >> cerc.r;
+
+    cout << "Perimetru = ";
+    cout << 2 * pi * cerc.r;
+    cout << endl;
+    cout << "Arie: ";
+    cout << pi * cerc.r * cerc.r;
+    cout << endl;
+    return 0;
+}

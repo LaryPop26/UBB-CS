@@ -1,0 +1,87 @@
+Specificare:
+Tipuri de date:
+Integer - tip de date pt nr intregi
+Float - tip de date pt numere reale
+Struct - tip de date definit pe gruparea mai multor tipuri de date simple
+Char - tip de date pt caractere
+String - tip de date pt siruri de caractere
+
+Instructiuni:
+- atribuire: cu operatorul "="
+- intrare/iesire: cu functie de citire cin >> var;
+		  cu functie de iesire cout << var;
+		  cu functie de returnare return var;
+- selectie conditionala: if (cond) {instr}
+			 if (cond) {instr} else {instr}
+-ciclare: for (init; cond; pas) {instr}
+
+Restrictii:
+- numele de variabile trebuie sa inceapa cu litere,cifre, dar nu pot incepe cu _
+- comentariile pot fi sub forma // pentru o linie
+- functiile pot fi doar de tip int sau float
+
+Simboluri:
+Operatori: "+","-","*","%","/","=","<",">","<=",">=","==","!=",",",";"
+Delimitatori: "(",")","{","}",";",":","//"
+Cuvinte cheie: "int","float","struct","char","string","if","else","for","cin >>", "cout <<", "return ", "endl"
+Identificatori: identificator = litera (litera | cifra)*
+		litera = a | b | ... | z | A | B | ... | Z
+		cifra = 0 | 1 | ... | 9
+
+BNF:
+<program> ::= <header>? <function>
+
+<header> ::= <library_inclusions> <decl_list>
+<library_inclusions> ::= "#include" <library> <library_inclusions> | ε
+<library> ::= "<iostream>" | "<math.h>"
+<decl_list> ::= <decl> <decl_list> | ε
+
+<function> ::= <function_header> <body>
+<function_header> ::= <type> <EID> ( <params_list>? )
+<type> ::= int | float | string | char | void
+<params_list> ::= <decl> , <params_list> | <decl>
+<decl> ::= <type> ID ; | "struct" ID { <decl>* } ;
+
+<body> ::= { <compound_instr> }
+<compound_instr> ::= <instruction> <compound_instr> | <instruction>
+
+<instruction> ::= <declaration> ;
+                | <assignment> ;
+                | <input_instruction> ;
+                | <output_instruction> ;
+                | <if_statement> ;
+                | <for_loop> ;
+                | <optional_return> ;
+
+<assignment> ::= <EID> = <arithmetic_expression> ;
+<input_instruction> ::= cin >> <EID> ;
+<output_instruction> ::= cout << <arithmetic_expression> ; | cout << endl ;
+
+<for_loop> ::= for ( <assignment> <condition> ; <assignment> ) <body>
+
+<if_statement> ::= if ( <condition> ) <body> ( else <body> )?
+
+<condition> ::= <arithmetic_expression> <relational_operator> <arithmetic_expression>
+              | <arithmetic_expression>
+
+<arithmetic_expression> ::= <arithmetic_expression> <arithmetic_operator> <arithmetic_expression>
+                          | <EID>
+                          | CONST
+
+<arithmetic_operator> ::= + | - | * | / | %
+<relational_operator> ::= != | == | < | > | <= | >=
+
+<EID> ::= ID | ID "." ID
+<optional_return> ::= ε | return <arithmetic_expression> ;
+
+<const_int> ::= <zero> | (+ | -)? <valid_number>
+<valid_number> ::= <non-zero> <digit>*
+<zero> ::= "0"
+<non-zero> ::= "1" | "2" | ... | "9"
+<const_float> ::= <const_int> "." <digit>*
+<const_string> ::= "\"" { <character> } "\"" ;
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<letter> ::= "a" | "b" | ... | "z" | "A" | "B" | ... | "Z"
+<character> ::= <letter> | <digit> | " " | "!" | "#"
+ID ::= <letter> (<letter> | <digit>)*
+CONST ::= <const_int> | <const_float> | <const_string>

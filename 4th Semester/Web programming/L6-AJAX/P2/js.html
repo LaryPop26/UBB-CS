@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8" />
+    <title> Tabel 3 afisari</title>
+</head>
+<body>
+
+    <table border="1" id="tabela">
+        <thead>
+            <tr>
+                <th>Nume</th>
+                <th>Prenume</th>
+                <th>Telefon</th>
+                <th>E-mail</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-body">
+            <!-- aici vor intra datele -->
+        </tbody>
+    </table>
+
+    <button id="btnPrev" disabled>Previous</button>
+    <button id="btnNext" disabled>Next</button>
+
+    <script>
+        let currentPage = 1;
+
+        function incarcaDate(page) {
+            fetch('get_records.php?page=' + page)
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('tabela-body');
+                tbody.innerHTML = '';
+
+                data.records.forEach(item => {
+                    const tr = document.createElement('tr');
+
+                    const tdNume = document.createElement('td');
+                    tdNume.textContent = item.nume;
+                    tr.appendChild(tdNume);
+
+                    const tdPrenume = document.createElement('td');
+                    tdPrenume.textContent = item.prenume;
+                    tr.appendChild(tdPrenume);
+
+                    const tdTelefon = document.createElement('td');
+                    tdTelefon.textContent = item.telefon;
+                    tr.appendChild(tdTelefon);
+
+                    const tdEmail = document.createElement('td');
+                    tdEmail.textContent = item.email;
+                    tr.appendChild(tdEmail);
+
+                    tbody.appendChild(tr);
+                });
+
+                document.getElementById('btnPrev').disabled = !data.hasPrevious;
+                document.getElementById('btnNext').disabled = !data.hasNext;
+
+                currentPage = data.currentPage;
+            })
+            .catch(err => console.error('Eroare:', err));
+        }
+
+        document.getElementById('btnPrev').addEventListener('click', () => {
+            if(currentPage > 1) {
+                incarcaDate(currentPage - 1);
+            }
+        });
+
+        document.getElementById('btnNext').addEventListener('click', () => {
+            incarcaDate(currentPage + 1);
+        });
+
+        incarcaDate(currentPage);
+    </script>
+
+</body>
+</html>
